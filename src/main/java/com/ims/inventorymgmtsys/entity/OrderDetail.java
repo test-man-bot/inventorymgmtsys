@@ -1,10 +1,8 @@
 package com.ims.inventorymgmtsys.entity;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
-
 import java.io.Serializable;
 
-public class OrderItem implements Serializable {
+public class OrderDetail implements Serializable {
     private String orderId; //FK
     private String productId; //FK
 

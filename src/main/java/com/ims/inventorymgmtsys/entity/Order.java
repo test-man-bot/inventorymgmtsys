@@ -3,7 +3,7 @@ package com.ims.inventorymgmtsys.entity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Orders implements Serializable {
+public class Order implements Serializable {
 
     private String orderId; //PK
     private LocalDateTime orderDateTime;
@@ -31,9 +31,17 @@ public class Orders implements Serializable {
         return customerName;
     }
 
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
 
     public String getEmployeeName() {
         return employeeName;
+    }
+
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
     }
 
 
