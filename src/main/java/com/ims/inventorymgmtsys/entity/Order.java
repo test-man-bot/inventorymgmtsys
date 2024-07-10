@@ -1,5 +1,7 @@
 package com.ims.inventorymgmtsys.entity;
 
+import com.ims.inventorymgmtsys.enumeration.PaymentMethod;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -10,6 +12,8 @@ public class Order implements Serializable {
 
     private String customerName; //FK
     private String employeeName; //FK
+
+    private PaymentMethod paymentMethod;
 
     public String getOrderId() {
         return orderId;
@@ -44,5 +48,8 @@ public class Order implements Serializable {
         this.employeeName = employeeName;
     }
 
+    public PaymentMethod getPaymentMethod() { return paymentMethod; }
+
+    public void setPaymentMethod(PaymentMethod paymentMethod) { this.paymentMethod = paymentMethod; }
 
 }

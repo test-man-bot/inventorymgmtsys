@@ -12,11 +12,12 @@ public class JdbcOrderRepository implements OrderRepository{
 
     @Override
     public void insert(Order order) {
-        jdbcTemplate.update("INSERT INTO t_order VALUES (?,?,?,?)",
+        jdbcTemplate.update("INSERT INTO t_order VALUES (?,?,?,?,?)",
                 order.getOrderId(),
                 order.getOrderDateTime(),
                 order.getCustomerName(),
-                order.getEmployeeName()
+                order.getEmployeeName(),
+                order.getPaymentMethod()
                 );
     }
 
