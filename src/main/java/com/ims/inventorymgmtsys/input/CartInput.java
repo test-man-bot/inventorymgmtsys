@@ -1,6 +1,5 @@
 package com.ims.inventorymgmtsys.input;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
