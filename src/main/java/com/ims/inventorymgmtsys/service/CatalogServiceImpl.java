@@ -2,8 +2,7 @@ package com.ims.inventorymgmtsys.service;
 
 import com.ims.inventorymgmtsys.entity.Product;
 import com.ims.inventorymgmtsys.repository.ProductRepository;
-import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
