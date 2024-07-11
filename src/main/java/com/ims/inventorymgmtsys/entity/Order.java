@@ -4,10 +4,12 @@ import com.ims.inventorymgmtsys.enumeration.PaymentMethod;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Order implements Serializable {
 
     private String orderId; //PK
+    private List<OrderDetail> orderDetails;
     private LocalDateTime orderDateTime;
 
     private String customerName; //FK
@@ -22,6 +24,10 @@ public class Order implements Serializable {
     public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
+
+    public List<OrderDetail> getOrderDetails() { return orderDetails; }
+
+    public void setOrderDetails(List<OrderDetail> orderDetails) { this.orderDetails = orderDetails; }
 
     public LocalDateTime getOrderDateTime() {
         return orderDateTime;

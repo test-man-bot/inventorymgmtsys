@@ -8,6 +8,7 @@ import com.ims.inventorymgmtsys.exception.StockShortageException;
 import com.ims.inventorymgmtsys.input.CartInput;
 import com.ims.inventorymgmtsys.input.CartItemInput;
 import com.ims.inventorymgmtsys.input.OrderInput;
+import com.ims.inventorymgmtsys.repository.OrderDetailRepository;
 import com.ims.inventorymgmtsys.repository.OrderRepository;
 import com.ims.inventorymgmtsys.repository.ProductRepository;
 
@@ -19,10 +20,12 @@ import java.util.ArrayList;
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
+    private final OrderDetailRepository orderDetailRepository;
 
-    public OrderServiceImpl(OrderRepository orderRepository, ProductRepository productRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, ProductRepository productRepository, OrderDetailRepository orderDetailRepository) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
+        this.orderDetailRepository = orderDetailRepository;
 
     }
 
@@ -39,7 +42,7 @@ public class OrderServiceImpl implements OrderService {
         int billingAmount = caluculateTax(totalAmount);
 
         orderRepository.insert(order);
-        List<OrderDetail> orderItems = new ArrayList<>();
+        List<OrderDetail> orderDetails = new ArrayList<>();
         for (CartItemInput cartItem : cartInput.getCartItemInputs()) {
             Product product = productRepository.selectById(cartItem.getProductId());
             int afterstock = product.getStock() - cartItem.getQuantity();
@@ -55,14 +58,15 @@ public class OrderServiceImpl implements OrderService {
             orderDetail.setProductId(product.getId());
             orderDetail.setQuantity(cartInput.getTotalAmount());
 
-            orderItem
-
+            orderDetailRepository.insert(orderDetail);
+            orderDetails.add(orderDetail);
         }
-
+        order.setOrderDetails(orderDetails);
+        return order;
     }
 
 
-    private int calculateTotalAmount(List<CartItemInput> cartItems) {
+    int calculateTotalAmount(List<CartItemInput> cartItems) {
         int totalAmount = 0;
         for (CartItemInput cartItem : cartItems) {
             totalAmount += (cartItem.getProductPrice() * cartItem.getQuantity());
@@ -70,7 +74,7 @@ public class OrderServiceImpl implements OrderService {
         return totalAmount;
     }
 
-    private int caluculateTax(int price) {
+    int caluculateTax(int price) {
         return (int) (price * 1.1);
     }
 }
