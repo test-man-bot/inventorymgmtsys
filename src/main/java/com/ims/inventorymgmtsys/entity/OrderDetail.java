@@ -12,11 +12,13 @@ public class OrderDetail implements Serializable {
         return orderId;
     }
 
+    public void setOrderId(String orderId) { this.orderId = orderId; }
+
 
     public String getProductId() {
         return productId;
     }
-
+    public void setProductId(String productId) { this.productId = productId;}
 
     public Integer getQuantity() {
         return quantity;
