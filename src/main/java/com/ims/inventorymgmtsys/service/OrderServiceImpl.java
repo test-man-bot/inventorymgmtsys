@@ -11,12 +11,16 @@ import com.ims.inventorymgmtsys.input.OrderInput;
 import com.ims.inventorymgmtsys.repository.OrderDetailRepository;
 import com.ims.inventorymgmtsys.repository.OrderRepository;
 import com.ims.inventorymgmtsys.repository.ProductRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.ArrayList;
 
+@Service
+@Transactional
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
