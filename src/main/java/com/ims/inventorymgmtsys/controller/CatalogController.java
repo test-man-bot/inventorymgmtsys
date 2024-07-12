@@ -27,7 +27,7 @@ public class CatalogController {
         return "catalog/productList";
     }
 
-    @GetMapping("details")
+    @GetMapping("/product-details")
     public String displayDetails(@RequestParam String productId, Model model) {
         Product product = catalogService.findById(productId);
         model.addAttribute("product", product);
