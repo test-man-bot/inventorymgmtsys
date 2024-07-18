@@ -1,6 +1,7 @@
 package com.ims.inventorymgmtsys.controller;
 
 import com.ims.inventorymgmtsys.entity.Product;
+import com.ims.inventorymgmtsys.input.CartItemInput;
 import com.ims.inventorymgmtsys.service.CatalogService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +32,10 @@ public class CatalogController {
     public String displayDetails(@RequestParam String productId, Model model) {
         Product product = catalogService.findById(productId);
         model.addAttribute("product", product);
+        CartItemInput cartItemInput = new CartItemInput();
+        cartItemInput.setQuantity(1);
+        cartItemInput.setProductId(product.getId());
+        model.addAttribute("cartItemInput", cartItemInput);
         return "catalog/productDetails";
     }
 
