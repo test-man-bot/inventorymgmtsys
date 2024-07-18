@@ -43,7 +43,7 @@ public class OrderServiceImpl implements OrderService {
         order.setPaymentMethod(orderInput.getPaymentMethod());
 
         int totalAmount = calculateTotalAmount(cartInput.getCartItemInputs());
-        int billingAmount = caluculateTax(totalAmount);
+        int billingAmount = calculateTax(totalAmount);
 
         orderRepository.insert(order);
         List<OrderDetail> orderDetails = new ArrayList<>();
@@ -70,15 +70,17 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-    int calculateTotalAmount(List<CartItemInput> cartItems) {
+    @Override
+    public int calculateTotalAmount(List<CartItemInput> cartItemInputs) {
         int totalAmount = 0;
-        for (CartItemInput cartItem : cartItems) {
+        for (CartItemInput cartItem : cartItemInputs) {
             totalAmount += (cartItem.getProductPrice() * cartItem.getQuantity());
         }
         return totalAmount;
     }
 
-    int caluculateTax(int price) {
+    @Override
+    public int calculateTax(int price) {
         return (int) (price * 1.1);
     }
 }

@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/order")
-public class OrderController {
+public class  OrderController {
     private final OrderService orderService;
+    private final SessionController sessionController;
 
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, SessionController sessionController) {
         this.orderService = orderService;
+        this.sessionController = sessionController;
     }
 
     @GetMapping("/orderform")
@@ -24,4 +26,6 @@ public class OrderController {
         model.addAttribute("orderInput", orderInput);
         return "order/orderForm";
     }
+
+
 }
