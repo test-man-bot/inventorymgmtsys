@@ -6,29 +6,39 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}" />
 </head>
 <body>
-<table>
-    <tr>
-        <th>商品名</th>
-        <th>価格</th>
-        <th>数量</th>
-    </tr>
-    <tr th:each="item:${cartInput.cartItemInputs}">
-        <td><span th:text="${item.productName}"></span></td>
-        <td><span th:text="${item.productPrice}"></span>円</td>
-        <td><span th:text="${item.quantity}"></span></td>
-        <td>
-            <form th:action="@{/cart/remove-item}" method="post">
-                <input type="hidden" name="cartItemId" th:value="${item.id}">
-                <input type="submit" value="カートから削除">
-            </form>
-        </td>
-    </tr>
-</table>
-<div>合計金額<span th:text="${cartInput.totalAmount}"></span>円</div>
-<div>請求金額<span th:text="${cartInput.billingAmount}"></span>円(税込)</div>
-<form th:if="${cartInput.cartItemInputs.size() > 0}" th:action="@{/order/display-form}" method="get">
-    <input type="submit" value="注文する">
-</form>
-    <a th:href="@{/catalog/list}">商品一覧に戻る</a>
+<h1>ショッピングカート</h1>
+<div class="container">
+    <div class="table-section">
+        <table>
+            <tr>
+                <th>商品名</th>
+                <th>価格</th>
+                <th>数量</th>
+                <th>操作</th>
+            </tr>
+            <tr th:each="item:${cartInput.cartItemInputs}">
+                <td><span th:text="${item.productName}"></span></td>
+                <td><span th:text="${item.productPrice}"></span>円</td>
+                <td><span th:text="${item.quantity}"></span></td>
+                <td>
+                    <form th:action="@{/cart/remove-item}" method="post">
+                        <input type="hidden" name="cartItemId" th:value="${item.id}">
+                        <input type="submit" value="カートから削除">
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="info-section">
+        <div class="left-text">合計金額<span th:text="${cartInput.totalAmount}"></span>円</div>
+        <div class="left-text">請求金額<span th:text="${cartInput.billingAmount}"></span>円(税込)</div>
+        <form th:if="${cartInput.cartItemInputs.size() > 0}" th:action="@{/order/orderform}" method="get">
+            <input class="placeorder" type="submit" value="注文する">
+        </form>
+    </div>
+    <div class="before">
+        <a th:href="@{/catalog/list}">商品一覧に戻る</a>
+    </div>
+</div>
 </body>
 </html>

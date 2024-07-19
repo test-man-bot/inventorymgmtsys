@@ -1,5 +1,6 @@
 package com.ims.inventorymgmtsys.controller;
 
+import com.ims.inventorymgmtsys.entity.Employee;
 import com.ims.inventorymgmtsys.input.CartInput;
 import com.ims.inventorymgmtsys.input.OrderInput;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -16,6 +17,8 @@ public class SessionController implements Serializable {
     private CartInput cartInput;
     private OrderInput orderInput;
 
+    private Employee employee;
+
     public CartInput getCartInput() {
         return cartInput;
     }
@@ -30,6 +33,10 @@ public class SessionController implements Serializable {
     public void setOrderInput(OrderInput orderInput) {
         this.orderInput = orderInput;
     }
+
+    public Employee getEmployee() { return employee; }
+
+    public void setEmployee(Employee employee) { this.employee = employee; }
 
     public void clearData() {
         cartInput = null;

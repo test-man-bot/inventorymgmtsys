@@ -7,29 +7,35 @@
 </head>
 <body>
 <h1>商品詳細</h1>
-<table>
-    <tr>
-        <th>商品名</th><td><span th:text="${product.name}">商品名xxxxx</span></td>
-    </tr>
-    <tr>
-        <th>価格</th><td><span th:text="${product.price}">xxx</span>円</td>
-    </tr>
-    <tr>
-        <th>在庫数</th><td><span th:text="${product.stock}">yyyy</span></td>
-    </tr>
-    <tr>
-        <th>商品画像</th><td></td>
-    </tr>
-</table>
-<form th:action="@{/cart/add-item}" method="post" th:object="${cartItemInput}" class="form-container">
-    <input type="hidden" th:field="*{productId}" />
-    <div class="form-group">
-        <label for="quantity">数量:</label>
-        <input type="text" id="quantity" th:field="*{quantity}">
-        <span th:errors="*{quantity}"></span>
+<div class="container">
+    <div class="table-section">
+        <table>
+            <tr>
+                <th>商品名</th><td><span th:text="${product.name}">商品名xxxxx</span></td>
+            </tr>
+            <tr>
+                <th>価格</th><td><span th:text="${product.price}">xxx</span>円</td>
+            </tr>
+            <tr>
+                <th>在庫数</th><td><span th:text="${product.stock}">yyyy</span></td>
+            </tr>
+            <tr>
+                <th>商品画像</th><td></td>
+            </tr>
+        </table>
     </div>
-    <input type="submit" value="カートに追加" class="button">
-</form>
+    <div class="info-section">
+        <form th:action="@{/cart/add-item}" method="post" th:object="${cartItemInput}" class="form-container">
+            <input type="hidden" th:field="*{productId}" />
+            <div class="form-group">
+                <label for="quantity" class="left-text">数量:</label>
+                <input type="text" id="quantity" th:field="*{quantity}">
+                <span th:errors="*{quantity}"></span>
+            </div>
+            <input type="submit" value="カートに追加" class="button">
+        </form>
+    </div>
+</div>
 <div class="back-link">
     <a th:href="@{/catalog/list}">商品一覧に戻る</a>
 </div>
