@@ -106,11 +106,31 @@ a:hover {
 
 }
 
-.placeorder:hover {
+.placeorder:hover, .placeorderconfirm:hover, .correct:hover
+ ,input[name="placeorderconfirm"]:hover, input[name="correct"]:hover, input[name="correctproduct"]:hover
+ {
     background-color: #0056b3; /* ホバー時の色 */
-}
+ }
 
 .before {
     text-align: left; /* リンクを左寄せ */
     margin-top: 20px; /* 上にスペースを追加 */
+}
+
+.button-section {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+input[name="placeorderconfirm"], input[name="correct"], input[name="correctproduct"] {
+    display: inline-block; /* 表示をインラインブロックに設定 */
+    padding: 10px;
+    background-color: #007bff; /* 青色 */
+    color: white; /* 文字を白色に設定 */
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    width: 200px;
+    margin: 0 auto;
 }

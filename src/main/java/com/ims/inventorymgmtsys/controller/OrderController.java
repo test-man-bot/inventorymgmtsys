@@ -1,7 +1,9 @@
 package com.ims.inventorymgmtsys.controller;
 
+import com.ims.inventorymgmtsys.entity.Employee;
 import com.ims.inventorymgmtsys.entity.Order;
 import com.ims.inventorymgmtsys.enumeration.PaymentMethod;
+import com.ims.inventorymgmtsys.input.CartInput;
 import com.ims.inventorymgmtsys.input.OrderInput;
 import com.ims.inventorymgmtsys.service.OrderService;
 import org.springframework.stereotype.Controller;
@@ -39,6 +41,7 @@ public class  OrderController {
             return "order/orderForm";
         }
         sessionController.setOrderInput(orderInput);
+        model.addAttribute("cartInput", sessionController.getCartInput());
         model.addAttribute("orderInput", sessionController.getOrderInput());
         return "order/orderConfirmation";
     }
@@ -49,12 +52,19 @@ public class  OrderController {
         return "order/orderForm";
     }
 
-    @PostMapping(value="placeorder", params = "placeorder")
+    @PostMapping(value = "placeorder", params = "correctproduct")
+    public String correctProdct(@Validated CartInput cartInput, Model model) {
+        model.addAttribute("cartInput", sessionController.getCartInput());
+        return "cart/cartItem";
+    }
+
+    @PostMapping(value="placeorder", params = "placeorderconfirm")
     public String placeOrder(RedirectAttributes redirectAttributes) {
+        Employee employee = sessionController.getEmployee();
         Order order = orderService.placeOrder(sessionController.getOrderInput(), sessionController.getCartInput(), sessionController.getEmployee() );
         redirectAttributes.addFlashAttribute("order", order);
         sessionController.clearData();
-        return "redirect:/order/ordercompletion";
+        return "redirect:/order/orderCompletion";
     }
 
 

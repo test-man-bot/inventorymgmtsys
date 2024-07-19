@@ -8,6 +8,7 @@ import com.ims.inventorymgmtsys.exception.StockShortageException;
 import com.ims.inventorymgmtsys.input.CartInput;
 import com.ims.inventorymgmtsys.input.CartItemInput;
 import com.ims.inventorymgmtsys.input.OrderInput;
+import com.ims.inventorymgmtsys.repository.EmployeeRepository;
 import com.ims.inventorymgmtsys.repository.OrderDetailRepository;
 import com.ims.inventorymgmtsys.repository.OrderRepository;
 import com.ims.inventorymgmtsys.repository.ProductRepository;
@@ -26,10 +27,13 @@ public class OrderServiceImpl implements OrderService {
     private final ProductRepository productRepository;
     private final OrderDetailRepository orderDetailRepository;
 
-    public OrderServiceImpl(OrderRepository orderRepository, ProductRepository productRepository, OrderDetailRepository orderDetailRepository) {
+    private final EmployeeRepository employeeRepository;
+
+    public OrderServiceImpl(OrderRepository orderRepository, ProductRepository productRepository, OrderDetailRepository orderDetailRepository, EmployeeRepository employeeRepository) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.orderDetailRepository = orderDetailRepository;
+        this.employeeRepository = employeeRepository;
 
     }
 
