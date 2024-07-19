@@ -8,3 +8,9 @@ INSERT INTO t_product
 ,('p06', 'アディダス　スーパースター', 15800, 60)
 ,('p07', 'コンバース　ジャックパーセル', 16800, 70)
 ;
+
+
+INSERT INTO employee
+(id, name) VALUES
+('0001', '鈴木')
+,('0002', '高橋')

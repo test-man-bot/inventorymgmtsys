@@ -55,7 +55,7 @@ public class CartController {
     @GetMapping("/display-cart")
     public String displayCart(Model model) {
         model.addAttribute("cartInput", sessionController.getCartInput());
-        return "cart/cartItems";
+        return "cart/cartItem";
     }
 
     @PostMapping("remove-item")
