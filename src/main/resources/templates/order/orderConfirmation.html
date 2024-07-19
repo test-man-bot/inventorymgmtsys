@@ -35,10 +35,32 @@
                     </td>
                 </tr>
             </table>
-        </form>
+
+    <div class="table-section">
+        <table>
+            <tr>
+                <th>商品名</th>
+                <th>価格</th>
+                <th>数量</th>
+            </tr>
+            <tr th:each="item:${cartInput.cartItemInputs}">
+                <td th:text="${item.productName}"></td>
+                <td><span th:text="${item.productPrice}"></span>円</td>
+                <td th:text="${item.quantity}"></td>
+            </tr>
+        </table>
+        <div class="total">
+            <div>合計金額<span th:text="${cartInput.totalAmount}"></span>円</div>
+            <div>請求金額<span th:text="${cartInput.billingAmount}"></span>円（税込）</div>
+        </div>
     </div>
-    <input class="placeorder" type="button" value="注文"  />
-    <input class="correct" type="button" value="変更"  />
+    <div class="button-selection">
+        <input name="placeorderconfirm" type="submit" value="注文"  />
+        <input name="correct" type="submit" value="登録情報の変更"  />
+        <input name="correctproduct" type="submit" value="商品の変更から戻る"  />
+    </div>
+    </form>
+    </div>
 </div>
 </body>
 </html>
