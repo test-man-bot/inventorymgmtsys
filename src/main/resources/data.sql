@@ -11,6 +11,9 @@ INSERT INTO t_product
 
 
 INSERT INTO employee
-(id, name) VALUES
+(employeeid, employeename) VALUES
 ('0001', '鈴木')
 ,('0002', '高橋')
+,('0003', '武藤')
+,('0004', '大井')
+,('0005', '佐藤')

@@ -134,3 +134,13 @@ input[name="placeorderconfirm"], input[name="correct"], input[name="correctprodu
     width: 200px;
     margin: 0 auto;
 }
+
+input[type="number"].quantity-input {
+    width: 40px; /* 必要に応じてサイズを調整 */
+    text-align: right;
+}
+
+.after {
+    text-align: center;
+    margin-top: 20px;
+}

@@ -34,6 +34,12 @@
                         <span th:if="*{paymentMethod != null && paymentMethod.toString() == 'CREDIT_CARD'}">クレジットカード</span>
                     </td>
                 </tr>
+                <tr>
+                    <th>担当者</th>
+                    <td>
+                        <span th:text="${orderInput.employeeName}"></span>
+                    </td>
+                </tr>
             </table>
 
     <div class="table-section">

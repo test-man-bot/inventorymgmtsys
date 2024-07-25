@@ -10,6 +10,8 @@ public class OrderInput implements Serializable {
     private String phone;
     private String emailAddress;
     private PaymentMethod paymentMethod;
+    private String employeeId;
+    private String employeeName;
 
     public PaymentMethod getPaymentMethod() {
         return paymentMethod;
@@ -50,4 +52,12 @@ public class OrderInput implements Serializable {
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
     }
+
+    public String getEmployeeId() { return employeeId; }
+
+    public void setEmployeeId(String employeeId) { this.employeeId = employeeId;}
+
+    public String getEmployeeName() { return employeeName; }
+
+    public void setEmployeeName(String employeeName) { this.employeeName = employeeName; }
 }
