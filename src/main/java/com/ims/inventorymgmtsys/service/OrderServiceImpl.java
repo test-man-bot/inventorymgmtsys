@@ -49,7 +49,7 @@ public class OrderServiceImpl implements OrderService {
         int totalAmount = calculateTotalAmount(cartInput.getCartItemInputs());
         int billingAmount = calculateTax(totalAmount);
 
-        orderRepository.insert(order);
+        orderRepository.insert(order,employee);
         List<OrderDetail> orderDetails = new ArrayList<>();
         for (CartItemInput cartItem : cartInput.getCartItemInputs()) {
             Product product = productRepository.selectById(cartItem.getProductId());
@@ -64,7 +64,7 @@ public class OrderServiceImpl implements OrderService {
             OrderDetail orderDetail = new OrderDetail();
             orderDetail.setOrderId(order.getOrderId());
             orderDetail.setProductId(product.getId());
-            orderDetail.setQuantity(cartInput.getTotalAmount());
+            orderDetail.setQuantity(cartItem.getQuantity());
 
             orderDetailRepository.insert(orderDetail);
             orderDetails.add(orderDetail);

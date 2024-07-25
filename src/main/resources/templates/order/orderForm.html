@@ -36,6 +36,16 @@
                                 <label for="creditCardRadio">クレジットカード</label>
                             </td>
                         </tr>
+                        <tr>
+                            <th>担当従業員</th>
+                            <td>
+                                <label for="employee">従業員:</label>
+                                <select id="employee" th:field="*{employeeId}" name="employeeId" required>
+                                    <option value="" disabled selected>Select Employee</option>
+                                    <option th:each="employee : ${employees}" th:value="${employee.employeeId}" th:text="${employee.employeeName}"></option>
+                                </select>
+                            </td>
+                        </tr>
                     </table>
                     <input class="placeorder" type="submit" value="注文内容を確認"  />
                 </form>

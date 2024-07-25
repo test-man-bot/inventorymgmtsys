@@ -13,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -37,16 +38,30 @@ public class CartController {
             model.addAttribute("product", product);
             return "catalog/productDetails";
         }
-        cartItemInput.setId(UUID.randomUUID().toString());
-        cartItemInput.setProductName(product.getName());
-        cartItemInput.setProductPrice(product.getPrice());
+
         CartInput cartInput = sessionController.getCartInput();
         if (cartInput == null) {
             cartInput = new CartInput();
             cartInput.setCartItemInputs(new ArrayList<>());
             sessionController.setCartInput(cartInput);
         }
-        cartInput.getCartItemInputs().add(cartItemInput);
+
+        boolean existItemInCart = false;
+        for (CartItemInput item: cartInput.getCartItemInputs()) {
+            if (item.getProductId().equals(cartItemInput.getProductId())) {
+                item.setQuantity(item.getQuantity() + cartItemInput.getQuantity());
+                existItemInCart = true;
+                break;
+            }
+        }
+
+        if (!existItemInCart) {
+            cartItemInput.setId(UUID.randomUUID().toString());
+            cartItemInput.setProductName(product.getName());
+            cartItemInput.setProductPrice(product.getPrice());
+            cartInput.getCartItemInputs().add(cartItemInput);
+        }
+
         calculatedAmounts(cartInput);
         model.addAttribute("cartInput", cartInput);
         return "cart/cartItem";
@@ -70,6 +85,22 @@ public class CartController {
         }
         cartInput.getCartItemInputs().remove(target);
         calculatedAmounts(cartInput);
+        model.addAttribute("cartInput", cartInput);
+        return "cart/cartItem";
+    }
+
+    @PostMapping("update-quantity")
+    public String updateQuantity(@RequestParam("cartItemId") String cartItemId, @RequestParam("quantity") int quantity, Model model) {
+        CartInput cartInput = sessionController.getCartInput();
+        if (cartInput != null) {
+            for (CartItemInput item: cartInput.getCartItemInputs()) {
+                if (item.getId().equals(cartItemId)) {
+                    item.setQuantity(quantity);
+                    break;
+                }
+            }
+            calculatedAmounts(cartInput);
+        }
         model.addAttribute("cartInput", cartInput);
         return "cart/cartItem";
     }

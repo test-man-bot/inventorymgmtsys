@@ -9,6 +9,7 @@ import org.springframework.web.context.annotation.SessionScope;
 
 import java.io.Serializable;
 import java.lang.reflect.Proxy;
+import java.util.List;
 
 @Component
 @SessionScope(proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -41,5 +42,6 @@ public class SessionController implements Serializable {
     public void clearData() {
         cartInput = null;
         orderInput = null;
+        employee = null;
     }
 }
