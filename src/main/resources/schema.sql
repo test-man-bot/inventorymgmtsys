@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS t_order_detail;
 DROP TABLE IF EXISTS t_order;
 DROP TABLE IF EXISTS t_product;
 DROP TABLE IF EXISTS employee;
+DROP TABLE IF EXISTS t_user;
 
 create table if not exists t_product  (
     id varchar(100) primary key,
@@ -27,4 +28,13 @@ create table if not exists t_order_detail (
 create table if not exists employee (
     employeeid varchar(100) primary key,
     employeename varchar(100)
+);
+
+create table if not exists t_user (
+    id varchar(100) primary key,
+    customername varchar(100),
+    emailaddress varchar(100),
+    address varchar(100),
+    phone varchar(100),
+    password varchar(100)
 );

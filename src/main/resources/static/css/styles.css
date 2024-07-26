@@ -1,5 +1,10 @@
 body {
     font-family: Arial, sans-serif;
+    margin: 0; /* 余白をリセット */
+    height: 100vh; /* ビューポート全体の高さを確保 */
+    display: flex; /* Flexboxを使用 */
+    justify-content: center; /* 水平方向の中央揃え */
+    align-items: center; /* 垂直方向の中央揃え */
     text-align: center;
 }
 
@@ -106,7 +111,7 @@ a:hover {
 
 }
 
-.placeorder:hover, .placeorderconfirm:hover, .correct:hover
+.placeorder:hover, .placeorderconfirm:hover, .correct:hover .login-button:hover
  ,input[name="placeorderconfirm"]:hover, input[name="correct"]:hover, input[name="correctproduct"]:hover
  {
     background-color: #0056b3; /* ホバー時の色 */
@@ -143,4 +148,78 @@ input[type="number"].quantity-input {
 .after {
     text-align: center;
     margin-top: 20px;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column; /* 縦方向に並べる */
+    align-items: center; /* コンテナ内の要素を中央揃え */
+    width: 100%;
+    max-width: 400px; /* 最大幅を設定 */
+    padding: 20px;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.login-form div {
+    margin-bottom: 15px; /* 下部にスペースを追加 */
+    text-align: left; /* テキストを左揃え */
+    width: 100%;
+}
+
+.login-button {
+    display: block; /* 表示をブロックに設定 */
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 4px;
+}
+
+.login-button:hover {
+    background-color: #0056b3;
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column; /* フォーム内の要素を縦に並べる */
+    align-items: center; /* 要素を中央揃え */
+    width: 300px; /* フォームの幅を設定 */
+    padding: 20px; /* フォームの内側の余白を設定 */
+    border: 1px solid #ddd; /* フォームの枠線を設定 */
+    border-radius: 8px; /* フォームの角を丸める */
+    background-color: #fff; /* フォームの背景色を設定 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* フォームに影を付ける */
+}
+
+.register-form label {
+    margin-bottom: 8px; /* ラベルの下にスペースを追加 */
+}
+
+.register-form input[type="text"],
+.register-form input[type="password"],
+.register-form input[type="email"] {
+    width: 100%; /* 入力フィールドの幅をフォームに合わせる */
+    padding: 8px; /* 入力フィールドの内側の余白を設定 */
+    margin-bottom: 12px; /* 入力フィールドの下にスペースを追加 */
+    border: 1px solid #ccc; /* 入力フィールドの枠線を設定 */
+    border-radius: 4px; /* 入力フィールドの角を丸める */
+}
+
+.register-form input[type="submit"] {
+    background-color: #007bff; /* ボタンの背景色を設定 */
+    color: white; /* ボタンの文字色を設定 */
+    border: none; /* ボタンの枠線を削除 */
+    padding: 10px 20px; /* ボタンの内側の余白を設定 */
+    cursor: pointer; /* マウスカーソルをポインタに変更 */
+    border-radius: 4px; /* ボタンの角を丸める */
+}
+
+.register-form input[type="submit"]:hover {
+    background-color: #0056b3; /* ホバー時のボタンの背景色を設定 */
 }
