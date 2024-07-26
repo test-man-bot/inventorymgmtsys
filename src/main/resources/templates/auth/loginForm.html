@@ -10,6 +10,9 @@
 <h1>loginForm</h1>
     <form th:action="@{/login}" method="post" class="login-form">
         <div>
+            <span th:text="${failureMessage}" class="error-message"></span>
+        </div>
+        <div>
             <label for="emailaddress">emailaddress:</label>
             <input type="text" id="emailaddress" name="emailaddress">
         </div>
