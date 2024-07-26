@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}" />
+    <title>Register</title>
+</head>
+<body>
+<h2>Register</h2>
+<form th:action="@{/register}" method="post" class="register-form">
+    <label for="customerName">Username:</label><br>
+    <input type="text" id="customerName" name="customerName" required><br>
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" name="password" required><br>
+    <label for="emailAddress">Email Address:</label><br>
+    <input type="email" id="emailAddress" name="emailAddress" required><br>
+    <input type="submit" value="新規登録">
+    <div class="login">
+        <a th:href="@{/login}">loginに戻る</a>
+    </div>
+</form>
+</body>
+</html>
