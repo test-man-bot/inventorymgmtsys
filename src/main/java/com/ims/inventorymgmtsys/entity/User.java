@@ -4,13 +4,15 @@ import java.io.Serializable;
 
 public class User implements Serializable {
     private String id; //PK
-    private String customerName;
+    private String userName;
     private String emailAddress;
     private String address;
 
     private String phone;
 
     private String password;
+
+    private boolean enabled;
 
     public String getId() {
         return id;
@@ -22,13 +24,13 @@ public class User implements Serializable {
     }
 
 
-    public String getCustomerName() {
-        return customerName;
+    public String getUserName() {
+        return userName;
     }
 
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
+    public void setUserName(String customerName) {
+        this.userName = customerName;
     }
 
 
@@ -55,5 +57,11 @@ public class User implements Serializable {
     public String getPassword() { return password; }
 
     public void setPassword(String password) { this.password = password; }
+
+    public Boolean getEnabled() {return enabled;}
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
 }

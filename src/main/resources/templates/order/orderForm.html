@@ -7,8 +7,6 @@
     </head>
     <body>
         <h1>注文フォーム</h1>
-        <div class="container">
-            <div class="table-section">
                 <form th:action="@{/order/orderconfirm}" method="post" th:object="${orderInput}">
                     <table>
                         <tr>
@@ -49,7 +47,5 @@
                     </table>
                     <input class="placeorder" type="submit" value="注文内容を確認"  />
                 </form>
-            </div>
-        </div>
     </body>
 </html>

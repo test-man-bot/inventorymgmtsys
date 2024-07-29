@@ -26,7 +26,7 @@ public class RegisterController {
             return "auth/register";
         }
         userService.createUser(user);
-        return "auth/loginForm";
+        return "auth/registerCompletion";
     }
 
 
