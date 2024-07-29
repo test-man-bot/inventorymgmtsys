@@ -13,4 +13,6 @@ public interface UserRepository {
     void insert(User user);
 
     boolean update(User user);
+
+    User selectByUserName(String userName);
 }

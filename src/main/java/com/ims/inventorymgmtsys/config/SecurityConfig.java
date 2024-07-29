@@ -1,8 +1,10 @@
 package com.ims.inventorymgmtsys.config;
 
+import com.ims.inventorymgmtsys.service.LoginUserDetailService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,19 +16,29 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    @Autowired
+    private LoginUserDetailService loginUserDetailService;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+//    @Bean
+//    public JdbcUserDetailsManager jdbcUserDetailsManager() {
+//        JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager(this.dataSource);
+//        userDetailsManager.setUsersByUsernameQuery("SELECT username, password, enabled FROM users WHERE username = ?");
+//        userDetailsManager.setAuthoritiesByUsernameQuery("SELECT username, authority FROM authorities WHERE username = ?");
+//        return userDetailsManager;
+//    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests()
                 .requestMatchers("/css/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/admin/**").hasRole("ADMIN")
                 .requestMatchers("/login", "/register").permitAll()
-                .requestMatchers("/catalog", "/order", "/cart").hasAnyRole("ADMIN", "USER")
+                .requestMatchers("/catalog/**", "/order/**", "/cart/**").hasAnyRole("ADMIN", "USER")
                 .requestMatchers("/h2-console/**").permitAll()  // H2コンソールへのアクセスを許可
                 .anyRequest().authenticated()
                 .and()
@@ -39,9 +51,13 @@ public class SecurityConfig {
                 .ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**"))  // H2コンソールのCSRFを無視
                 .and()
                 .headers()
-                .frameOptions().sameOrigin();  // フレーム内でH2コンソールを表示できるように設定
+                .frameOptions().sameOrigin()  // フレーム内でH2コンソールを表示できるように設定
+                .and()
+                .requestCache().disable();
 
+        http.userDetailsService(loginUserDetailService);
         return http.build();
     }
+
 
 }

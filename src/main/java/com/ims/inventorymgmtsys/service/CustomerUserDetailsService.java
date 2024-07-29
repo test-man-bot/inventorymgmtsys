@@ -26,7 +26,7 @@ public class CustomerUserDetailsService implements UserDetailsService {
         }
 
         return org.springframework.security.core.userdetails.User
-                .withUsername(user.getCustomerName())
+                .withUsername(user.getUserName())
                 .password(user.getPassword())
                 .roles("USER")
                 .build();

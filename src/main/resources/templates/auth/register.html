@@ -6,18 +6,26 @@
     <title>Register</title>
 </head>
 <body>
-<h2>Register</h2>
-<form th:action="@{/register}" method="post" class="register-form">
-    <label for="customerName">Username:</label><br>
-    <input type="text" id="customerName" name="customerName" required><br>
-    <label for="password">Password:</label><br>
-    <input type="password" id="password" name="password" required><br>
-    <label for="emailAddress">Email Address:</label><br>
-    <input type="email" id="emailAddress" name="emailAddress" required><br>
-    <input type="submit" value="新規登録">
-    <div class="login">
-        <a th:href="@{/login}">loginに戻る</a>
-    </div>
-</form>
+<div class="register-container">
+    <h1>Register</h1>
+        <form th:action="@{/register}" method="post" class="register-form">
+            <div>
+                <label for="userName">Username:</label>
+                <input type="text" id="userName" name="userName" required>
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div>
+                <label for="emailAddress">Email Address:</label>
+                <input type="email" id="emailAddress" name="emailAddress" required>
+            </div>
+            <input type="submit" value="新規登録" class="register-button">
+            <div class="login">
+                <a th:href="@{/login}">loginに戻る</a>
+            </div>
+        </form>
+</div>
 </body>
 </html>
