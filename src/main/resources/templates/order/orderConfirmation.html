@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}" />
@@ -7,8 +8,14 @@
 </head>
 <body>
 <h1>注文確認</h1>
+<div class="header-right" sec:authorize="isAuthenticated()">
+    こんにちは：<span sec:authentication="name"></span>さん
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="logout" />
+    </form>
+</div>
+
 <div class="container">
-    <div class="table-section">
         <form th:action="@{/order/placeorder}" method="post" th:object="${orderInput}">
             <table>
                 <tr>
@@ -41,8 +48,6 @@
                     </td>
                 </tr>
             </table>
-
-    <div class="table-section">
         <table>
             <tr>
                 <th>商品名</th>
@@ -55,18 +60,16 @@
                 <td th:text="${item.quantity}"></td>
             </tr>
         </table>
-        <div class="total">
+        <div class="summary-text">
             <div>合計金額<span th:text="${cartInput.totalAmount}"></span>円</div>
             <div>請求金額<span th:text="${cartInput.billingAmount}"></span>円（税込）</div>
         </div>
-    </div>
     <div class="button-selection">
         <input name="placeorderconfirm" type="submit" value="注文"  />
         <input name="correct" type="submit" value="登録情報の変更"  />
         <input name="correctproduct" type="submit" value="商品の変更から戻る"  />
     </div>
     </form>
-    </div>
 </div>
 </body>
 </html>

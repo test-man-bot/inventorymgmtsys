@@ -50,6 +50,9 @@ public class SecurityConfig {
                 .csrf()
                 .ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**"))  // H2コンソールのCSRFを無視
                 .and()
+                .exceptionHandling()
+                .accessDeniedPage("/access-denied")
+                .and()
                 .headers()
                 .frameOptions().sameOrigin()  // フレーム内でH2コンソールを表示できるように設定
                 .and()
