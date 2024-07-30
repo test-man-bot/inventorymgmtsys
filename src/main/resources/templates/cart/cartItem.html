@@ -7,6 +7,7 @@
 </head>
 <body>
 <h1>ショッピングカート</h1>
+<div class="container">
         <table>
             <tr>
                 <th>商品名</th>
@@ -34,16 +35,16 @@
             </tr>
         </table>
 
-    <div class="info-section">
-        <div class="left-text">合計金額<span th:text="${cartInput.totalAmount}"></span>円</div>
-        <div class="left-text">請求金額<span th:text="${cartInput.billingAmount}"></span>円(税込)</div>
+    <div class="summary-text">
+        <div >合計金額<span th:text="${cartInput.totalAmount}"></span>円</div>
+        <div >請求金額<span th:text="${cartInput.billingAmount}"></span>円(税込)</div>
         <form th:if="${cartInput.cartItemInputs.size() > 0}" th:action="@{/order/orderform}" method="get">
             <input class="placeorder" type="submit" value="注文する">
         </form>
     </div>
-    <div class="before">
+    <div class="back-link">
         <a th:href="@{/catalog/list}">商品一覧に戻る</a>
     </div>
-
+</div>
 </body>
 </html>

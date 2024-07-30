@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <title>商品一覧</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -7,6 +8,13 @@
     </head>
     <body>
     <h1>商品一覧</h1>
+    <div class="header-right" sec:authorize="isAuthenticated()">
+        こんにちは：<span sec:authentication="name"></span>さん
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="logout" />
+        </form>
+    </div>
+    <div class="container">
         <table>
             <tr>
                 <th>商品名</th>
@@ -20,5 +28,6 @@
                 <td></td>
             </tr>
         </table>
+    </div>
     </body>
 </html>

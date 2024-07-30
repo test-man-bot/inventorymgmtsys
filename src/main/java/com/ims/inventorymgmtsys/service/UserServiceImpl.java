@@ -29,14 +29,14 @@ public class UserServiceImpl implements UserService{
     @Override
     public void createUser(User user) {
         System.out.println("received data :" + user);
-        User userA = new User();
-        userA.setId(UUID.randomUUID().toString());
-        userA.setUserName(user.getUserName());
-        userA.setEmailAddress(user.getEmailAddress());
-        userA.setAddress(null);
-        userA.setPhone(null);
-        userA.setPassword(passwordEncoder.encode(user.getPassword())); // 修正
-        userRepository.insert(userA);
+        User createuser = new User();
+        createuser.setId(UUID.randomUUID().toString());
+        createuser.setUserName(user.getUserName());
+        createuser.setEmailAddress(user.getEmailAddress());
+        createuser.setAddress(null);
+        createuser.setPhone(null);
+        createuser.setPassword(passwordEncoder.encode(user.getPassword())); // 修正
+        userRepository.insert(createuser);
         jdbcTemplate.update("INSERT INTO authorities (username, authority) VALUES (?, ?)", user.getUserName(), "ROLE_USER");
         jdbcTemplate.update("UPDATE t_user set enabled=TRUE WHERE username=?", user.getUserName());
 

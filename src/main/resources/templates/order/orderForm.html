@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}" />
@@ -7,6 +8,14 @@
     </head>
     <body>
         <h1>注文フォーム</h1>
+        <div class="header-right" sec:authorize="isAuthenticated()">
+            こんにちは：<span sec:authentication="name"></span>さん
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" value="logout" />
+            </form>
+        </div>
+
+        <div class="container">
                 <form th:action="@{/order/orderconfirm}" method="post" th:object="${orderInput}">
                     <table>
                         <tr>
@@ -47,5 +56,6 @@
                     </table>
                     <input class="placeorder" type="submit" value="注文内容を確認"  />
                 </form>
+        </div>
     </body>
 </html>

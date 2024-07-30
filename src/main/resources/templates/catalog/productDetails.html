@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title>商品詳細</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -7,6 +8,14 @@
 </head>
 <body>
 <h1>商品詳細</h1>
+<div class="header-right" sec:authorize="isAuthenticated()">
+    こんにちは：<span sec:authentication="name"></span>さん
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="logout" />
+    </form>
+</div>
+
+<div class="container">
         <table>
             <tr>
                 <th>商品名</th><td><span th:text="${product.name}">商品名xxxxx</span></td>
@@ -21,11 +30,12 @@
                 <th>商品画像</th><td></td>
             </tr>
         </table>
+</div>
     <div>
         <form th:action="@{/cart/add-item}" method="post" th:object="${cartItemInput}" >
             <input type="hidden" th:field="*{productId}" />
-            <div>
-                <label for="quantity" class="left-text">数量:</label>
+            <div class="summary-text">
+                <label for="quantity" >数量:</label>
                 <input type="text" id="quantity" th:field="*{quantity}">
                 <span th:errors="*{quantity}"></span>
             <input type="submit" value="カートに追加" class="button">

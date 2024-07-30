@@ -1,55 +1,43 @@
 body {
     font-family: Arial, sans-serif;
-    margin: 0; /* 余白をリセット */
-    height: 100vh; /* ビューポート全体の高さを確保 */
-    display: flex; /* Flexboxを使用 */
+    margin: 0;
+    height: 100vh;
+    display: flex;
     flex-direction: column;
-    justify-content: center; /* 水平方向の中央揃え */
-    align-items: center; /* 垂直方向の中央揃え */
-    /* text-align: center; */
+    align-items: center;
 }
 
 h1 {
+    margin-top: 40px; /* 上部にスペースを追加 */
     margin-bottom: 20px;
 }
 
-.container, .back-link, form-group{
-    /*display: flex;*/
-    flex-direction: column; /* 縦方向に並べる */
-    align-items: center; /* コンテナ内の要素を中央揃え */
+.container {
+    width: 90%; /* コンテナの幅を指定 */
+    max-width: 1200px; /* 最大幅を設定 */
+    text-align: center;
 }
 
 .table-section {
     width: 100%;
-    margin-bottom: 20px; /* テーブルセクションの下にスペースを追加 */
-}
-
-.info-section {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* 情報セクションを左揃え */
-    max-width: 80%; /* 情報セクションの幅を固定 */
-    margin-bottom: 30px;
+    overflow-x: auto; /* テーブルが画面に収まりきらない場合に横スクロールを表示 */
+    margin-bottom: 20px;
 }
 
 table {
-    margin: 0 auto;
     border-collapse: collapse;
-    width: 80%;
+    width: 100%;
     margin-bottom: 20px;
 }
 
 th, td {
     border: 1px solid #ddd;
     padding: 8px;
+    text-align: center; /* セル内のテキストを中央揃え */
 }
 
 th {
     background-color: #afeeee;
-}
-
-td {
-    text-align: center;
 }
 
 a {
@@ -92,36 +80,33 @@ a:hover {
     background-color: #c82333;
 }
 
-.left-text {
+.summary-text {
     text-align: left;
-    margin-bottom: 20px;
 }
 
 .placeorder {
-    display: block; /* 表示をブロックに設定 */
+    display: block;
     padding: 10px;
-    background-color: #007bff; /* 青色 */
-    color: white; /* 文字を白色に設定 */
+    background-color: #007bff;
+    color: white;
     border: none;
     cursor: pointer;
     text-align: center;
     margin-bottom: 10px;
-    text-align: center;
     width: 200px;
     margin: 0 auto;
-
 }
 
-.placeorder:hover, .placeorderconfirm:hover, .correct:hover .login-button:hover
- ,input[name="placeorderconfirm"]:hover, input[name="correct"]:hover, input[name="correctproduct"]:hover
- {
-    background-color: #0056b3; /* ホバー時の色 */
- }
-
-.before {
-    text-align: left; /* リンクを左寄せ */
-    margin-top: 20px; /* 上にスペースを追加 */
+.placeorder:hover,
+.placeorderconfirm:hover,
+.correct:hover,
+.login-button:hover,
+input[name="placeorderconfirm"]:hover,
+input[name="correct"]:hover,
+input[name="correctproduct"]:hover {
+    background-color: #0056b3;
 }
+
 
 .button-section {
     display: flex;
@@ -129,11 +114,13 @@ a:hover {
     gap: 10px;
 }
 
-input[name="placeorderconfirm"], input[name="correct"], input[name="correctproduct"] {
-    display: inline-block; /* 表示をインラインブロックに設定 */
+input[name="placeorderconfirm"],
+input[name="correct"],
+input[name="correctproduct"] {
+    display: inline-block;
     padding: 10px;
-    background-color: #007bff; /* 青色 */
-    color: white; /* 文字を白色に設定 */
+    background-color: #007bff;
+    color: white;
     border: none;
     cursor: pointer;
     text-align: center;
@@ -142,21 +129,17 @@ input[name="placeorderconfirm"], input[name="correct"], input[name="correctprodu
 }
 
 input[type="number"].quantity-input {
-    width: 40px; /* 必要に応じてサイズを調整 */
+    width: 40px;
     text-align: right;
 }
 
-.after {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.login-container, .register-container {
+.login-container,
+.register-container {
     display: flex;
-    flex-direction: column; /* 縦方向に並べる */
-    align-items: center; /* コンテナ内の要素を中央揃え */
+    flex-direction: column;
+    align-items: center;
     width: 100%;
-    max-width: 400px; /* 最大幅を設定 */
+    max-width: 400px;
     padding: 20px;
     border: 1px solid #ddd;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -164,14 +147,16 @@ input[type="number"].quantity-input {
     background-color: #f9f9f9;
 }
 
-.login-form div, .register-form div {
-    margin-bottom: 15px; /* 下部にスペースを追加 */
-    text-align: left; /* テキストを左揃え */
+.login-form div,
+.register-form div {
+    margin-bottom: 15px;
+    text-align: left;
     width: 100%;
 }
 
-.login-button, .register-button {
-    display: block; /* 表示をブロックに設定 */
+.login-button,
+.register-button {
+    display: block;
     width: 100%;
     padding: 10px;
     background-color: #007bff;
@@ -186,11 +171,33 @@ input[type="number"].quantity-input {
     background-color: #0056b3;
 }
 
-
-
-
 span.error-message {
     color: red;
     font-weight: bold;
     margin-bottom: 15px;
+}
+
+.header-right {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.header-right form {
+    display: inline;
+}
+
+.back-link {
+    text-align: center;
+    width: 100%;
+}
+.back-link a {
+    display: inline-block;
+    text-decoration: none;
+    color: #333;
+    padding: 10px;
+    background-color: #f1f1f1;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 20px;
 }
