@@ -7,9 +7,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -39,13 +41,15 @@ public class SecurityConfig {
                 .requestMatchers("/css/**").permitAll()
                 .requestMatchers("/login", "/register").permitAll()
                 .requestMatchers("/catalog/**", "/order/**", "/cart/**").hasAnyRole("ADMIN", "USER")
+                .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                 .requestMatchers("/h2-console/**").permitAll()  // H2コンソールへのアクセスを許可
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
                 .failureUrl("/login?failure")
-                .defaultSuccessUrl("/catalog/list")
+                .successHandler(authenticationSuccessHandler())
+//                .defaultSuccessUrl("/catalog/list")
                 .and()
                 .csrf()
                 .ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**"))  // H2コンソールのCSRFを無視
@@ -62,5 +66,9 @@ public class SecurityConfig {
         return http.build();
     }
 
+    @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+        return new CustomAuthenticationSuccessHandler();
+    }
 
 }

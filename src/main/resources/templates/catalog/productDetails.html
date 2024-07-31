@@ -33,6 +33,7 @@
 </div>
     <div>
         <form th:action="@{/cart/add-item}" method="post" th:object="${cartItemInput}" >
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <input type="hidden" th:field="*{productId}" />
             <div class="summary-text">
                 <label for="quantity" >数量:</label>
