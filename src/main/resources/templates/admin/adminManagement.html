@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>管理者設定</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}" />
+</head>
+<body>
+<h1>管理画面</h1>
+<div class="header-right" sec:authorize="isAuthenticated()">
+    こんにちは：<span sec:authentication="name"></span>さん
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="logout" />
+    </form>
+</div>
+<div class="container">
+    <table>
+        <tr>
+            <th>商品名</th>
+            <th>価格</th>
+            <th>在庫数</th>
+        </tr>
+        <tr th:each="prod:${productList}">
+            <td><a th:href="@{/catalog/product-details(productId=${prod.id})}"><span th:text="${prod.name}"></span></a></td>
+            <td><span th:text="${prod.price}"></span>円</td>
+            <td><span th:text="${prod.stock}"></span></td>
+            <td></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
