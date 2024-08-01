@@ -56,7 +56,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService{
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority(authorities.get(0).getAuthority());
 
         CustomOAuth2User customOAuth2User = new CustomOAuth2User(
-                Collections.singletonList(authority),oAuth2User.getAttributes(),"email"
+                Collections.singletonList(authority),oAuth2User.getAttributes(),"name"
         );
 
         return customOAuth2User;

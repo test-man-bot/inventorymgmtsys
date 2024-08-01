@@ -33,36 +33,36 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests()
-                .requestMatchers("/css/**").permitAll()
-                .requestMatchers("/login", "/register").permitAll()
-                .requestMatchers("/catalog/**", "/order/**", "/cart/**").hasAnyRole("ADMIN", "USER")
-                .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
-                .requestMatchers("/h2-console/**").permitAll()  // H2コンソールへのアクセスを許可
-                .anyRequest().authenticated()
+                    .requestMatchers("/css/**").permitAll()
+                    .requestMatchers("/login", "/register").permitAll()
+                    .requestMatchers("/catalog/**", "/order/**", "/cart/**").hasAnyRole("ADMIN", "USER")
+                    .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+                    .requestMatchers("/h2-console/**").permitAll()  // H2コンソールへのアクセスを許可
+                    .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")
-                .permitAll()
-                .defaultSuccessUrl("/catalog/list", true)
-                .failureUrl("/login?failure")
+                    .loginPage("/login")
+                    .permitAll()
+//                    .defaultSuccessUrl("/catalog/list", true)
+                    .successHandler(authenticationSuccessHandler())
+                    .failureUrl("/login?failure")
                 .and()
                 .oauth2Login()
-                .loginPage("/login")
-                .failureUrl("/login?failure")
-                .userInfoEndpoint()
-                .userService(customOAuth2UserService)
+                    .loginPage("/login")
+                    .failureUrl("/login?failure")
+                    .userInfoEndpoint()
+                    .userService(customOAuth2UserService)
                 .and()
-                .successHandler(authenticationSuccessHandler())
-//                .defaultSuccessUrl("/catalog/list")
+                    .successHandler(authenticationSuccessHandler())
                 .and()
                 .csrf()
-                .ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**"))  // H2コンソールのCSRFを無視
+                    .ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**"))  // H2コンソールのCSRFを無視
                 .and()
                 .exceptionHandling()
-                .accessDeniedPage("/access-denied")
+                    .accessDeniedPage("/access-denied")
                 .and()
                 .headers()
-                .frameOptions().sameOrigin()  // フレーム内でH2コンソールを表示できるように設定
+                    .frameOptions().sameOrigin()  // フレーム内でH2コンソールを表示できるように設定
                 .and()
                 .requestCache().disable();
 
