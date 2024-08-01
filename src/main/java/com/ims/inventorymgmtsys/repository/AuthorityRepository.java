@@ -7,4 +7,6 @@ import java.util.List;
 public interface AuthorityRepository {
 
     List<Authorities> getRole(String username);
+
+    void saveAuthority(Authorities authority);  // 新しいメソッドの追加
 }

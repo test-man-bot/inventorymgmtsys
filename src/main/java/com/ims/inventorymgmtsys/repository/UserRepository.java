@@ -4,15 +4,18 @@ import com.ims.inventorymgmtsys.entity.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserRepository {
-    User selectById(String id);
+    User findById(String id);
 
-    List<User> selectAll();
+    List<User> findAll();
 
-    void insert(User user);
+    void save(User user);
 
     boolean update(User user);
 
-    User selectByUserName(String userName);
+    User findByUserName(String userName);
+
+    Optional<User> findByEmail(String email);  // 新しいメソッドの追加
 }

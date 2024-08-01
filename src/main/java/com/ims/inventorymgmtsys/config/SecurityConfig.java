@@ -1,13 +1,12 @@
 package com.ims.inventorymgmtsys.config;
 
+import com.ims.inventorymgmtsys.service.CustomOAuth2UserService;
 import com.ims.inventorymgmtsys.service.LoginUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -21,18 +20,14 @@ public class SecurityConfig {
     @Autowired
     private LoginUserDetailService loginUserDetailService;
 
+    @Autowired
+    private CustomOAuth2UserService customOAuth2UserService;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-//    @Bean
-//    public JdbcUserDetailsManager jdbcUserDetailsManager() {
-//        JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager(this.dataSource);
-//        userDetailsManager.setUsersByUsernameQuery("SELECT username, password, enabled FROM users WHERE username = ?");
-//        userDetailsManager.setAuthoritiesByUsernameQuery("SELECT username, authority FROM authorities WHERE username = ?");
-//        return userDetailsManager;
-//    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -45,9 +40,13 @@ public class SecurityConfig {
                 .requestMatchers("/h2-console/**").permitAll()  // H2コンソールへのアクセスを許可
                 .anyRequest().authenticated()
                 .and()
-                .formLogin()
+                .oauth2Login()
                 .loginPage("/login")
+//                .defaultSuccessUrl("/catalog/list", true)
                 .failureUrl("/login?failure")
+                .userInfoEndpoint()
+                .userService(customOAuth2UserService)
+                .and()
                 .successHandler(authenticationSuccessHandler())
 //                .defaultSuccessUrl("/catalog/list")
                 .and()

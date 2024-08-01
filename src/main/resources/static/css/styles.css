@@ -221,3 +221,11 @@ span.error-message {
     background-color: #0056b3;
     color: #ffffff;
 }
+
+.oauth2 {
+    color: red;
+}
+
+.newaccount {
+    color: green;
+}

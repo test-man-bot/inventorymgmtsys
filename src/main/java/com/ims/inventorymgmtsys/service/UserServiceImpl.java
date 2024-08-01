@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService{
         createuser.setAddress(null);
         createuser.setPhone(null);
         createuser.setPassword(passwordEncoder.encode(user.getPassword())); // 修正
-        userRepository.insert(createuser);
+        userRepository.save(createuser);
         jdbcTemplate.update("INSERT INTO authorities (username, authority) VALUES (?, ?)", user.getUserName(), "ROLE_USER");
         jdbcTemplate.update("UPDATE t_user set enabled=TRUE WHERE username=?", user.getUserName());
 
@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User selectById(String id) {
-        return userRepository.selectById(id);
+        return userRepository.findById(id);
     }
 
 }

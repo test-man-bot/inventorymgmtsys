@@ -9,13 +9,3 @@ INSERT INTO t_product
 ,('p07', 'コンバース　ジャックパーセル', 16800, 70)
 ;
 
-
-INSERT INTO employee
-(employeeid, employeename) VALUES
-('0001', '鈴木')
-,('0002', '高橋')
-,('0003', '武藤')
-,('0004', '大井')
-,('0005', '佐藤')
-
-

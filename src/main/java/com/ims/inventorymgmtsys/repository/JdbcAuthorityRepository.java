@@ -22,4 +22,9 @@ public class JdbcAuthorityRepository implements AuthorityRepository {
     public List<Authorities> getRole(String username) {
         return jdbcTemplate.query("SELECT authority FROM authorities WHERE username = ?", new BeanPropertyRowMapper<>(Authorities.class), username);
     }
+
+    @Override
+    public void saveAuthority(Authorities authority) {
+        jdbcTemplate.update("INSERT INTO authorities (username, authority) VALUES (?, ?)", authority.getUsername(), authority.getAuthority());
+    }
 }
