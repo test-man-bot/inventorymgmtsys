@@ -56,6 +56,9 @@ public class AdminController {
             model.addAttribute("errorMessage", "在庫数の更新中にエラーが発生しました" + e.getMessage());
         }
 
+        List<Order> orders = orderService.findAll();
+        model.addAttribute("orderList", orders);
+
         List<Product> products = productService.findAll();
         model.addAttribute("productList", products);
         return "admin/adminManagement";
