@@ -19,11 +19,11 @@ public class CatalogServiceImpl implements CatalogService {
 
     @Override
     public List<Product> findAll() {
-        return productRepository.selectAll();
+        return productRepository.findAll();
     }
 
     @Override
     public Product findById(String id) {
-        return productRepository.selectById(id);
+        return productRepository.findById(id);
     }
 }

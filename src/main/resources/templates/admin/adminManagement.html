@@ -15,19 +15,51 @@
     </form>
 </div>
 <div class="container">
+    <h2>Order Table</h2>
+    <table>
+        <tr>
+            <th>ORDER_ID(ID)</th>
+            <th>ORDER_DATE_TIME</th>
+            <th>CUSTOMER_NAME</th>
+            <th>EMPLOYEE_NAME</th>
+            <th>PAYMENT_METHOD</th>
+        </tr>
+        <tr th:each="odr:${orderList}">
+            <td><span th:text="${odr.orderId}"></span></td>
+            <td><span th:text="${odr.orderDateTime}"></span></td>
+            <td><span th:text="${odr.customerName}"></span></td>
+            <td><span th:text="${odr.employeeName}"></span></td>
+            <td><span th:text="${odr.paymentMethod}"></span></td>
+        </tr>
+    </table>
+    <h2>Product Table</h2>
     <table>
         <tr>
             <th>商品名</th>
             <th>価格</th>
-            <th>在庫数</th>
+            <th>在庫数(右端は現在の在庫数)</th>
         </tr>
         <tr th:each="prod:${productList}">
             <td><a th:href="@{/catalog/product-details(productId=${prod.id})}"><span th:text="${prod.name}"></span></a></td>
             <td><span th:text="${prod.price}"></span>円</td>
-            <td><span th:text="${prod.stock}"></span></td>
+            <td>
+                <form th:action="@{/admin/update-stock}" method="post">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    <input type="hidden" name="id" th:value="${prod.id}">
+                    <input type="number" name="stock" th:value="${prod.stock}" min="1" required class="quantity-input">
+                    <input type="submit" value="更新">
+                    <span th:text="${prod.stock}"></span>
+                </form>
+            </td>
             <td></td>
         </tr>
     </table>
+    <div th:if="${updateSuccess}">
+        <p>在庫が正常に更新されました。</p>
+    </div>
+    <div th:if="${errorMessage}">
+        <p th:text="${errorMessage}"></p>
+    </div>
 </div>
 </body>
 </html>

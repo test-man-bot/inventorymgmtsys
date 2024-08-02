@@ -55,23 +55,10 @@ public class  OrderController {
         }
 
         String employeeId = orderInput.getEmployeeId();
-//        if (employeeId == null || employeeId.trim().isEmpty()) {
-//            bindingResult.rejectValue("employeeId", "error.employeeId", "Invalid employee selected");
-//            return "order/orderForm";
-//        }
 
         Employee employee = employeeService.selectById(employeeId);
         orderInput.setEmployeeName(employee.getEmployeeName());
         orderInput.setEmployeeId(employee.getEmployeeId());
-//        try {
-//            employee = employeeService.selectById(employeeId);
-//            orderInput.setEmployeeName(employee.getEmployeeName());
-//            orderInput.setEmployeeId(employee.getEmployeeId());
-//            System.out.println("Employee Name set to: " + orderInput.getEmployeeName() + orderInput.getEmployeeId()); // Debugging log
-//        } catch (EmptyResultDataAccessException e) {
-//            bindingResult.rejectValue("employeeId", "error.employeeId", "Invalid employee selected");
-//            return "order/orderForm";
-//        }
 
         if (employee == null) {
             bindingResult.rejectValue("employeeId", "error.employeeId", "Invalid employee selected");
@@ -81,9 +68,7 @@ public class  OrderController {
 
         sessionController.setOrderInput(orderInput);
         sessionController.setEmployee(employee);
-//        sessionController.setOrderInput(orderInput);
-//        Employee employee = employeeService.selectById(employeeId);
-//        sessionController.setEmployee(employee);
+
         model.addAttribute("cartInput", sessionController.getCartInput());
         model.addAttribute("orderInput", sessionController.getOrderInput());
         model.addAttribute("employee", employee.getEmployeeName());

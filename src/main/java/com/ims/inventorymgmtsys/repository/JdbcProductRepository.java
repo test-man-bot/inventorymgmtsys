@@ -17,12 +17,12 @@ public class JdbcProductRepository implements ProductRepository{
     public JdbcProductRepository(JdbcTemplate jdbcTemplate) { this.jdbcTemplate = jdbcTemplate; }
 
     @Override
-    public Product selectById(String id) {
+    public Product findById(String id) {
         return jdbcTemplate.queryForObject("SELECT * FROM t_product WHERE id = ?", new DataClassRowMapper<>(Product.class), id);
     }
 
     @Override
-    public List<Product> selectAll() {
+    public List<Product> findAll() {
         return jdbcTemplate.query("SELECT * FROM t_product", new DataClassRowMapper<>(Product.class));
     }
 

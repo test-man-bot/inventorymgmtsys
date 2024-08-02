@@ -12,4 +12,8 @@ public interface OrderService {
     int calculateTotalAmount(List<CartItemInput> cartItemInputs);
     int calculateTax(int price);
     Order placeOrder(OrderInput orderInput, CartInput cartInput, Employee employee);
+
+    Order findById(String orderId);
+
+    List<Order> findAll();
 }

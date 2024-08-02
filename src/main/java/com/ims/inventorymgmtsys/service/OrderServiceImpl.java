@@ -49,10 +49,11 @@ public class OrderServiceImpl implements OrderService {
         int totalAmount = calculateTotalAmount(cartInput.getCartItemInputs());
         int billingAmount = calculateTax(totalAmount);
 
-        orderRepository.insert(order,employee);
+        orderRepository.insert(order, employee);
+
         List<OrderDetail> orderDetails = new ArrayList<>();
         for (CartItemInput cartItem : cartInput.getCartItemInputs()) {
-            Product product = productRepository.selectById(cartItem.getProductId());
+            Product product = productRepository.findById(cartItem.getProductId());
             int afterstock = product.getStock() - cartItem.getQuantity();
 
             if ( afterstock < 0) {
@@ -87,4 +88,10 @@ public class OrderServiceImpl implements OrderService {
     public int calculateTax(int price) {
         return (int) (price * 1.1);
     }
+
+    @Override
+    public Order findById(String orderId) { return orderRepository.findById(orderId); }
+
+    @Override
+    public List<Order> findAll() { return orderRepository.findAll(); }
 }

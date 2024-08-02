@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface ProductRepository {
 
-    Product selectById(String id);
+    Product findById(String id);
 
-    List<Product> selectAll();
+    List<Product> findAll();
 
     boolean update(Product product);
 }

@@ -9,3 +9,11 @@ INSERT INTO t_product
 ,('p07', 'コンバース　ジャックパーセル', 16800, 70)
 ;
 
+INSERT INTO employee
+(employeename) VALUES
+('佐藤')
+,('高橋')
+,('鈴木')
+,('渡辺')
+,('遠藤')
+;

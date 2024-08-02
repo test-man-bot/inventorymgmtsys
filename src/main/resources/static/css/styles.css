@@ -5,11 +5,17 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
 }
 
 h1 {
     margin-top: 40px; /* 上部にスペースを追加 */
     margin-bottom: 20px;
+}
+
+h2 {
+    text-align: left;
+    margin-bottom: 5px;
 }
 
 .container {
@@ -152,27 +158,63 @@ input[type="number"].quantity-input {
 .register-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-align: center;
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
     padding: 20px;
     border: 1px solid #ddd;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     background-color: #f9f9f9;
+    margin-top: 100px;
+}
+
+.login-form,
+.register-form {
+    width: 100%;
+    text-align: center;
 }
 
 .login-form div,
 .register-form div {
-    margin-bottom: 15px;
-    text-align: left;
+   display: flex;
+   align-items: center;
+   margin-bottom: 15px;
+}
+
+.login-form label,
+.register-form label {
+    flex: 1;
+    text-align: right;
+    align-items: center;
+    margin-bottom: 5px;
+    width: 20%;
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"],
+.register-form input[type="text"],
+.register-form input[type="password"],
+.register-form input[type="email"] {
+    flex: 2;
+    align-items: center;
+    width: 50%; /* 必要に応じて調整 */
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: 0px 60px 5px 10px;
+}
+
+.button-container {
     width: 100%;
+    display: flex;
+    justify-content: center; /* Center the button horizontally */
+    margin: 0 auto;
 }
 
 .login-button,
 .register-button {
-    display: block;
-    width: 100%;
+    width: 30%;
     padding: 10px;
     background-color: #007bff;
     color: white;
@@ -182,6 +224,7 @@ input[type="number"].quantity-input {
     border-radius: 4px;
 }
 
+.register-button:hover,
 .login-button:hover {
     background-color: #0056b3;
 }

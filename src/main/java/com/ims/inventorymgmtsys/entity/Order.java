@@ -58,4 +58,5 @@ public class Order implements Serializable {
 
     public void setPaymentMethod(PaymentMethod paymentMethod) { this.paymentMethod = paymentMethod; }
 
+
 }
