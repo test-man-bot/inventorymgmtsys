@@ -183,7 +183,7 @@ public class AdminController {
                     productService.save(existingProduct);
                 }
             }
-            model.addAttribute("updateSuccess", "すべての商品を更新しました。");
+            model.addAttribute("updateSuccess", "商品を更新しました。");
         } catch (Exception e) {
             model.addAttribute("errorMessage", "商品の更新中にエラーが発生しました。" + e.getMessage());
         }

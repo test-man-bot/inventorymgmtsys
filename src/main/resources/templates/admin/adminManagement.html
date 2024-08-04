@@ -55,7 +55,9 @@
             </td>
         </tr>
     </table>
-        <input type="submit" value="一括更新">
+        <div class="admin-button">
+            <input name="admin-update" type="submit" value="更新">
+        </div>
     </form>
     <div th:if="${updateSuccess}">
         <p th:text="${updateSuccess}"></p>
