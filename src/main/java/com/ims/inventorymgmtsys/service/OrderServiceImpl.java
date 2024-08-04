@@ -61,7 +61,7 @@ public class OrderServiceImpl implements OrderService {
             }
 
             product.setStock(afterstock);
-            productRepository.update(product);
+            productRepository.save(product);
             OrderDetail orderDetail = new OrderDetail();
             orderDetail.setOrderId(order.getOrderId());
             orderDetail.setProductId(product.getId());

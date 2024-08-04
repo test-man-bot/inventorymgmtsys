@@ -23,8 +23,8 @@ public class ProductServiceImpl implements ProductService{
     public Product findById(String id) {return productRepository.findById(id);}
 
     @Override
-    public Boolean update(Product product) {
-        return productRepository.update(product);
+    public Boolean save(Product product) {
+        return productRepository.save(product);
     }
 
 }

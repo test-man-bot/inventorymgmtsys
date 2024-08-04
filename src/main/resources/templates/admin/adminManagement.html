@@ -33,29 +33,32 @@
         </tr>
     </table>
     <h2>Product Table</h2>
+    <form th:action="@{/admin/update-products}" method="post" th:object="${productWrapper}">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     <table>
         <tr>
             <th>商品名</th>
-            <th>価格</th>
+            <th>価格(円)</th>
             <th>在庫数(右端は現在の在庫数)</th>
         </tr>
-        <tr th:each="prod:${productList}">
-            <td><a th:href="@{/catalog/product-details(productId=${prod.id})}"><span th:text="${prod.name}"></span></a></td>
-            <td><span th:text="${prod.price}"></span>円</td>
+        <tr th:each="prod, iterStat :${productWrapper.products}">
             <td>
-                <form th:action="@{/admin/update-stock}" method="post">
-                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                    <input type="hidden" name="id" th:value="${prod.id}">
-                    <input type="number" name="stock" th:value="${prod.stock}" min="1" required class="quantity-input">
-                    <input type="submit" value="更新">
-                    <span th:text="${prod.stock}"></span>
-                </form>
+                <input type="hidden" th:field="*{products[__${iterStat.index}__].id}" th:value="${prod.id}">
+                <input type="text" th:field="*{products[__${iterStat.index}__].name}" th:value="${prod.name}" required class="name-input">
             </td>
-            <td></td>
+            <td>
+                <input type="text" th:field="*{products[__${iterStat.index}__].price}" th:value="${prod.price}" required class="price-input">
+            </td>
+            <td>
+                <input type="number" th:field="*{products[__${iterStat.index}__].stock}" th:value="${prod.stock}" min="1" required class="quantity-input">
+                <span th:text="${prod.stock}"></span>
+            </td>
         </tr>
     </table>
+        <input type="submit" value="一括更新">
+    </form>
     <div th:if="${updateSuccess}">
-        <p>在庫が正常に更新されました。</p>
+        <p th:text="${updateSuccess}"></p>
     </div>
     <div th:if="${errorMessage}">
         <p th:text="${errorMessage}"></p>

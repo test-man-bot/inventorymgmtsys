@@ -10,5 +10,5 @@ public interface ProductRepository {
 
     List<Product> findAll();
 
-    boolean update(Product product);
+    boolean save(Product product);
 }

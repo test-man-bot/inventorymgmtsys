@@ -27,7 +27,7 @@ public class JdbcProductRepository implements ProductRepository{
     }
 
     @Override
-    public boolean update(Product product) {
+    public boolean save(Product product) {
         int count = jdbcTemplate.update("UPDATE t_product SET name=?, price=?, stock=? WHERE id=?",
                 product.getName(),
                 product.getPrice(),

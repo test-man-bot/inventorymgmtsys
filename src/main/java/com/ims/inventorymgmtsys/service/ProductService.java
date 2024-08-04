@@ -10,5 +10,5 @@ public interface ProductService {
 
     Product findById(String id);
 
-    Boolean update(Product product);
+    Boolean save(Product product);
 }
