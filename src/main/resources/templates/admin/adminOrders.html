@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <title>注文管理</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}" />
+</head>
+<body>
+<div class="hamburger-menu" onclick="openNav()">
+  <div class="menu-bar"></div>
+  <div class="menu-bar"></div>
+  <div class="menu-bar"></div>
+</div>
+<h1>管理画面</h1>
+<div class="header-right" sec:authorize="isAuthenticated()">
+  こんにちは：<span sec:authentication="name"></span>さん
+  <form th:action="@{/logout}" method="post">
+    <input type="submit" value="logout" />
+  </form>
+</div>
+<div id="mySidebar" class="sidebar">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a th:href="@{/admin/orders}">注文</a>
+  <a th:href="@{/admin/management}">在庫</a>
+  <a th:href="@{/admin/employees}">人事</a>
+</div>
+<div class="container main-content">
+  <h2>Order Table</h2>
+  <table>
+    <tr>
+      <th>ORDER_ID(ID)</th>
+      <th>ORDER_DATE_TIME</th>
+      <th>CUSTOMER_NAME</th>
+      <th>EMPLOYEE_NAME</th>
+      <th>PAYMENT_METHOD</th>
+    </tr>
+    <tr th:each="odr:${orderList}">
+      <td><span th:text="${odr.orderId}"></span></td>
+      <td><span th:text="${odr.orderDateTime}"></span></td>
+      <td><span th:text="${odr.customerName}"></span></td>
+      <td><span th:text="${odr.employeeName}"></span></td>
+      <td><span th:text="${odr.paymentMethod}"></span></td>
+    </tr>
+  </table>
+</div>
+<script>
+  function openNav() {
+      document.getElementById("mySidebar").style.width = "250px";
+  }
+
+      function closeNav() {
+      document.getElementById("mySidebar").style.width = "0";
+  }
+</script>
+</body>
+</html>

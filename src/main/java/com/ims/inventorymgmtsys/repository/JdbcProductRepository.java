@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 public class JdbcProductRepository implements ProductRepository{
@@ -27,7 +28,7 @@ public class JdbcProductRepository implements ProductRepository{
     }
 
     @Override
-    public boolean save(Product product) {
+    public boolean update(Product product) {
         int count = jdbcTemplate.update("UPDATE t_product SET name=?, price=?, stock=? WHERE id=?",
                 product.getName(),
                 product.getPrice(),
@@ -38,6 +39,15 @@ public class JdbcProductRepository implements ProductRepository{
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void save(Product product) {
+        //idはテーブル定義でUUIDを定義してるため、idは省略
+        jdbcTemplate.update("INSERT INTO t_product (name, price, stock) VALUES(?,?,?)",
+                product.getName(),
+                product.getPrice(),
+                product.getStock());
     }
 
 

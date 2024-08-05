@@ -19,12 +19,17 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public List<Product> findAll(){return productRepository.findAll();}
 
-    @Override
+    @Override   
     public Product findById(String id) {return productRepository.findById(id);}
 
     @Override
-    public Boolean save(Product product) {
-        return productRepository.save(product);
+    public Boolean update(Product product) {
+        return productRepository.update(product);
+    }
+
+    @Override
+    public void save(Product product) {
+        productRepository.save(product);
     }
 
 }

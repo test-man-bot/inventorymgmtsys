@@ -14,7 +14,7 @@ java.util.UUID genRandomUuid() throws Exception {
 ';
 
 create table if not exists t_product  (
-    id varchar(100) primary key,
+    id uuid DEFAULT gen_random_uuid() primary key,
     name varchar(100),
     price integer,
     stock integer

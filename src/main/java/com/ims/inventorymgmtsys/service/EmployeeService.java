@@ -9,6 +9,6 @@ import java.util.List;
 
 @Service
 public interface EmployeeService {
-    List<Employee> selectAll();
-    Employee selectById(String id);
+    List<Employee> findAll();
+    Employee findById(String id);
 }

@@ -3,13 +3,15 @@ package com.ims.inventorymgmtsys.controller;
 import com.ims.inventorymgmtsys.entity.Order;
 import com.ims.inventorymgmtsys.entity.Product;
 import com.ims.inventorymgmtsys.service.CatalogService;
+import com.ims.inventorymgmtsys.service.EmployeeService;
 import com.ims.inventorymgmtsys.service.OrderService;
 import com.ims.inventorymgmtsys.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
@@ -20,19 +22,17 @@ public class AdminController {
     private final CatalogService catalogService;
 
     private final ProductService productService;
+    private final EmployeeService employeeService;
 
-    public AdminController(CatalogService catalogService, OrderService orderService, ProductService productService) {
+    public AdminController(CatalogService catalogService, OrderService orderService, ProductService productService, EmployeeService employeeService) {
         this.orderService = orderService;
         this.catalogService = catalogService;
         this.productService = productService;
+        this.employeeService = employeeService;
     }
 
     @GetMapping("/management")
     public String displayList(Model model) {
-//        List<Order> orders = orderService.findAll();
-//        List<Product> products = catalogService.findAll();
-//        model.addAttribute("orderList", orders);
-//        model.addAttribute("productList", products);
         ProductWrapper productWrapper = new ProductWrapper();
         List<Product> products = productService.findAll(); // 商品リストを取得
         productWrapper.setProducts(products); // 商品リストを設定
@@ -40,157 +40,51 @@ public class AdminController {
         model.addAttribute("productWrapper", productWrapper);
         // 他の必要なモデル属性も設定
         model.addAttribute("orderList", orderService.findAll());
+        model.addAttribute("newProduct", new Product());
         return "admin/adminManagement";
     }
 
-//    @PostMapping("update-product")
-//    public String updateProduct(@RequestParam("id") String id, @RequestParam("type") String type, @RequestParam("value") String value, Model model) {
-//        try {
-//            Product product = productService.findById(id);
-//
-//            if (product != null) {
-//                switch (type) {
-//                    case "name":
-//                        product.setName(value);
-//                        model.addAttribute("updateSuccess", "商品名を更新しました");
-//                        break;
-//                    case "price":
-//                        product.setPrice(Integer.valueOf(value));
-//                        model.addAttribute("updateSuccess", "価格を更新しました");
-//                        break;
-//                    case "stock":
-//                        product.setStock(Integer.valueOf(value));
-//                        model.addAttribute("updateSuccess", "在庫数を更新しました");
-//                        break;
-//                    default:
-//                        model.addAttribute("errorMessage", "無効な更新タイプです");
-//                        return populateModel(model);
-//                }
-//
-//                boolean isUpdate = productService.save(product);
-//                if (!isUpdate) {
-//                    model.addAttribute("updateSuccess", false);
-//                }
-//            } else {
-//                model.addAttribute("errorMessage", "商品が見つかりません");
-//            }
-//        } catch (Exception e) {
-//            model.addAttribute("updateSuccess", false);
-//            model.addAttribute("errorMessage", "商品の更新中にエラーが発生しました。" + e.getMessage());
-//        }
-//
-//        return populateModel(model);
-//    }
-//        private String populateModel(Model model) {
-//            List<Order> orders = orderService.findAll();
-//            model.addAttribute("orderList", orders);
-//
-//            List<Product> products = productService.findAll();
-//            model.addAttribute("productList", products);
-//            return "admin/adminManagement";
-//        }
-//    }
-//    @PostMapping("update-productprice")
-//    public String updatePrice(@RequestParam("id") String id, @RequestParam("price") int price, Model model) {
-//        try {
-//            Product product = productService.findById(id);
-//
-//            if (product != null) {
-//                product.setPrice(price);
-//                boolean isUpdate = productService.save(product);
-//                if (isUpdate) {
-//                    model.addAttribute("updateSuccess", "価格を更新しました。");
-//                }
-//            } else {
-//                model.addAttribute("errorMessage", false);
-//            }
-//        } catch (Exception e) {
-//            model.addAttribute("updateSuccess", false);
-//            model.addAttribute("errorMessage", "価格の更新中にエラーが発生しました。" + e.getMessage());
-//        }
-//        List<Order> orders = orderService.findAll();
-//        model.addAttribute("orderList", orders);
-//
-//        List<Product> products = productService.findAll();
-//        model.addAttribute("productList", products);
-//        return "admin/adminManagement";
-//
-//    }
-//
-//    @PostMapping("update-productname")
-//    public String updateName(@RequestParam("id") String id, @RequestParam("name") String name, Model model) {
-//        try {
-//            Product product = productService.findById(id);
-//
-//            if (product != null) {
-//                product.setName(name);
-//                boolean isUpdate = productService.save(product);
-//                if (isUpdate) {
-//                    model.addAttribute("updateSuccess", "商品名を更新しました。");
-//                }
-//            } else {
-//                model.addAttribute("errorMessage", false);
-//            }
-//        } catch (Exception e) {
-//            model.addAttribute("updateSuccess", false);
-//            model.addAttribute("errorMessage", "商品名の更新中にエラーが発生しました。" + e.getMessage());
-//        }
-//        List<Order> orders = orderService.findAll();
-//        model.addAttribute("orderList", orders);
-//
-//        List<Product> products = productService.findAll();
-//        model.addAttribute("productList", products);
-//        return "admin/adminManagement";
-//
-//    }
-//
-//    @PostMapping("update-productstock")
-//    public String updateStock(@RequestParam("id") String id, @RequestParam("stock") int stock, Model model) {
-//        try {
-//            Product product = productService.findById(id);
-//
-//            if (product != null) {
-//                product.setStock(stock);
-//                boolean isUpdate = productService.save(product);
-//
-//                model.addAttribute("updateSuccess", isUpdate);
-//            } else {
-//                model.addAttribute("updateSuccess", false);
-//            }
-//        }catch (Exception e) {
-//            model.addAttribute("updateSuccess", false);
-//            model.addAttribute("errorMessage", "在庫数の更新中にエラーが発生しました" + e.getMessage());
-//        }
-//
-//        List<Order> orders = orderService.findAll();
-//        model.addAttribute("orderList", orders);
-//
-//        List<Product> products = productService.findAll();
-//        model.addAttribute("productList", products);
-//        return "admin/adminManagement";
-//    }
 
     @PostMapping("/update-products")
     public String updateProducts(@ModelAttribute("productWrapper") ProductWrapper productWrapper, Model model) {
         List<Product> products = productWrapper.getProducts();
+        boolean isUpdate = false;
         try {
             for (Product product : products) {
                 Product existingProduct = productService.findById(product.getId());
                 if (existingProduct != null) {
-                    existingProduct.setName(product.getName());
-                    existingProduct.setPrice(product.getPrice());
-                    existingProduct.setStock(product.getStock());
-                    productService.save(existingProduct);
+
+                    if(!existingProduct.getName().equals(product.getName())){
+                        existingProduct.setName(product.getName());
+                        isUpdate = true;
+                    }
+                    if (!existingProduct.getPrice().equals(product.getPrice())){
+                        existingProduct.setPrice(product.getPrice());
+                        isUpdate = true;
+                    }
+                    if (!existingProduct.getStock().equals(product.getStock())){
+                        existingProduct.setStock(product.getStock());
+                        isUpdate = true;
+                    }
+                    if(isUpdate) {
+                        productService.update(existingProduct);
+                        model.addAttribute("successMessage", "商品を更新しました。");
+
+                    }
+
                 }
             }
-            model.addAttribute("updateSuccess", "商品を更新しました。");
+            if (!isUpdate) {
+                model.addAttribute("successMessage", "更新はありません");
+            }
         } catch (Exception e) {
             model.addAttribute("errorMessage", "商品の更新中にエラーが発生しました。" + e.getMessage());
         }
 
             List<Order> orders = orderService.findAll();
             model.addAttribute("orderList", orders);
-            model.addAttribute("productList", productService.findAll());
+            model.addAttribute("productWrapper", new ProductWrapper(productService.findAll()));
+            model.addAttribute("newProduct", new Product());
             return "admin/adminManagement";
         }
     public static class ProductWrapper {
@@ -213,13 +107,35 @@ public class AdminController {
         }
     }
 
-//        private String populateModel(Model model) {
-//            List<Order> orders = orderService.findAll();
-//            model.addAttribute("orderList", orders);
-//
-//            List<Product> products = productService.findAll();
-//            model.addAttribute("productList", products);
-//            return "admin/adminManagement";
-//        }
+    @PostMapping("add-product")
+    public String addProduct(@ModelAttribute("newProduct") @Valid Product product, BindingResult result, Model model) {
+        if(result.hasErrors()) {
+            model.addAttribute("errorMessage2", "商品の追加中にエラーが発生しました");
+            return "admin/adminManagement";
+        }
+
+        try {
+            productService.save(product);
+            model.addAttribute("successMessage2", "商品を追加しました");
+        }catch (Exception e){
+            model.addAttribute("errorMessage2", "商品の追加中にエラーが発生しました" + e.getMessage());
+        }
+        model.addAttribute("orderList", orderService.findAll());
+        model.addAttribute("productWrapper", new ProductWrapper(productService.findAll()));
+        return "admin/adminManagement";
+    }
+
+    @GetMapping("/orders")
+    public String displayOrderList(Model model) {
+        model.addAttribute("orderList", orderService.findAll());
+        return "admin/adminOrders";
+    }
+
+    @GetMapping("/employees")
+    public String displayEmployeeList(Model model) {
+        model.addAttribute("employeeList", employeeService.findAll());
+        return "admin/adminEmployees";
+    }
+
 
 }

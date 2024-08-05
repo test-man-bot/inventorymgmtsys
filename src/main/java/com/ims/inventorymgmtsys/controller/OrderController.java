@@ -36,7 +36,7 @@ public class  OrderController {
         OrderInput orderInput = new OrderInput();
         orderInput.setPaymentMethod(PaymentMethod.BANK);
 
-        List<Employee> employees = employeeService.selectAll();
+        List<Employee> employees = employeeService.findAll();
 
         // Employeeリストの内容をログに出力
         for (Employee employee : employees) {
@@ -56,13 +56,13 @@ public class  OrderController {
 
         String employeeId = orderInput.getEmployeeId();
 
-        Employee employee = employeeService.selectById(employeeId);
+        Employee employee = employeeService.findById(employeeId);
         orderInput.setEmployeeName(employee.getEmployeeName());
         orderInput.setEmployeeId(employee.getEmployeeId());
 
         if (employee == null) {
             bindingResult.rejectValue("employeeId", "error.employeeId", "Invalid employee selected");
-            model.addAttribute("employees", employeeService.selectAll());
+            model.addAttribute("employees", employeeService.findAll());
             return "order/orderForm";
         }
 
@@ -77,7 +77,7 @@ public class  OrderController {
 
     @PostMapping(value="placeorder", params = "correct")
     public String correctOrder(@Validated OrderInput orderInput, Model model) {
-        List<Employee> employees = employeeService.selectAll();
+        List<Employee> employees = employeeService.findAll();
         model.addAttribute("employees", employees);
         model.addAttribute("orderInput", sessionController.getOrderInput());
         return "order/orderForm";
@@ -101,7 +101,6 @@ public class  OrderController {
 
     @GetMapping("/orderCompletion")
     public String orderCompletion(Model model) {
-//        model.addAttribute("")
         return "order/orderCompletion";
     }
 

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface EmployeeRepository {
 
-    Employee selectById(String id);
+    Employee findById(String id);
 
-    List<Employee> selectAll();
+    List<Employee> findAll();
 }

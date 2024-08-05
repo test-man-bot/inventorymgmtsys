@@ -18,18 +18,12 @@ public class EmployeeServiceImpl implements EmployeeService{
         this.employeeRepository = employeeRepository;
     }
     @Override
-    public List<Employee> selectAll() {
-//        List<Employee> employees = employeeRepository.selectAll();
-        // Employeeリストの内容をログに出力
-//        for (Employee employee : employees) {
-//            System.out.println("Employee ID: " + employee.getEmployeeId() + ", Employee Name: " + employee.getEmployeeName());
-//        }
-//        return employees;
-        return employeeRepository.selectAll();
+    public List<Employee> findAll() {
+        return employeeRepository.findAll();
     }
 
     @Override
-    public Employee selectById(String employeeId) {
-        return employeeRepository.selectById(employeeId);
+    public Employee findById(String employeeId) {
+        return employeeRepository.findById(employeeId);
     }
 }

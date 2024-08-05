@@ -19,13 +19,13 @@ public class JdbcEmployeeRepository implements EmployeeRepository{
     }
 
     @Override
-    public Employee selectById(String employeeid) {
+    public Employee findById(String employeeid) {
         return jdbcTemplate.queryForObject("SELECT * FROM employee WHERE employeeid = ?", new DataClassRowMapper<>(Employee.class), employeeid);
     }
 
 
     @Override
-    public List<Employee> selectAll() {
+    public List<Employee> findAll() {
         return jdbcTemplate.query("SELECT * FROM employee", new DataClassRowMapper<>(Employee.class));
     }
 }

@@ -2,11 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title>管理者設定</title>
+    <title>管理者TOP</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}" />
 </head>
 <body>
+<div class="hamburger-menu" onclick="openNav()">
+    <div class="menu-bar"></div>
+    <div class="menu-bar"></div>
+    <div class="menu-bar"></div>
+</div>
 <h1>管理画面</h1>
 <div class="header-right" sec:authorize="isAuthenticated()">
     こんにちは：<span sec:authentication="name"></span>さん
@@ -14,7 +19,13 @@
         <input type="submit" value="logout" />
     </form>
 </div>
-<div class="container">
+<div id="mySidebar" class="sidebar">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a th:href="@{/admin/orders}">注文</a>
+    <a th:href="@{/admin/management}">在庫</a>
+    <a th:href="@{/admin/employees}">人事</a>
+</div>
+<div class="container main-content">
     <h2>Order Table</h2>
     <table>
         <tr>
@@ -47,7 +58,7 @@
                 <input type="text" th:field="*{products[__${iterStat.index}__].name}" th:value="${prod.name}" required class="name-input">
             </td>
             <td>
-                <input type="text" th:field="*{products[__${iterStat.index}__].price}" th:value="${prod.price}" required class="price-input">
+                <input type="number" th:field="*{products[__${iterStat.index}__].price}" th:value="${prod.price}" required class="price-input">
             </td>
             <td>
                 <input type="number" th:field="*{products[__${iterStat.index}__].stock}" th:value="${prod.stock}" min="1" required class="quantity-input">
@@ -59,12 +70,53 @@
             <input name="admin-update" type="submit" value="更新">
         </div>
     </form>
-    <div th:if="${updateSuccess}">
-        <p th:text="${updateSuccess}"></p>
+    <div th:if="${successMessage}">
+        <p th:text="${successMessage}"></p>
     </div>
     <div th:if="${errorMessage}">
         <p th:text="${errorMessage}"></p>
     </div>
+    <h2>商品新規登録</h2>
+    <form th:action="@{/admin/add-product}" method="post" th:object="${newProduct}">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        <table>
+            <tr>
+                <th>商品名</th>
+                <th>価格</th>
+                <th>在庫数</th>
+            </tr>
+            <tr>
+                <td>
+                    <input type="hidden" th:field="*{id}"/>
+                    <input type="text" id="name" th:field="*{name}" required>
+                </td>
+                <td>
+                    <input type="number" id="price" th:field="*{price}" required>
+                </td>
+                <td>
+                    <input type="number" id="stock" th:field="*{stock}" required>
+                </td>
+            </tr>
+        </table>
+        <div class="admin-button">
+            <input name="admin-update" type="submit" value="新規登録">
+        </div>
+        <div th:if="${successMessage2}">
+            <p th:text="${successMessage2}"></p>
+        </div>
+        <div th:if="${errorMessage2}">
+            <p th:text="${errorMessage2}"></p>
+        </div>
+    </form>
 </div>
+<script>
+    function openNav() {
+        document.getElementById("mySidebar").style.width = "250px";
+    }
+
+        function closeNav() {
+        document.getElementById("mySidebar").style.width = "0";
+    }
+</script>
 </body>
 </html>
