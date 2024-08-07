@@ -1,6 +1,7 @@
 package com.ims.inventorymgmtsys.service;
 
 import com.ims.inventorymgmtsys.entity.Product;
+import com.ims.inventorymgmtsys.entity.ProductWrapper;
 
 import java.util.List;
 
@@ -10,7 +11,12 @@ public interface ProductService {
 
     Product findById(String id);
 
-    Boolean update(Product product);
+    boolean update(Product product);
 
     void save(Product product);
+
+    ProductWrapper getProductWrapper();
+
+    boolean updateProducts(List<Product> products);
+
 }

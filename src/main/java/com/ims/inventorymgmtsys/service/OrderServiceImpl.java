@@ -54,21 +54,45 @@ public class OrderServiceImpl implements OrderService {
         List<OrderDetail> orderDetails = new ArrayList<>();
         for (CartItemInput cartItem : cartInput.getCartItemInputs()) {
             Product product = productRepository.findById(cartItem.getProductId());
-            int afterstock = product.getStock() - cartItem.getQuantity();
-
-            if ( afterstock < 0) {
-                throw new StockShortageException("在庫が足りません");
+            if (product == null) {
+                throw new IllegalArgumentException("Product not found with ID: " + cartItem.getProductId());
             }
 
+            // 在庫を更新
+            int afterstock = product.getStock() - cartItem.getQuantity();
+            if (afterstock < 0) {
+                throw new StockShortageException("在庫が足りません");
+            }
             product.setStock(afterstock);
-            productRepository.save(product);
+
+            // Productを保存
+            productRepository.update(product);
+
+            // OrderDetailを作成し保存
             OrderDetail orderDetail = new OrderDetail();
             orderDetail.setOrderId(order.getOrderId());
             orderDetail.setProductId(product.getId());
             orderDetail.setQuantity(cartItem.getQuantity());
+            orderDetailRepository.save(orderDetail);
 
-            orderDetailRepository.insert(orderDetail);
+            // OrderDetailリストに追加
             orderDetails.add(orderDetail);
+//            Product product = productRepository.findById(cartItem.getProductId());
+//            int afterstock = product.getStock() - cartItem.getQuantity();
+//
+//            if ( afterstock < 0) {
+//                throw new StockShortageException("在庫が足りません");
+//            }
+//
+//            product.setStock(afterstock);
+//            productRepository.save(product);
+//            OrderDetail orderDetail = new OrderDetail();
+//            orderDetail.setOrderId(order.getOrderId());
+//            orderDetail.setProductId(product.getId());
+//            orderDetail.setQuantity(cartItem.getQuantity());
+//
+//            orderDetailRepository.save(orderDetail);
+//            orderDetails.add(orderDetail);
         }
         order.setOrderDetails(orderDetails);
         return order;

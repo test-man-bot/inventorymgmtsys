@@ -1,22 +1,101 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="common/head :: head_fragment(title = 'サンプルアプリケーション', scripts = ~{::script}, links = ~{::link})">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <title>管理者TOP</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}" />
   <script type="text/javascript" th:src="@{/js/scripts.js}" defer></script>
 </head>
 <body>
-<div th:fragment="content">
-  <h2>Employee Table</h2>
+<div class="hamburger-menu" onclick="openNav()">
+  <div class="menu-bar"></div>
+  <div class="menu-bar"></div>
+  <div class="menu-bar"></div>
+</div>
+<h1>人事管理</h1>
+<div class="header-right" sec:authorize="isAuthenticated()">
+  こんにちは：<span sec:authentication="name"></span>さん
+  <form th:action="@{/logout}" method="post">
+    <input type="submit" value="logout" />
+  </form>
+</div>
+<div id="mySidebar" class="sidebar">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a th:href="@{/admin/orders}">注文</a>
+  <a th:href="@{/admin/management}">商品</a>
+  <a th:href="@{/admin/employees}">人事</a>
+  <a th:href="@{/admin/sales}">売上</a>
+</div>
+<div class="container main-content">
+  <form th:action="@{/admin/update-employees}" method="post" th:object="${employeeWrapper}">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    <h2>Employee Table</h2>
   <table>
     <tr>
-      <th>EmployeeId</th>
-      <th>EmployeeName</th>
+      <th>従業員番号</th>
+      <th>氏名</th>
+      <th>電話番号</th>
+      <th>メールアドレス</th>
     </tr>
-    <tr th:each="epl:${employeeList}">
-      <td><span th:text="${epl.employeeId}"></span></td>
-      <td><span th:text="${epl.employeeName}"></span></td>
+    <tr th:each="epl, iterStat :${employeeWrapper.employees}">
+      <td>
+        <span th:text="${epl.employeeId}"></span>
+        <input type="hidden" th:field="*{employees[__${iterStat.index}__].employeeId}" th:value="${epl.employeeId}">
+      </td>
+      <td>
+        <input type="text" th:field="*{employees[__${iterStat.index}__].employeeName}" th:value="${epl.employeeName}" required>
+      </td>
+      <td>
+        <input type="text" th:field="*{employees[__${iterStat.index}__].phone}" th:value="${epl.phone}" required oninput="formatPhoneNumber(this)">
+      </td>
+      <td>
+        <input type="text" th:field="*{employees[__${iterStat.index}__].emailAddress}" th:value="${epl.emailAddress}" required>
+      </td>
     </tr>
   </table>
+    <div class="admin-button">
+      <input name="admin-update" type="submit" value="更新">
+    </div>
+  </form>
+  <div th:if="${successMessage}">
+    <p th:text="${successMessage}"></p>
+  </div>
+  <div th:if="${errorMessage}">
+    <p th:text="${errorMessage}"></p>
+  </div>
+  <h2>人事データ新規登録</h2>
+  <form th:action="@{/admin/add-employee}" method="post" th:object="${newEmployee}">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    <table>
+      <tr>
+        <th>氏名</th>
+        <th>電話番号</th>
+        <th>メールアドレス</th>
+      </tr>
+      <tr>
+        <td>
+          <input type="hidden" th:field="*{employeeId}"/>
+          <input type="text" id="employeename" th:field="*{employeeName}" required>
+        </td>
+        <td>
+          <input type="text" id="phone" th:field="*{phone}" required oninput="formatPhoneNumber(this)">
+        </td>
+        <td>
+          <input type="text" id="emailaddress" th:field="*{emailAddress}" required>
+        </td>
+      </tr>
+    </table>
+    <div class="admin-button">
+      <input name="admin-update" type="submit" value="新規登録">
+    </div>
+    <div th:if="${successMessage2}">
+      <p th:text="${successMessage2}"></p>
+    </div>
+    <div th:if="${errorMessage2}">
+      <p th:text="${errorMessage2}"></p>
+    </div>
+  </form>
 </div>
 </body>
 </html>

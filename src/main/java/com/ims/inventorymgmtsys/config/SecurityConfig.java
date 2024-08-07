@@ -33,10 +33,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests()
-                    .requestMatchers("/fragments/**","/js/**","/css/**").permitAll()
+                    .requestMatchers("/fragments/**","/js/**","/css/**","/images/**").permitAll()
                     .requestMatchers("/login", "/register").permitAll()
                     .requestMatchers("/catalog/**", "/order/**", "/cart/**").hasAnyRole("ADMIN", "USER")
-                    .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+                    .requestMatchers("/admin/**","/sales/**").hasAuthority("ROLE_ADMIN")
                     .requestMatchers("/h2-console/**").permitAll()  // H2コンソールへのアクセスを許可
                     .anyRequest().authenticated()
                 .and()

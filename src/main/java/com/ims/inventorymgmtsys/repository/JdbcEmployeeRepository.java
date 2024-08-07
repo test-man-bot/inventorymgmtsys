@@ -28,4 +28,28 @@ public class JdbcEmployeeRepository implements EmployeeRepository{
     public List<Employee> findAll() {
         return jdbcTemplate.query("SELECT * FROM employee", new DataClassRowMapper<>(Employee.class));
     }
+
+    @Override
+    public boolean update(Employee employee) {
+        int count = jdbcTemplate.update("UPDATE employee SET employeename=?, phone=?, emailaddress=? WHERE employeeid=?",
+                employee.getEmployeeName(),
+                employee.getPhone(),
+                employee.getEmailAddress(),
+                employee.getEmployeeId());
+
+        if ( count == 0) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public void save(Employee employee) {
+        jdbcTemplate.update("INSERT INTO employee (employeename, phone, emailaddress) VALUES (?, ?, ?)",
+                employee.getEmployeeName(),
+                employee.getPhone(),
+                employee.getEmailAddress()
+                );
+    }
 }

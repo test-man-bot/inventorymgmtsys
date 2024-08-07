@@ -36,9 +36,12 @@ create table if not exists t_order_detail (
 );
 
 create table if not exists employee (
-    employeeid INT AUTO_INCREMENT primary key,
-    employeename varchar(100)
+    employeeid uuid DEFAULT gen_random_uuid() primary key,
+    employeename varchar(100),
+    phone varchar(25),
+    emailaddress varchar(100)
 );
+
 
 create table if not exists t_user (
     id uuid DEFAULT gen_random_uuid() primary key,

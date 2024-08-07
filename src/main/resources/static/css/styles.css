@@ -320,7 +320,20 @@ span.error-message {
 }
 
 .oauth2 {
-    color: red;
+    display: inline-flex;
+    align-items: center;
+    text-align: center;
+    margin-right: 300px;
+}
+
+.oauth2 img {
+    width: 50px;
+    height: 50px;
+    margin: 0 10px 0 0;
+}
+
+.oauth2:hover {
+    background-color: #f1f1f1;
 }
 
 .newaccount {

@@ -15,7 +15,7 @@ public class JdbcOrderDetailRepository implements OrderDetailRepository{
     }
 
     @Override
-    public void insert(OrderDetail orderDetail) {
+    public void save(OrderDetail orderDetail) {
         jdbcTemplate.update("INSERT INTO t_order_detail VALUES (?, ?, ?)",
                 orderDetail.getOrderId(),
                 orderDetail.getProductId(),

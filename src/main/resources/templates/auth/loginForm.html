@@ -8,7 +8,9 @@
 <body>
 <div class="login-container">
 <h1>loginForm</h1>
-    <a class="oauth2" href="/oauth2/authorization/google">Login with Google</a>
+    <a class="oauth2" th:href="@{/oauth2/authorization/google}">
+        <img th:src="@{/images/google_icon.png}"/>Login with Google
+    </a>
     <form th:action="@{/login}" method="post" class="login-form">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         <div>
