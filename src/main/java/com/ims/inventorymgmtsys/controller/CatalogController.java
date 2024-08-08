@@ -23,19 +23,14 @@ public class CatalogController {
 
     @GetMapping("/list")
     public String displayList(Model model) {
-        List<Product> products = catalogService.findAll();
-        model.addAttribute("productList", products);
+        model.addAttribute("productList", catalogService.findAll());
         return "catalog/productList";
     }
 
     @GetMapping("/product-details")
     public String displayDetails(@RequestParam String productId, Model model) {
-        Product product = catalogService.findById(productId);
-        model.addAttribute("product", product);
-        CartItemInput cartItemInput = new CartItemInput();
-        cartItemInput.setQuantity(1);
-        cartItemInput.setProductId(product.getId());
-        model.addAttribute("cartItemInput", cartItemInput);
+        model.addAttribute("product", catalogService.findById(productId));
+        model.addAttribute("cartItemInput", catalogService.createCartItemInput(productId));
         return "catalog/productDetails";
     }
 

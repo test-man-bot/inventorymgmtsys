@@ -17,7 +17,7 @@ public class JdbcOrderRepository implements OrderRepository{
     public JdbcOrderRepository(JdbcTemplate jdbcTemplate){this.jdbcTemplate = jdbcTemplate;}
 
     @Override
-    public void insert(Order order, Employee employee) {
+    public void save(Order order, Employee employee) {
         jdbcTemplate.update("INSERT INTO t_order VALUES (?,?,?,?,?)",
                 order.getOrderId(),
                 order.getOrderDateTime(),

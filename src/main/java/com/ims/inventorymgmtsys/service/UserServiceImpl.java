@@ -1,6 +1,7 @@
 package com.ims.inventorymgmtsys.service;
 
 import com.ims.inventorymgmtsys.entity.User;
+import com.ims.inventorymgmtsys.exception.UserAlreadyExistsException;
 import com.ims.inventorymgmtsys.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -37,19 +38,28 @@ public class UserServiceImpl implements UserService{
         createuser.setPhone(null);
         createuser.setPassword(passwordEncoder.encode(user.getPassword())); // 修正
         userRepository.save(createuser);
-        jdbcTemplate.update("INSERT INTO authorities (username, authority) VALUES (?, ?)", user.getUserName(), "ROLE_USER");
-        jdbcTemplate.update("UPDATE t_user set enabled=TRUE WHERE username=?", user.getUserName());
+        userRepository.updateAuth(createuser);
+        userRepository.updateIsEnabled(createuser);
 
     }
 
     @Override
-    public Boolean updateUser(User user) {
+    public boolean updateUser(User user) {
         return true;
     }
 
     @Override
     public User selectById(String id) {
         return userRepository.findById(id);
+    }
+
+    @Override
+    public void registerUser(User user) throws UserAlreadyExistsException {
+        User existsUser = selectById(user.getId());
+        if ( existsUser != null) {
+            throw new UserAlreadyExistsException("User already exists");
+        }
+        createUser(user);
     }
 
 }

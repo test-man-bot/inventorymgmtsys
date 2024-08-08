@@ -16,4 +16,15 @@ public interface OrderService {
     Order findById(String orderId);
 
     List<Order> findAll();
+
+    List<Employee> findAllEmployees();
+
+    Employee findEmployeeById(String employeeId);
+
+    CartInput getCartInput();
+    void setCartInput(CartInput cartInput);
+    OrderInput getOrderInput();
+    void setOrderInput(OrderInput orderInput);
+
+    void clearSessionData();
 }

@@ -75,4 +75,16 @@ public class JdbcUserRepository implements UserRepository{
         List<User> users = jdbcTemplate.query("SELECT * FROM t_user WHERE emailAddress = ?", new BeanPropertyRowMapper<>(User.class),email);
         return users.isEmpty() ? Optional.empty() : Optional.of(users.get(0));
     }
+
+    @Override
+    public boolean updateAuth(User user) {
+        int count = jdbcTemplate.update("INSERT INTO authorities (username, authority) VALUES (?, ?)", user.getUserName(), "ROLE_USER");
+        return count != 0;
+    }
+
+    @Override
+    public boolean updateIsEnabled(User user) {
+        int count = jdbcTemplate.update("UPDATE t_user set enabled=TRUE WHERE username=?", user.getUserName());
+        return count != 0;
+    }
 }

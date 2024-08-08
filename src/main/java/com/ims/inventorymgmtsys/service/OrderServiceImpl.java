@@ -1,5 +1,6 @@
 package com.ims.inventorymgmtsys.service;
 
+import com.ims.inventorymgmtsys.controller.SessionController;
 import com.ims.inventorymgmtsys.entity.Employee;
 import com.ims.inventorymgmtsys.entity.Order;
 import com.ims.inventorymgmtsys.entity.OrderDetail;
@@ -29,11 +30,14 @@ public class OrderServiceImpl implements OrderService {
 
     private final EmployeeRepository employeeRepository;
 
-    public OrderServiceImpl(OrderRepository orderRepository, ProductRepository productRepository, OrderDetailRepository orderDetailRepository, EmployeeRepository employeeRepository) {
+    private final SessionController sessionController;
+
+    public OrderServiceImpl(OrderRepository orderRepository, ProductRepository productRepository, OrderDetailRepository orderDetailRepository, EmployeeRepository employeeRepository, SessionController sessionController) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.orderDetailRepository = orderDetailRepository;
         this.employeeRepository = employeeRepository;
+        this.sessionController = sessionController;
 
     }
 
@@ -44,12 +48,12 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderDateTime(LocalDateTime.now());
         order.setCustomerName(orderInput.getName());
         order.setEmployeeName(employee.getEmployeeName());
-        order.setPaymentMethod(orderInput.getPaymentMethod());
+        order.setPaymentMethod(sessionController.getOrderInput().getPaymentMethod());
 
         int totalAmount = calculateTotalAmount(cartInput.getCartItemInputs());
         int billingAmount = calculateTax(totalAmount);
 
-        orderRepository.insert(order, employee);
+        orderRepository.save(order, employee);
 
         List<OrderDetail> orderDetails = new ArrayList<>();
         for (CartItemInput cartItem : cartInput.getCartItemInputs()) {
@@ -118,4 +122,38 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> findAll() { return orderRepository.findAll(); }
+
+    @Override
+    public List<Employee> findAllEmployees() {
+        return employeeRepository.findAll();
+    }
+
+    @Override
+    public Employee findEmployeeById(String employeeId) {
+        return employeeRepository.findById(employeeId);
+    }
+
+    @Override
+    public CartInput getCartInput() {
+        return sessionController.getCartInput();
+    }
+    @Override
+    public void setCartInput(CartInput cartInput) {
+        sessionController.setCartInput(cartInput);
+    }
+
+    @Override
+    public OrderInput getOrderInput() {
+        return sessionController.getOrderInput();
+    }
+
+    @Override
+    public void setOrderInput(OrderInput orderInput) {
+        sessionController.setOrderInput(orderInput);
+    }
+
+    @Override
+    public void clearSessionData(){
+        sessionController.clearData();
+    }
 }

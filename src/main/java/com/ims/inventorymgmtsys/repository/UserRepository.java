@@ -18,4 +18,8 @@ public interface UserRepository {
     User findByUserName(String userName);
 
     Optional<User> findByEmail(String email);  // 新しいメソッドの追加
+
+    boolean updateAuth(User user);
+
+    boolean updateIsEnabled(User user);
 }

@@ -22,24 +22,24 @@
                     <table>
                         <tr>
                             <th>氏名</th>
-                            <td><input type="text" th:field="*{name}" /><div th:error="*{name}"></div></td>
+                            <td><input type="text" th:field="*{name}" required /><div th:error="*{name}"></div></td>
                         </tr>
                         <tr>
                             <th>住所</th>
-                            <td><input type="text" th:field="*{address}" /><div th:error="*{address}"></div></td>
+                            <td><input type="text" th:field="*{address}" required /><div th:error="*{address}"></div></td>
                         </tr>
                         <tr>
                             <th>電話番号</th>
-                            <td><input type="text" th:field="*{phone}" /><div th:error="*{phone}"></div></td>
+                            <td><input type="text" th:field="*{phone}" required /><div th:error="*{phone}" ></div></td>
                         </tr>
                         <tr>
                             <th>メールアドレス</th>
-                            <td><input type="text" th:field="*{emailAddress}" /><div th:error="*{emailAddress}"></div></td>
+                            <td><input type="text" th:field="*{emailAddress}" required /><div th:error="*{emailAddress}"></div></td>
                         </tr>
                         <tr>
                             <th>支払い方法</th>
                             <td>
-                                <input type="radio" id="bankRadio" value="BANK" th:field="*{paymentMethod}" name="choice">
+                                <input type="radio" id="bankRadio" value="BANK" th:field="*{paymentMethod}" name="choice" required>
                                 <label for="bankRadio">銀行振込</label>
                                 <input type="radio" id="creditCardRadio" value="CREDIT_CARD" th:field="*{paymentMethod}" name="choice">
                                 <label for="creditCardRadio">クレジットカード</label>

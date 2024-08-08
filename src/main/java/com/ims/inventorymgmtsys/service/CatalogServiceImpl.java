@@ -1,6 +1,8 @@
 package com.ims.inventorymgmtsys.service;
 
 import com.ims.inventorymgmtsys.entity.Product;
+import com.ims.inventorymgmtsys.input.CartInput;
+import com.ims.inventorymgmtsys.input.CartItemInput;
 import com.ims.inventorymgmtsys.repository.ProductRepository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
@@ -25,5 +27,13 @@ public class CatalogServiceImpl implements CatalogService {
     @Override
     public Product findById(String id) {
         return productRepository.findById(id);
+    }
+
+    @Override
+    public CartItemInput createCartItemInput(String productId) {
+        CartItemInput cartItemInput = new CartItemInput();
+        cartItemInput.setQuantity(1);
+        cartItemInput.setProductId(productId);
+        return cartItemInput;
     }
 }

@@ -7,6 +7,7 @@ import com.ims.inventorymgmtsys.input.CartInput;
 import com.ims.inventorymgmtsys.input.OrderInput;
 import com.ims.inventorymgmtsys.service.EmployeeService;
 import com.ims.inventorymgmtsys.service.OrderService;
+import jakarta.validation.Valid;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,52 +34,53 @@ public class  OrderController {
 
     @GetMapping("/orderform")
     public String orderForm(Model model) {
-        OrderInput orderInput = new OrderInput();
-        orderInput.setPaymentMethod(PaymentMethod.BANK);
+//        OrderInput orderInput = new OrderInput();
+//        orderService.getOrderInput().setPaymentMethod(PaymentMethod.BANK);
+//
+//        List<Employee> employees = employeeService.findAll();
 
-        List<Employee> employees = employeeService.findAll();
+//        // Employeeリストの内容をログに出力
+//        for (Employee employee : employees) {
+//            System.out.println("Employee ID: " + employee.getEmployeeId() + ", Employee Name: " + employee.getEmployeeName());
+//        }
 
-        // Employeeリストの内容をログに出力
-        for (Employee employee : employees) {
-            System.out.println("Employee ID: " + employee.getEmployeeId() + ", Employee Name: " + employee.getEmployeeName());
-        }
-
-        model.addAttribute("employees", employees);
-        model.addAttribute("orderInput", orderInput);
+        model.addAttribute("employees", orderService.findAllEmployees());
+        model.addAttribute("orderInput", new OrderInput());
         return "order/orderForm";
     }
 
+    @Valid
     @PostMapping("orderconfirm")
     public String orderConfirm(@Validated  @ModelAttribute("orderInput") OrderInput orderInput, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "order/orderForm";
         }
 
-        String employeeId = orderInput.getEmployeeId();
+//        String employeeId = orderInput.getEmployeeId();
 
-        Employee employee = employeeService.findById(employeeId);
-        orderInput.setEmployeeName(employee.getEmployeeName());
-        orderInput.setEmployeeId(employee.getEmployeeId());
+        Employee employee = orderService.findEmployeeById(orderInput.getEmployeeId());
 
         if (employee == null) {
             bindingResult.rejectValue("employeeId", "error.employeeId", "Invalid employee selected");
-            model.addAttribute("employees", employeeService.findAll());
+            model.addAttribute("employees", orderService.findAllEmployees());
             return "order/orderForm";
         }
+        orderInput.setEmployeeName(employee.getEmployeeName());
+        orderInput.setEmployeeId(employee.getEmployeeId());
+//        sessionController.setOrderInput(orderInput);
+//        sessionController.setEmployee(employee);
+        orderService.setOrderInput(orderInput);
 
-        sessionController.setOrderInput(orderInput);
-        sessionController.setEmployee(employee);
-
-        model.addAttribute("cartInput", sessionController.getCartInput());
-        model.addAttribute("orderInput", sessionController.getOrderInput());
+        model.addAttribute("cartInput", orderService.getCartInput());
+        model.addAttribute("orderInput", orderService.getOrderInput());
         model.addAttribute("employee", employee.getEmployeeName());
         return "order/orderConfirmation";
     }
 
     @PostMapping(value="placeorder", params = "correct")
     public String correctOrder(@Validated OrderInput orderInput, Model model) {
-        List<Employee> employees = employeeService.findAll();
-        model.addAttribute("employees", employees);
+//        List<Employee> employees = employeeService.findAll();
+        model.addAttribute("employees", orderService.findAllEmployees());
         model.addAttribute("orderInput", sessionController.getOrderInput());
         return "order/orderForm";
     }
@@ -91,12 +93,20 @@ public class  OrderController {
 
     @PostMapping(value="placeorder", params = "placeorderconfirm")
     public String placeOrder(RedirectAttributes redirectAttributes) {
-        Employee employee = sessionController.getEmployee();
+        try {
+            Employee employee = orderService.findEmployeeById(orderService.getOrderInput().getEmployeeId());
+            if (employee == null) {
+            throw new IllegalArgumentException("Employee not found");
+            }
 
-        Order order = orderService.placeOrder(sessionController.getOrderInput(), sessionController.getCartInput(), employee );
+        Order order = orderService.placeOrder(orderService.getOrderInput(), orderService.getCartInput(), employee);
         redirectAttributes.addFlashAttribute("order", order);
-        sessionController.clearData();
+        orderService.clearSessionData();
         return "redirect:/order/orderCompletion";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "/order/orderForm";
+        }
     }
 
     @GetMapping("/orderCompletion")
