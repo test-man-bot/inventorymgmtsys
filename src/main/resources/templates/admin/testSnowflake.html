@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>snowflake Import</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}" />
+    <script type="text/javascript" th:src="@{/js/scripts.js}" defer></script>
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+</head>
+<body>
+<div class="hamburger-menu" onclick="openNav()">
+    <div class="menu-bar"></div>
+    <div class="menu-bar"></div>
+    <div class="menu-bar"></div>
+</div>
+<h1>Snowflake import test</h1>
+<div class="header-right" sec:authorize="isAuthenticated()">
+    こんにちは：<span sec:authentication="name"></span>さん
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="logout" />
+    </form>
+</div>
+<div id="mySidebar" class="sidebar">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a th:href="@{/admin/orders}">注文</a>
+    <a th:href="@{/admin/management}">商品</a>
+    <a th:href="@{/admin/employees}">人事</a>
+    <a th:href="@{/admin/sales}">売上</a>
+</div>
+<div class="container main-content">
+    <h2>Product table</h2>
+    <div th:text="${error}">
+        <p th:text="${error}" style="color: red"></p>
+    </div>
+    <table border="1" id="dataTable" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th th:each="key: ${snowData[0].keySet()}" th:text="${key}"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="row : ${snowData}">
+                <td th:each="value : ${row.values()}" th:text="${value}"></td>
+            </tr>
+        </tbody>
+    </table>
+    <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable();
+        });
+    </script>
+</div>
+</body>
+</html>
