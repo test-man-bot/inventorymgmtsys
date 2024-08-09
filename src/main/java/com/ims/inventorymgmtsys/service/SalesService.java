@@ -15,4 +15,8 @@ public interface SalesService {
     List<Map<String, Object>> getDailySalesData();
 
     void generateDailySalesChart(HttpServletResponse httpServletResponse) throws IOException;
+
+    String getSalesDataAsJson();
+
+    String getDailySalesDataAsJson();
 }

@@ -1,10 +1,18 @@
 package com.ims.inventorymgmtsys.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ims.inventorymgmtsys.repository.SalesRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtils;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.title.LegendTitle;
+import org.jfree.chart.title.TextTitle;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +27,7 @@ import java.util.Map;
 @Transactional
 public class SalesServiceImpl implements SalesService {
     private final SalesRepository salesRepository;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public SalesServiceImpl(SalesRepository salesRepository) {
         this.salesRepository = salesRepository;
@@ -31,10 +40,20 @@ public class SalesServiceImpl implements SalesService {
         return salesData;
     }
 
+    @Override
+    public String getSalesDataAsJson() {
+        try {
+            return objectMapper.writeValueAsString(getSalesData());
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Failed to convert sales data to Json");
+        }
+    }
+
+
+
     public void generateSalesChart(HttpServletResponse httpServletResponse) throws IOException {
         List<Map<String, Object>> salesData = getSalesData();
         if (salesData == null || salesData.isEmpty()) {
-            // デフォルトの画像などを返すことも可能です
             httpServletResponse.sendError(HttpServletResponse.SC_NO_CONTENT, "No sales data available");
             return;
         }
@@ -54,9 +73,26 @@ public class SalesServiceImpl implements SalesService {
                 dataset
         );
 
+        Font japaneseFont = new Font("MS Gothic", Font.PLAIN, 24);
+        barChart.setTitle(new TextTitle(barChart.getTitle().getText(), japaneseFont));
+
+        CategoryPlot plot = (CategoryPlot) barChart.getPlot();
+
+        BarRenderer renderer = (BarRenderer) plot.getRenderer();
+        renderer.setDefaultItemLabelFont(japaneseFont);
+
+        LegendTitle legend = barChart.getLegend();
+        legend.setItemFont(japaneseFont);
+
+        plot.getDomainAxis().setLabelFont(japaneseFont);
+        plot.getDomainAxis().setTickLabelFont(japaneseFont);
+
+        plot.getRangeAxis().setLabelFont(japaneseFont);
+        plot.getRangeAxis().setTickLabelFont(japaneseFont);
+
         barChart.setBackgroundPaint(Color.white);
         httpServletResponse.setContentType("image/png");
-        ChartUtils.writeChartAsPNG(httpServletResponse.getOutputStream(), barChart, 800, 600);
+        ChartUtils.writeChartAsPNG(httpServletResponse.getOutputStream(), barChart, 1000, 800);
     }
 
     @Override
@@ -67,10 +103,18 @@ public class SalesServiceImpl implements SalesService {
     }
 
     @Override
+    public String getDailySalesDataAsJson () {
+        try {
+            return objectMapper.writeValueAsString(getDailySalesData());
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Failed to convert daily sales data to JSON");
+        }
+    }
+
+    @Override
     public void generateDailySalesChart(HttpServletResponse httpServletResponse) throws IOException {
         List<Map<String, Object>> salesData = getDailySalesData();
         if (salesData == null || salesData.isEmpty()) {
-            // デフォルトの画像などを返すことも可能です
             httpServletResponse.sendError(HttpServletResponse.SC_NO_CONTENT, "No sales data available");
             return;
         }
@@ -79,7 +123,7 @@ public class SalesServiceImpl implements SalesService {
             String date = (String) sale.get("date");
             Number total = (Number) sale.get("total_date_yen");
             if (total != null) {
-                dataset.addValue(total, "売上金額（累積）", date);
+                dataset.addValue(total, "累積金額", date);
             }
         }
 
@@ -90,9 +134,26 @@ public class SalesServiceImpl implements SalesService {
                 dataset
         );
 
+        Font japaneseFont = new Font("MS Gothic", Font.PLAIN, 24);
+        barChart.setTitle(new TextTitle(barChart.getTitle().getText(), japaneseFont));
+
+        CategoryPlot plot = (CategoryPlot) barChart.getPlot();
+
+        BarRenderer renderer = (BarRenderer) plot.getRenderer();
+        renderer.setDefaultItemLabelFont(japaneseFont);
+
+        LegendTitle legend = barChart.getLegend();
+        legend.setItemFont(japaneseFont);
+
+        plot.getDomainAxis().setLabelFont(japaneseFont);
+        plot.getDomainAxis().setTickLabelFont(japaneseFont);
+
+        plot.getRangeAxis().setLabelFont(japaneseFont);
+        plot.getRangeAxis().setTickLabelFont(japaneseFont);
+
         barChart.setBackgroundPaint(Color.white);
         httpServletResponse.setContentType("image/png");
-        ChartUtils.writeChartAsPNG(httpServletResponse.getOutputStream(), barChart, 800, 600);
+        ChartUtils.writeChartAsPNG(httpServletResponse.getOutputStream(), barChart, 1000, 800);
     }
 
 }

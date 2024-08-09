@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>売上管理New</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="text/javascript" th:src="@{/js/scripts.js}" defer></script>
+
+</head>
+<body>
+<div class="hamburger-menu" onclick="openNav()">
+    <div class="menu-bar"></div>
+    <div class="menu-bar"></div>
+    <div class="menu-bar"></div>
+</div>
+<h1>売上管理New</h1>
+<div class="header-right" sec:authorize="isAuthenticated()">
+    こんにちは：<span sec:authentication="name"></span>さん
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="logout" />
+    </form>
+</div>
+<div id="mySidebar" class="sidebar">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a th:href="@{/admin/orders}">注文</a>
+    <a th:href="@{/admin/management}">商品</a>
+    <a th:href="@{/admin/employees}">人事</a>
+    <a th:href="@{/admin/sales}">売上</a>
+</div>
+<div class="container main-content">
+    <h2>注文別売上グラフ</h2>
+    <canvas id="salesChart" width="800" height="400"></canvas>
+    <script th:inline="javascript">
+        var salesData = /*[[${salesData}]]*/ '[]';
+        var parseData = JSON.parse(salesData);
+
+        var ctx = document.getElementById('salesChart').getContext('2d');
+        var salesChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: parseData.map(item => item.ORDER_ID),
+                datasets: [{
+                    label: 'Sales',
+                    data: parseData.map(item => item.total_yen),
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+    <h2>日次売上グラフ</h2>
+    <canvas id="dailySalesChart" width="800" height="400"></canvas>
+    <script th:inline="javascript">
+        var dailySalesData = /*[[${dailySalesData}]]*/ '[]';
+        var parseData = JSON.parse(dailySalesData);
+
+        var ctx = document.getElementById('dailySalesChart').getContext('2d');
+        var dailySalesChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: parseData.map(item => item.DATE),
+                datasets: [{
+                    label: 'DailySales',
+                    data: parseData.map(item => item.TOTAL_DATE_YEN),
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</div>
+</body>
+</html>

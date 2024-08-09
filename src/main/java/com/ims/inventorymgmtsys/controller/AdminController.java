@@ -153,4 +153,13 @@ public class AdminController {
         salesService.generateDailySalesChart(httpServletResponse);
     }
 
+    @GetMapping("/salesnew")
+    public String getSalesDataNew(Model model) {
+        model.addAttribute("salesData", salesService.getSalesDataAsJson());
+        model.addAttribute("dailySalesData", salesService.getDailySalesDataAsJson());
+        return "admin/adminSalesNew";
+    }
+
+
+
 }
