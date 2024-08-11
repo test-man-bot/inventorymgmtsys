@@ -20,7 +20,8 @@ public class JdbcSnowflakeRepository implements SnowflakeRepository{
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private static final String url = "jdbc:snowflake://koosbwr-bz61012.snowflakecomputing.com/?useProxy=true&proxyHost=165.225.110.28&proxyPort=80&user=testmkasa&password=2wsx!QAZ&JDBC_QUERY_RESULT_FORMAT=JSON";
+//private static final String url = "jdbc:snowflake://koosbwr-bz61012.snowflakecomputing.com/?user=testmkasa&password=2wsx!QAZ&JDBC_QUERY_RESULT_FORMAT=JSON";
+    private static final String url = System.getenv("SNOW_URL");
 
     @Override
     public List<Map<String, String >> findAll() throws SQLException, ClassNotFoundException {
