@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title>snowflake Import Test</title>
+    <title>snowflake Import</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}" />
     <script type="text/javascript" th:src="@{/js/scripts.js}" defer></script>
@@ -21,7 +21,7 @@
     <div class="menu-bar"></div>
     <div class="menu-bar"></div>
 </div>
-<h1>Snowflake import test</h1>
+<h1>Snowflake import</h1>
 <div class="header-right" sec:authorize="isAuthenticated()">
     こんにちは：<span sec:authentication="name"></span>さん
     <form th:action="@{/logout}" method="post">
@@ -39,27 +39,36 @@
     <a th:href="@{/system/systeminfo}">SystemInfo</a>
     <a th:href="@{/external/snowflakeinput}">SnowflakeInput</a></div>
 <div class="container main-content">
-    <h2>Product table</h2>
-    <div th:if="${error}">
-        <p th:text="${error}" style="color: red"></p>
-    </div>
-    <table border="1" id="dataTable" class="display" style="width:100%">
-        <thead>
-            <tr>
-                <th th:each="key: ${snowData[0].keySet()}" th:text="${key}"></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="row : ${snowData}">
-                <td th:each="value : ${row.values()}" th:text="${value}"></td>
-            </tr>
-        </tbody>
-    </table>
-    <script>
-        $(document).ready(function() {
-            $('#dataTable').DataTable();
-        });
-    </script>
+        <h2>SnowFlake Connection</h2>
+        <form action="#" method="post" th:action="@{/external/snowflake/connect}">
+            <div class="snowflake-form">
+                <div class="form-group">
+                    <label for="url">接続URL:</label>
+                    <input type="text" id="url" name="url" required /><br/>
+                </div>
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required /><br/>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required /><br/>
+                </div>
+                <div class="form-group">
+                    <label for="dbname">DB:</label>
+                    <input type="text" id="dbname" name="dbname" required /><br/>
+                </div>
+                <div class="form-group">
+                    <label for="schemaname">Schema:</label>
+                    <input type="text" id="schemaname" name="schemaname" required /><br/>
+                </div>
+                <div class="form-group">
+                    <label for="tablename">Table:</label>
+                    <input type="text" id="tablename" name="tablename" required /><br/>
+                </div>
+            </div>
+            <input type="submit" value="接続" name="connect">
+        </form>
 </div>
 </body>
 </html>

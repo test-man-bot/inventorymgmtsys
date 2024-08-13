@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title>snowflake Import Test</title>
+    <title>snowflake Import</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}" />
     <script type="text/javascript" th:src="@{/js/scripts.js}" defer></script>
@@ -37,29 +37,32 @@
     <a th:href="@{/admin/salesnew}">売上new</a>
     <a th:href="@{/external/snowflaketest}">SnowflakeTest</a>
     <a th:href="@{/system/systeminfo}">SystemInfo</a>
-    <a th:href="@{/external/snowflakeinput}">SnowflakeInput</a></div>
+    <a th:href="@{/external/snowflakeinput}">SnowflakeInput</a>
+</div>
 <div class="container main-content">
-    <h2>Product table</h2>
-    <div th:if="${error}">
-        <p th:text="${error}" style="color: red"></p>
-    </div>
-    <table border="1" id="dataTable" class="display" style="width:100%">
+    <h2>SnowFlake Connection</h2>
+    <a href="/external/snowflakeinput">Back</a></div>
+    <div th:if="${message}" th:text="${message}"></div>
+    <div th:if="${error}" th:text="${error}"></div>
+    <table border="1" id="dataTable" class="display" style="width=100%">
         <thead>
-            <tr>
-                <th th:each="key: ${snowData[0].keySet()}" th:text="${key}"></th>
-            </tr>
+        <tr>
+            <th th:each="header : ${snowData.get(0).keySet()}">
+                <span th:text="${header}"></span>
+            </th>
+        </tr>
         </thead>
         <tbody>
-            <tr th:each="row : ${snowData}">
-                <td th:each="value : ${row.values()}" th:text="${value}"></td>
-            </tr>
+        <tr th:each="row : ${snowData}">
+            <td th:each="value : ${row.values()}" th:text="${value}"></td>
+        </tr>
         </tbody>
     </table>
-    <script>
-        $(document).ready(function() {
-            $('#dataTable').DataTable();
-        });
-    </script>
-</div>
+<!--    <a href="/external/snowflakeinput">Back</a></div>-->
+<script>
+    $(document).ready(function() {
+        $('#dataTable').DataTable();
+    });
+</script>
 </body>
 </html>

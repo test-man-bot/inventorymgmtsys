@@ -36,7 +36,7 @@ public class SecurityConfig {
                     .requestMatchers("/fragments/**","/js/**","/css/**","/images/**").permitAll()
                     .requestMatchers("/login", "/register").permitAll()
                     .requestMatchers("/catalog/**", "/order/**", "/cart/**").hasAnyRole("ADMIN", "USER")
-                    .requestMatchers("/admin/**","/sales/**").hasAuthority("ROLE_ADMIN")
+                    .requestMatchers("/admin/**","/sales/**","/system/**").hasAuthority("ROLE_ADMIN")
                     .requestMatchers("/h2-console/**").permitAll()  // H2コンソールへのアクセスを許可
                     .anyRequest().authenticated()
                 .and()

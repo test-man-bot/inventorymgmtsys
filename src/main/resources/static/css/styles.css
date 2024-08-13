@@ -189,7 +189,7 @@ input[name="placeorderconfirm"] {
     margin: 0 auto;
 }
 
-
+input[name="connect"],
 input[name="correct"],
 input[name="correctproduct"] {
     display: inline-block;
@@ -339,3 +339,32 @@ span.error-message {
 .newaccount {
     color: green;
 }
+
+.snowflake-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.snowflake-form .form-group {
+    width: 60%;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+
+.snowflake-form label {
+    width: 30%;
+    text-align: right;
+    margin-right: 10px; /* ラベルと入力フィールドの間のスペース */
+}
+
+.snowflake-form input[type="text"],
+.snowflake-form input[type="password"] {
+    width: 70%; /* 必要に応じて調整 */
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+

@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS t_product;
 DROP TABLE IF EXISTS employee;
 DROP TABLE IF EXISTS authorities;
 DROP TABLE IF EXISTS t_user;
+DROP TABLE IF EXISTS system_info;
 DROP ALIAS IF EXISTS gen_random_uuid;
 CREATE ALIAS gen_random_uuid AS '
 import java.util.UUID;
@@ -59,3 +60,13 @@ create table if not exists authorities (
     authority varchar(100) NOT NULL,
     FOREIGN KEY (username) REFERENCES t_user(username)
 );
+
+CREATE TABLE system_info (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    availableProcessors INT,
+    systemLoadAverage DOUBLE,
+    usedHeapMemory BIGINT,
+    maxHeapMemory BIGINT,
+    recordedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
