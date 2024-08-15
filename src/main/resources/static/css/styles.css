@@ -19,8 +19,8 @@ h2 {
 }
 
 .container {
-    width: 90%; /* コンテナの幅を指定 */
-    max-width: 1200px; /* 最大幅を設定 */
+    width: 100%; /* コンテナの幅を指定 */
+    max-width: 1400px; /* 最大幅を設定 */
     text-align: center;
 }
 
@@ -74,7 +74,7 @@ h2 {
 }
 
 .main-content {
-    margin-left: 60px; /* サイドバーの幅 */
+    margin-left: 20px; /* サイドバーの幅 */
 }
 
 .table-section {
@@ -368,3 +368,71 @@ span.error-message {
     border-radius: 4px;
 }
 
+/* 全てのボタンに適用する基本スタイル */
+button {
+    background-color: #007bff; /* ボタンの背景色 */
+    border: none; /* ボーダーなし */
+    color: white; /* テキストの色 */
+    padding: 10px 20px; /* 上下、左右のパディング */
+    text-align: center; /* テキストの位置を中央に */
+    text-decoration: none; /* テキストの下線を削除 */
+    display: inline-block; /* インラインブロック表示 */
+    font-size: 16px; /* フォントサイズ */
+    margin: 4px 2px; /* 上下、左右のマージン */
+    cursor: pointer; /* カーソルをポインタに */
+    border-radius: 5px; /* ボタンの角を丸くする */
+    transition: background-color 0.3s ease; /* 背景色の遷移効果 */
+}
+
+/* ボタンのホバー時のスタイル */
+button:hover {
+    background-color: #0056b3; /* ホバー時の背景色 */
+}
+
+/* ボタンのアクティブ時のスタイル */
+button:active {
+    background-color: #003d7a; /* クリック時の背景色 */
+    box-shadow: inset 0px 3px 5px rgba(0, 0, 0, 0.125); /* クリック時のシャドウ */
+}
+
+/* ログアウトボタンのスタイル */
+.logout-button {
+    background-color: #dc3545; /* 背景色（赤） */
+    border: none; /* ボーダーなし */
+    color: white; /* テキストの色 */
+    padding: 10px 20px; /* 上下、左右のパディング */
+    text-align: center; /* テキストの位置を中央に */
+    text-decoration: none; /* テキストの下線を削除 */
+    display: inline-block; /* インラインブロック表示 */
+    font-size: 16px; /* フォントサイズ */
+    margin: 4px 2px; /* 上下、左右のマージン */
+    cursor: pointer; /* カーソルをポインタに */
+    border-radius: 5px; /* ボタンの角を丸くする */
+    transition: background-color 0.3s ease; /* 背景色の遷移効果 */
+}
+
+/* ログアウトボタンのホバー時のスタイル */
+.logout-button:hover {
+    background-color: #c82333; /* ホバー時の背景色（赤） */
+}
+
+/* ログアウトボタンのアクティブ時のスタイル */
+.logout-button:active {
+    background-color: #a71d2a; /* クリック時の背景色（赤） */
+    box-shadow: inset 0px 3px 5px rgba(0, 0, 0, 0.125); /* クリック時のシャドウ */
+}
+
+.container pre {
+    white-space: pre-wrap; /* 折り返しを有効にする */
+    word-wrap: break-word; /* 長い単語を適切に折り返す */
+    overflow-wrap: break-word; /* 同様に長い単語を折り返す */
+    max-width: 100%; /* 親コンテナの幅を超えないようにする */
+}
+
+.success-message {
+    color: green;
+}
+
+.error-message {
+    color: red;
+}

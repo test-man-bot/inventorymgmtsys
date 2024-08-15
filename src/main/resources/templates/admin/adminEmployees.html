@@ -2,34 +2,20 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-  <title>管理者TOP</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}" />
-  <script type="text/javascript" th:src="@{/js/scripts.js}" defer></script>
+  <meta th:replace="~{fragments/head :: headmeta}" />
+  <link th:replace="~{fragments/head :: headlink1}" />
+  <script th:replace="~{fragments/head :: headscript1}" ></script>
+  <link th:replace="~{fragments/head :: headlink2}" />
+  <script th:replace="~{fragments/head :: headscript2}" ></script>
+  <script th:replace="~{fragments/head :: headscript3}" ></script>
+  <script th:replace="~{fragments/head :: headscript4}" ></script>
+  <title>人事管理</title>
 </head>
 <body>
-<div class="hamburger-menu" onclick="openNav()">
-  <div class="menu-bar"></div>
-  <div class="menu-bar"></div>
-  <div class="menu-bar"></div>
-</div>
+<div th:replace="~{'fragments/hamburger-menu' :: hamburgerMenu}"></div>
 <h1>人事管理</h1>
-<div class="header-right" sec:authorize="isAuthenticated()">
-  こんにちは：<span sec:authentication="name"></span>さん
-  <form th:action="@{/logout}" method="post">
-    <input type="submit" value="logout" />
-  </form>
-</div>
-<div id="mySidebar" class="sidebar">
-  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-  <a th:href="@{/admin/orders}">注文</a>
-  <a th:href="@{/admin/management}">商品</a>
-  <a th:href="@{/admin/employees}">人事</a>
-  <a th:href="@{/admin/sales}">売上</a>
-  <a th:href="@{/admin/salesnew}">売上new</a>
-  <a th:href="@{/external/snowflaketest}">SnowflakeTest</a>
-  <a th:href="@{/system/systeminfo}">SystemInfo</a>
-  <a th:href="@{/external/snowflakeinput}">SnowflakeInput</a></div>
+<div th:replace="~{fragments/header-right}"></div>
+<div th:replace="~{'fragments/sidebar' :: sidebar}"></div>
 <div class="container main-content">
   <form th:action="@{/admin/update-employees}" method="post" th:object="${employeeWrapper}">
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>

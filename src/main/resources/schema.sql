@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS employee;
 DROP TABLE IF EXISTS authorities;
 DROP TABLE IF EXISTS t_user;
 DROP TABLE IF EXISTS system_info;
+DROP TABLE IF EXISTS audit_log;
 DROP ALIAS IF EXISTS gen_random_uuid;
 CREATE ALIAS gen_random_uuid AS '
 import java.util.UUID;
@@ -70,3 +71,10 @@ CREATE TABLE system_info (
     recordedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE audit_log (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255),
+    eventType VARCHAR(255),
+    details TEXT,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

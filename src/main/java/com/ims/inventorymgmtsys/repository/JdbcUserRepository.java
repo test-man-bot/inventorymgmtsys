@@ -2,6 +2,8 @@ package com.ims.inventorymgmtsys.repository;
 
 import com.ims.inventorymgmtsys.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.DataClassRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -37,6 +39,7 @@ public class JdbcUserRepository implements UserRepository{
 
     @Override
     public void save(User user){
+        try {
         String id = UUID.randomUUID().toString();
         user.setId(id);
         jdbcTemplate.update("INSERT into t_user VALUES (?, ?, ?, ?, ?, ?, ?)",
@@ -48,6 +51,9 @@ public class JdbcUserRepository implements UserRepository{
                 user.getPassword(),
                 user.getEnabled()
                 );
+        } catch (DuplicateKeyException e) {
+            throw new DataIntegrityViolationException("ユーザがすでに存在します : " + user.getUserName(), e);
+        }
     }
 
     @Override

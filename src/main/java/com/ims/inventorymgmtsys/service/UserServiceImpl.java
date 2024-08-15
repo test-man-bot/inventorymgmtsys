@@ -4,10 +4,12 @@ import com.ims.inventorymgmtsys.entity.User;
 import com.ims.inventorymgmtsys.exception.UserAlreadyExistsException;
 import com.ims.inventorymgmtsys.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -55,11 +57,14 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void registerUser(User user) throws UserAlreadyExistsException {
-        User existsUser = selectById(user.getId());
-        if ( existsUser != null) {
+//        User existsUser = selectById(user.getId());
+        User existsUserByUserName = userRepository.findByUserName(user.getUserName());
+
+        Optional<User> existsUserByEmail = userRepository.findByEmail(user.getEmailAddress());
+        if ( existsUserByUserName != null || existsUserByEmail.isPresent()) {
             throw new UserAlreadyExistsException("User already exists");
         }
-        createUser(user);
+            createUser(user);
     }
 
 }

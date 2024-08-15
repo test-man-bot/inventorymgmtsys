@@ -9,19 +9,20 @@
     <script th:replace="~{fragments/head :: headscript2}" ></script>
     <script th:replace="~{fragments/head :: headscript3}" ></script>
     <script th:replace="~{fragments/head :: headscript4}" ></script>
-    <title>売上管理</title>
+    <title>Error</title>
 </head>
 <body>
-<div th:replace="~{'fragments/hamburger-menu' :: hamburgerMenu}"></div>
-<h1>売上管理</h1>
+<div class="hamburger-menu" onclick="openNav()">
+    <div class="menu-bar"></div>
+    <div class="menu-bar"></div>
+    <div class="menu-bar"></div>
+</div>
+<h1>Error</h1>
 <div th:replace="~{fragments/header-right}"></div>
 <div th:replace="~{'fragments/sidebar' :: sidebar}"></div>
 <div class="container main-content">
-    <h2>注文別売上グラフ</h2>
-    <img th:src="${graphUrl}" alt="売上データが存在しません、注文を入れてください">
-
-    <h2>日次売上グラフ</h2>
-    <img th:src="${dailyGraphUrl}" alt="売上データが存在しません、注文を入れてください">
+    <h2>Error</h2>
+    <p> エラーが発生しました。メニューから戻ってください</p>
 </div>
 </body>
 </html>

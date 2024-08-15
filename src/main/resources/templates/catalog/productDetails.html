@@ -10,8 +10,8 @@
 <h1>商品詳細</h1>
 <div class="header-right" sec:authorize="isAuthenticated()">
     こんにちは：<span sec:authentication="name"></span>さん
-    <form th:action="@{/logout}" method="post">
-        <input type="submit" value="logout" />
+    <form th:action="@{/logout}" method="post" class="logout-form">
+        <button type="submit" class="logout-button">Logout</button>
     </form>
 </div>
 

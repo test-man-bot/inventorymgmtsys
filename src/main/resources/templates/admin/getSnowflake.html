@@ -2,49 +2,28 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
+    <meta th:replace="~{fragments/head :: headmeta}" />
+    <link th:replace="~{fragments/head :: headlink1}" />
+    <script th:replace="~{fragments/head :: headscript1}" ></script>
+    <link th:replace="~{fragments/head :: headlink2}" />
+    <script th:replace="~{fragments/head :: headscript2}" ></script>
+    <script th:replace="~{fragments/head :: headscript3}" ></script>
+    <script th:replace="~{fragments/head :: headscript4}" ></script>
     <title>snowflake Import</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}" />
-    <script type="text/javascript" th:src="@{/js/scripts.js}" defer></script>
-    <!-- DataTables CSS -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <!-- DataTables JS -->
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
-<div class="hamburger-menu" onclick="openNav()">
-    <div class="menu-bar"></div>
-    <div class="menu-bar"></div>
-    <div class="menu-bar"></div>
-</div>
-<h1>Snowflake import test</h1>
-<div class="header-right" sec:authorize="isAuthenticated()">
-    こんにちは：<span sec:authentication="name"></span>さん
-    <form th:action="@{/logout}" method="post">
-        <input type="submit" value="logout" />
-    </form>
-</div>
-<div id="mySidebar" class="sidebar">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <a th:href="@{/admin/orders}">注文</a>
-    <a th:href="@{/admin/management}">商品</a>
-    <a th:href="@{/admin/employees}">人事</a>
-    <a th:href="@{/admin/sales}">売上</a>
-    <a th:href="@{/admin/salesnew}">売上new</a>
-    <a th:href="@{/external/snowflaketest}">SnowflakeTest</a>
-    <a th:href="@{/system/systeminfo}">SystemInfo</a>
-    <a th:href="@{/external/snowflakeinput}">SnowflakeInput</a>
-</div>
+<div th:replace="~{'fragments/hamburger-menu' :: hamburgerMenu}"></div>
+<h1>Snowflake import</h1>
+<div th:replace="~{fragments/header-right}"></div>
+<div th:replace="~{'fragments/sidebar' :: sidebar}"></div>
 <div class="container main-content">
-    <h2>SnowFlake Connection</h2>
-    <a href="/external/snowflakeinput">Back</a></div>
+    <h2>SnowFlake Connector</h2>
+    <button id="exportButton">Export to CSV</button>
     <div th:if="${message}" th:text="${message}"></div>
     <div th:if="${error}" th:text="${error}"></div>
-    <table border="1" id="dataTable" class="display" style="width=100%">
+
+<div th:if="${snowData != null && !snowData.isEmpty()}">
+    <table border="1" id="dataTable" class="display">
         <thead>
         <tr>
             <th th:each="header : ${snowData.get(0).keySet()}">
@@ -58,10 +37,17 @@
         </tr>
         </tbody>
     </table>
-<!--    <a href="/external/snowflakeinput">Back</a></div>-->
+</div>
+<div th:if="${snowData == null or snowData.isEmpty()}">
+    <p>データが存在しないか、指定したテーブル、スキーマ、DBなどに誤りがあります。</p>
+</div>
+    <a href="/external/snowflakeinput">Back</a></div>
 <script>
     $(document).ready(function() {
         $('#dataTable').DataTable();
+    });
+    $('#exportButton').click(function() {
+        window.location.href = '/external/exportSnowflakeData';
     });
 </script>
 </body>

@@ -1,5 +1,6 @@
 package com.ims.inventorymgmtsys.config;
 
+import com.ims.inventorymgmtsys.service.AuditlogService;
 import com.ims.inventorymgmtsys.service.CustomOAuth2UserService;
 import com.ims.inventorymgmtsys.service.LoginUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -22,6 +24,13 @@ public class SecurityConfig {
 
     @Autowired
     private CustomOAuth2UserService customOAuth2UserService;
+
+    @Autowired
+    private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+
+    @Autowired
+    private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -44,16 +53,18 @@ public class SecurityConfig {
                     .loginPage("/login")
                     .permitAll()
 //                    .defaultSuccessUrl("/catalog/list", true)
-                    .successHandler(authenticationSuccessHandler())
-                    .failureUrl("/login?failure")
+                    .successHandler(customAuthenticationSuccessHandler)
+                    .failureHandler(customAuthenticationFailureHandler)
+//                    .failureUrl("/login?failure")
                 .and()
                 .oauth2Login()
                     .loginPage("/login")
-                    .failureUrl("/login?failure")
+//                    .failureUrl("/login?failure")
                     .userInfoEndpoint()
                     .userService(customOAuth2UserService)
                 .and()
-                    .successHandler(authenticationSuccessHandler())
+                    .successHandler(customAuthenticationSuccessHandler)
+                    .failureHandler(customAuthenticationFailureHandler)
                 .and()
                 .csrf()
                     .ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**"))  // H2コンソールのCSRFを無視
@@ -70,9 +81,14 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
-    public AuthenticationSuccessHandler authenticationSuccessHandler() {
-        return new CustomAuthenticationSuccessHandler();
-    }
+//    @Bean
+//    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+//        return new CustomAuthenticationSuccessHandler();
+//    }
+//
+//    @Bean
+//    public AuthenticationFailureHandler authenticationFailureHandler() {
+//        return new CustomAuthenticationFailureHandler();
+//    }
 
 }

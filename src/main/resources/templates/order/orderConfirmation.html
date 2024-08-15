@@ -10,8 +10,9 @@
 <h1>注文確認</h1>
 <div class="header-right" sec:authorize="isAuthenticated()">
     こんにちは：<span sec:authentication="name"></span>さん
-    <form th:action="@{/logout}" method="post">
-        <input type="submit" value="logout" />
+    <form th:action="@{/logout}" method="post" class="logout-form">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        <button type="submit" class="logout-button">Logout</button>
     </form>
 </div>
 

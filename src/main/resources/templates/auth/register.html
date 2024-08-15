@@ -29,6 +29,9 @@
                 <a th:href="@{/login}">Return to login</a>
             </div>
         </form>
+    <div th:if="${errorMessage}">
+        <p th:text="${errorMessage}" class="error-message"></p>
+    </div>
 </div>
 </body>
 </html>

@@ -9,10 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class JdbcSnowflakeRepository implements SnowflakeRepository{
@@ -70,7 +67,7 @@ public class JdbcSnowflakeRepository implements SnowflakeRepository{
             int columnCount = metaData.getColumnCount();
 
             while (rs.next()) {
-                Map<String, String> row = new HashMap<>();
+                Map<String, String> row = new LinkedHashMap<>();
                 for (int i = 1; i <= columnCount; i++) {
                     String columnName = metaData.getColumnName(i);
                     String columnValue = rs.getString(i);
