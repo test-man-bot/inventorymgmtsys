@@ -1,19 +1,12 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-    <head>
-        <title>商品一覧</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}" />
-    </head>
-    <body>
+<head th:replace="~{fragments/head :: commonhead('商品一覧')}" ></head>
+<body>
+    <div th:replace="~{'fragments/hamburger-menu' :: hamburgerMenu}"></div>
     <h1>商品一覧</h1>
-    <div class="header-right" sec:authorize="isAuthenticated()">
-        こんにちは：<span sec:authentication="name"></span>さん
-        <form th:action="@{/logout}" method="post" class="logout-form">
-            <button type="submit" class="logout-button">Logout</button>
-        </form>
-    </div>
+    <div th:replace="~{fragments/header-right}"></div>
+    <div th:replace="~{'fragments/sidebar-user' :: sidebar-user}"></div>
     <div class="container">
         <table>
             <tr>

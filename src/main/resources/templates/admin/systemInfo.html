@@ -9,6 +9,7 @@
     <script th:replace="~{fragments/head :: headscript2}" ></script>
     <script th:replace="~{fragments/head :: headscript3}" ></script>
     <script th:replace="~{fragments/head :: headscript4}" ></script>
+    <script th:replace="~{fragments/head :: headscript5}" ></script>
     <title>SystemInfo</title>
 </head>
 <body>
@@ -34,7 +35,11 @@
 
             var labels = parseData.map(item => item.timestamp);
             var cpuLoad = parseData.map(item => item.systemLoadAverage);
-            var memoryUsed = parseData.map(item => item.usedHeapMemory);
+            var memoryUsed = parseData.map(item => {
+                var memoryInMB = item.usedHeapMemory / ( 1024 * 1024 );
+                var memoryInGB = memoryInMB / 1024;
+                return memoryInGB >= 1 ? memoryInGB.toFixed(2) + ' GB' : memoryInMB.toFixed(2) + ' MB';
+                });
 
             const ctxLoadAverage = document.getElementById('systemInfoChart-loadAverage').getContext('2d');
             new Chart(ctxLoadAverage, {
@@ -51,11 +56,15 @@
                 },
                 options: {
                     responsive: true,
-                    scale: {
+                    scales: {
                         x: {
                             type: 'time',
                             time: {
-                                unit: 'minute'
+                                unit: 'minute',
+                                tooltipFormat: 'HH:mm:ss',
+                                displayFormats: {
+                                    minute: 'HH:mm'
+                                }
                             },
                             title: {
                                 display: true,
@@ -65,7 +74,7 @@
                         y: {
                            title: {
                                 display: true,
-                                text: '値'
+                                text: 'CPU負荷(値)'
                             }
                         }
                     }
@@ -79,7 +88,7 @@
                     labels: labels,
                     datasets: [{
                         label: 'Memory使用量',
-                        data: memoryUsed,
+                        data: parseData.map(item => item.usedHeapMemory / ( 1024 * 1024 )),
                         borderColor: 'rgba(75, 192, 192, 1)',
                         borderWidth: 1,
                         fill: false
@@ -87,11 +96,15 @@
                 },
                 options: {
                     responsive: true,
-                    scale: {
+                    scales: {
                         x: {
                             type: 'time',
                             time: {
-                                unit: 'minute'
+                                unit: 'minute',
+                                tooltipFormat: 'HH:mm:ss',
+                                displayFormats: {
+                                    minute: 'HH:mm'
+                                }
                             },
                             title: {
                                 display: true,
@@ -101,7 +114,13 @@
                         y: {
                            title: {
                                 display: true,
-                                text: '値'
+                                text: 'Memory使用量'
+                            },
+                            ticks: {
+                                callback: function(value, index, values) {
+                                    var valueInGB = value / 1024;
+                                    return valueInGB >= 1 ? valueInGB.toFixed(2) + ' GB' : value.toFixed(2) + ' MB';
+                                }
                             }
                         }
                     }

@@ -1,13 +1,18 @@
-<meta th:fragment="headmeta" http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link th:fragment="headlink1" rel="stylesheet" type="text/css" th:href="@{/css/styles.css}" />
-<script th:fragment="headscript1" type="text/javascript" th:src="@{/js/scripts.js}" defer></script>
+<head th:fragment="commonhead(title)">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link  rel="stylesheet" type="text/css" th:href="@{/css/styles.css}" />
+<script  type="text/javascript" th:src="@{/js/scripts.js}" defer></script>
 <!-- DataTables CSS -->
-<link th:fragment="headlink2" rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+<link  rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 
 <!-- jQuery -->
-<script th:fragment="headscript2" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script  src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <!-- DataTables JS -->
-<script th:fragment="headscript3" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script  src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
-<script th:fragment="headscript4" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script  src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script  src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+<title th:text="${title}"></title>
+</head>
+

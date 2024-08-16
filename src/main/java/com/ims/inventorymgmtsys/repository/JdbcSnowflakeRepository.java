@@ -58,7 +58,16 @@ public class JdbcSnowflakeRepository implements SnowflakeRepository{
         String db = connectionDetails.getDbname();
         String schema = connectionDetails.getSchemaname();
         String table = connectionDetails.getTablename();
-        String fullUrl = connectionDetails.getUrl() + "?user=" + encodedUsername + "&password=" + encodedPassword + "&JDBC_QUERY_RESULT_FORMAT=JSON";
+        String baseUrl = connectionDetails.getUrl();
+        String parameters = "user=" + encodedUsername + "&password=" + encodedPassword + "&JDBC_QUERY_RESULT_FORMAT=JSON";
+        String fullUrl;
+
+        if (baseUrl.contains("?")) {
+            fullUrl = baseUrl + "&" + parameters;
+        } else {
+            fullUrl = baseUrl + "?" + parameters;
+        }
+
         try (Connection conn = DriverManager.getConnection(fullUrl);
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM " +  db + "." + schema + "." + table)) {
