@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>ショッピングカート</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}" />
-</head>
+<head th:replace="~{fragments/head :: commonhead('ショッピングカート')}" ></head>
 <body>
+<div th:replace="~{'fragments/hamburger-menu' :: hamburgerMenu}"></div>
 <h1>ショッピングカート</h1>
+<div th:replace="~{fragments/header-right}"></div>
+<div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+    <div th:replace="~{'fragments/sidebar' :: sidebar}"></div>
+</div>
+<div th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}">
+    <div th:replace="~{'fragments/sidebar-user' :: sidebar-user}"></div>
+</div>
 <div class="container">
         <table>
             <tr>

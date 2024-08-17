@@ -33,6 +33,8 @@ public class CustomUserDetails implements UserDetails, Serializable {
         return user.getUserName();
     }
 
+    public String getUserId() { return user.getId(); }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;

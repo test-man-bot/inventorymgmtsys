@@ -1,21 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <title>注文確定</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}" />
-</head>
+<head th:replace="~{fragments/head :: commonhead('注文確定')}" ></head>
 <body>
+<div th:replace="~{'fragments/hamburger-menu' :: hamburgerMenu}"></div>
 <h1>注文が確定しました</h1>
-<div class="header-right" sec:authorize="isAuthenticated()">
-    こんにちは：<span sec:authentication="name"></span>さん
-    <form th:action="@{/logout}" method="post" class="logout-form">
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-        <button type="submit" class="logout-button">Logout</button>
-    </form>
+<div th:replace="~{fragments/header-right}"></div>
+<div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+    <div th:replace="~{'fragments/sidebar' :: sidebar}"></div>
 </div>
-
+<div th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}">
+    <div th:replace="~{'fragments/sidebar-user' :: sidebar-user}"></div>
+</div>
 <div class="container">
     ご購入ありがとうございました。<br>
     引き続きショッピングをお楽しみ頂く場合は下記の「商品一覧に戻る」からお進みください。

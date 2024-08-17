@@ -24,12 +24,17 @@ public class JdbcUserRepository implements UserRepository{
 
     @Override
     public User findById(String id) {
-        List<User> users = jdbcTemplate.query(
-                "SELECT * FROM t_user WHERE id = ?",
-                new BeanPropertyRowMapper<>(User.class),
-                id
-        );
-        return users.isEmpty() ? null : users.get(0);
+        try {
+            UUID uuid = UUID.fromString(id);
+            List<User> users = jdbcTemplate.query(
+                    "SELECT * FROM t_user WHERE id = ?",
+                    new BeanPropertyRowMapper<>(User.class),
+                    uuid
+            );
+            return users.isEmpty() ? null : users.get(0);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
@@ -58,14 +63,13 @@ public class JdbcUserRepository implements UserRepository{
 
     @Override
     public boolean update(User user) {
-        int count = jdbcTemplate.update("UPDATE t_user SET userName=?, emailAddress=?, address=?, phone=?, password=?, enabled=? WHERE id=?",
+        System.out.println("Updating user with ID: " + user.getId());
+        int count = jdbcTemplate.update("UPDATE t_user SET userName=?, emailAddress=?, address=?, phone=? WHERE id=?",
                 user.getUserName(),
                 user.getEmailAddress(),
                 user.getAddress(),
                 user.getPhone(),
-                user.getPassword(),
-                user.getId(),
-                user.getEnabled()
+                UUID.fromString(user.getId())
                 );
         return count != 0;
     }

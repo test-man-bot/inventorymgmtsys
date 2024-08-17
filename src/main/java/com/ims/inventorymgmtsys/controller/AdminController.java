@@ -74,7 +74,7 @@ public class AdminController {
             model.addAttribute("errorMessage2", "商品の追加中にエラーが発生しました" + e.getMessage());
         }
         model.addAttribute("orderList", orderService.findAll());
-        model.addAttribute("productWrapper", new ProductWrapper(productService.findAll()));
+        model.addAttribute( "productWrapper", new ProductWrapper(productService.findAll()));
         return "admin/adminManagement";
     }
 

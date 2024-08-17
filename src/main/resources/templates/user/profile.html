@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/head :: commonhead('Profile')}" ></head>
+<body>
+<div th:replace="~{'fragments/hamburger-menu' :: hamburgerMenu}"></div>
+<h1>Profile</h1>
+<div th:replace="~{fragments/header-right}"></div>
+<div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+    <div th:replace="~{'fragments/sidebar' :: sidebar}"></div>
+</div>
+<div th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}">
+    <div th:replace="~{'fragments/sidebar-user' :: sidebar-user}"></div>
+</div>
+<div class="container main-content">
+    <form th:action="@{/user/updateProfile}" method="post" th:object="${userProfile}">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        <h2>User Profile</h2>
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <td>
+                        <span th:text="${user.id}"></span>
+                        <input type="hidden" th:field="${user.id}" th:value="${user.id}">
+<!--                        <div th:if="${#fields.hasError{'user.id'}}" th:errors="${user.id}" class="error-message"></div>-->
+                    </td>
+                </tr>
+                <tr>
+                    <th>UserName</th>
+                    <td>
+                        <input type="text" th:field="${user.userName}" th:value="${user.userName}" id="username" name="username" required/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>
+                        <input type="text" th:field="${user.emailAddress}" th:value="${user.emailAddress}" id="emailaddress" name="emailaddress" required/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Address</th>
+                    <td>
+                        <input type="text" th:field="${user.address}" th:value="${user.address}" id="address" name="address" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>Phone</th>
+                    <td>
+                        <input type="text" th:field="${user.phone}" th:value="${user.phone}" id="phone" name="phone" />
+                    </td>
+                </tr>
+            </table>
+        <div class="user-button">
+            <input name="user-update" type="submit" value="更新">
+        </div>
+    </form>
+    <div th:if="${successMessage}">
+        <p th:text="${successMessage}"></p>
+    </div>
+    <div th:if="${errorMessage}">
+        <p th:text="${errorMessage}"></p>
+    </div>
+</div>
+</body>
+</html>

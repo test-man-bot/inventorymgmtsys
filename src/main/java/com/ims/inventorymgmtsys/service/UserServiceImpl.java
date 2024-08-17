@@ -1,11 +1,15 @@
 package com.ims.inventorymgmtsys.service;
 
+import com.ims.inventorymgmtsys.config.CustomUserDetails;
 import com.ims.inventorymgmtsys.entity.User;
 import com.ims.inventorymgmtsys.exception.UserAlreadyExistsException;
 import com.ims.inventorymgmtsys.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -47,7 +51,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public boolean updateUser(User user) {
-        return true;
+        return userRepository.update(user);
     }
 
     @Override
@@ -66,5 +70,38 @@ public class UserServiceImpl implements UserService{
         }
             createUser(user);
     }
+
+    @Override
+    public String getCurrentId () {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if ( authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            return userDetails.getUserId();
+        }
+        return null;
+    }
+
+    @Override
+    public User getCurrentUser() {
+        String currentUserId = getCurrentId();
+        if (currentUserId != null) {
+            return userRepository.findById(currentUserId);
+        }
+        return null;
+    }
+
+    @Override
+    public void updateUserProfile(User userProfile) {
+        User user = getCurrentUser();
+        if (user != null) {
+            user.setId(userProfile.getId());
+            user.setUserName(userProfile.getUserName());
+            user.setEmailAddress(userProfile.getEmailAddress());
+            user.setAddress(userProfile.getAddress());
+            user.setPhone(userProfile.getPhone());
+            updateUser(user);
+        }
+    }
+
 
 }

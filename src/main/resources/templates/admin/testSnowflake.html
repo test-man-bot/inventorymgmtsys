@@ -1,21 +1,17 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <meta th:replace="~{fragments/head :: headmeta}" />
-    <link th:replace="~{fragments/head :: headlink1}" />
-    <script th:replace="~{fragments/head :: headscript1}" ></script>
-    <link th:replace="~{fragments/head :: headlink2}" />
-    <script th:replace="~{fragments/head :: headscript2}" ></script>
-    <script th:replace="~{fragments/head :: headscript3}" ></script>
-    <script th:replace="~{fragments/head :: headscript4}" ></script>
-    <title>snowflake Import Test</title>
-</head>
+<head th:replace="~{fragments/head :: commonhead('Snowflaketest')}" ></head>
 <body>
 <div th:replace="~{'fragments/hamburger-menu' :: hamburgerMenu}"></div>
 <h1>Snowflake import test</h1>
 <div th:replace="~{fragments/header-right}"></div>
-<div th:replace="~{'fragments/sidebar' :: sidebar}"></div>
+<div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+    <div th:replace="~{'fragments/sidebar' :: sidebar}"></div>
+</div>
+<div th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}">
+    <div th:replace="~{'fragments/sidebar-user' :: sidebar-user}"></div>
+</div>
 <div class="container main-content">
     <h2>Product table</h2>
     <div th:if="${error}">
