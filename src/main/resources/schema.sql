@@ -24,6 +24,7 @@ create table if not exists t_product  (
 create table if not exists t_order (
     orderid varchar(100) primary key,
     order_date_time timestamp,
+    customerid varchar(100),
     customer_name varchar(100),
     employee_name varchar(100),
     payment_method varchar(100)

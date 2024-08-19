@@ -23,47 +23,6 @@ public class UserController {
     public  UserController (UserService userService) {
         this.userService = userService;
     }
-//
-//    @GetMapping("profile")
-//    public String getUserProfile (Model model) {
-//        User user = new User();
-//        model.addAttribute("userProfile", user);
-//        return "user/profile";
-//    }
-//
-//    @PostMapping("update-user")
-//    public String updateUserProfile(@Validated @ModelAttribute("userProfile") User user, BindingResult bindingResult, Model model) {
-//        if (bindingResult.hasErrors()) {
-//            return "user/profile";
-//        }
-//
-//        User updateUser = userService.selectById(user.getId());
-//
-//        if (updateUser == null) {
-//            bindingResult.rejectValue("id","error.id", "Invalid user selected");
-//            model.addAttribute("user", userService.selectById(userService.getCurrentId()));
-//            return "user/profile";
-//        }
-//        updateUser.setId(user.getId());
-//        updateUser.setUserName(user.getUserName());
-//        updateUser.setEmailAddress(user.getEmailAddress());
-//        updateUser.setAddress(user.getAddress());
-//        updateUser.setPhone(user.getPhone());
-//        boolean isUpdate;
-//        try {
-//            isUpdate = userService.updateUser(updateUser);
-//            if (isUpdate) {
-//                model.addAttribute("successMessage", "更新しました");
-//            } else {
-//                model.addAttribute("successMessage", "更新はありません");
-//            }
-//        } catch (Exception e) {
-//            model.addAttribute("errorMessage", "更新中にエラーが発生しました: " + e.getMessage());
-//        }
-//
-//        model.addAttribute("user", updateUser);
-//        return "user/profile";
-//    }
 
     @GetMapping("/profile")
     public String showProfile(Model model) {

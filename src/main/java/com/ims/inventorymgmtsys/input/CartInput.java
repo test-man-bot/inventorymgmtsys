@@ -1,6 +1,7 @@
 package com.ims.inventorymgmtsys.input;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("Serial")
@@ -8,6 +9,10 @@ public class CartInput implements Serializable {
     private Integer totalAmount;
     private Integer billingAmount;
     private List<CartItemInput> cartItemInputs;
+
+    public CartInput() {
+        this.cartItemInputs = new ArrayList<>();
+    }
 
     public Integer getTotalAmount() {
         return totalAmount;

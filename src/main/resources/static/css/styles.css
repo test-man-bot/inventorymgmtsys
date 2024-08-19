@@ -171,13 +171,15 @@ input[name="correctproduct"]:hover {
 }
 
 .admin-button,
-.button-section {
+.button-section,
+ .user-button {
     display: flex;
     justify-content: center;
     gap: 10px;
 }
 input[name="admin-update"],
-input[name="placeorderconfirm"] {
+input[name="placeorderconfirm"],
+input[name="user-update"] {
     display: inline-block;
     padding: 10px;
     background-color: #28a745;

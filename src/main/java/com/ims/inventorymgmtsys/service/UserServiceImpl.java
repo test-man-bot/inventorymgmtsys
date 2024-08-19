@@ -4,6 +4,7 @@ import com.ims.inventorymgmtsys.config.CustomUserDetails;
 import com.ims.inventorymgmtsys.entity.User;
 import com.ims.inventorymgmtsys.exception.UserAlreadyExistsException;
 import com.ims.inventorymgmtsys.repository.UserRepository;
+import com.ims.inventorymgmtsys.security.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -26,6 +27,7 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
 
     public UserServiceImpl(UserRepository userRepository, JdbcTemplate jdbcTemplate){
 
@@ -71,19 +73,10 @@ public class UserServiceImpl implements UserService{
             createUser(user);
     }
 
-    @Override
-    public String getCurrentId () {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if ( authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-            return userDetails.getUserId();
-        }
-        return null;
-    }
 
     @Override
     public User getCurrentUser() {
-        String currentUserId = getCurrentId();
+        String currentUserId = SecurityUtils.getCurrentId();
         if (currentUserId != null) {
             return userRepository.findById(currentUserId);
         }

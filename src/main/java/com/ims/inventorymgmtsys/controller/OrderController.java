@@ -2,21 +2,18 @@ package com.ims.inventorymgmtsys.controller;
 
 import com.ims.inventorymgmtsys.entity.Employee;
 import com.ims.inventorymgmtsys.entity.Order;
-import com.ims.inventorymgmtsys.enumeration.PaymentMethod;
 import com.ims.inventorymgmtsys.input.CartInput;
 import com.ims.inventorymgmtsys.input.OrderInput;
-import com.ims.inventorymgmtsys.service.EmployeeService;
 import com.ims.inventorymgmtsys.service.OrderService;
-import jakarta.validation.Valid;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import jakarta.servlet.http.HttpSession;
 
-import java.util.List;
+
 
 @Controller
 @RequestMapping("/order")
@@ -35,8 +32,7 @@ public class  OrderController {
         return "order/orderForm";
     }
 
-    @Valid
-    @PostMapping("orderconfirm")
+    @PostMapping("/orderconfirm")
     public String orderConfirm(@Validated  @ModelAttribute("orderInput") OrderInput orderInput, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "order/orderForm";
@@ -60,14 +56,14 @@ public class  OrderController {
     }
 
     @PostMapping(value="placeorder", params = "correct")
-    public String correctOrder(@Validated OrderInput orderInput, Model model) {
+    public String correctOrder(@Validated @ModelAttribute("orderInput") OrderInput orderInput, Model model) {
         model.addAttribute("employees", orderService.findAllEmployees());
         model.addAttribute("orderInput", orderService.getOrderInput());
         return "order/orderForm";
     }
 
     @PostMapping(value = "placeorder", params = "correctproduct")
-    public String correctProduct(@Validated CartInput cartInput, Model model) {
+    public String correctProduct(@Validated @ModelAttribute("cartInput") CartInput cartInput, Model model) {
         model.addAttribute("cartInput", orderService.getCartInput());
         return "cart/cartItem";
     }
@@ -82,7 +78,9 @@ public class  OrderController {
 
         Order order = orderService.placeOrder(orderService.getOrderInput(), orderService.getCartInput(), employee);
         redirectAttributes.addFlashAttribute("order", order);
+
         orderService.clearSessionData();
+
         return "redirect:/order/orderCompletion";
         } catch (Exception e) {
             e.printStackTrace();
@@ -95,5 +93,10 @@ public class  OrderController {
         return "order/orderCompletion";
     }
 
+    @GetMapping("orderlist")
+    public String getOrderListForCurrentUser (Model model) {
+        model.addAttribute("orderlist", orderService.getOrderListForCurrentUser());
+        return "/order/orderList";
+    }
 
 }

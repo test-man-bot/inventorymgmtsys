@@ -12,8 +12,6 @@ public interface UserService {
 
     void registerUser(User user) throws UserAlreadyExistsException;
 
-    String getCurrentId();
-
     User getCurrentUser();
 
     void updateUserProfile(User userProfile);

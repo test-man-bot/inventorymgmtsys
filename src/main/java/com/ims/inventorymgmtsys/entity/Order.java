@@ -12,6 +12,8 @@ public class Order implements Serializable {
     private List<OrderDetail> orderDetails;
     private LocalDateTime orderDateTime;
 
+    private String customerId; //FK
+
     private String customerName; //FK
     private String employeeName; //FK
 
@@ -36,6 +38,10 @@ public class Order implements Serializable {
     public void setOrderDateTime(LocalDateTime orderDateTime) {
         this.orderDateTime = orderDateTime;
     }
+
+    public String getCustomerId() { return customerId; }
+
+    public void setCustomerId(String customerId) { this.customerId = customerId; }
 
     public String getCustomerName() {
         return customerName;

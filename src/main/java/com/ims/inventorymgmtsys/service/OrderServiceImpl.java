@@ -1,18 +1,17 @@
 package com.ims.inventorymgmtsys.service;
 
+import com.ims.inventorymgmtsys.config.CustomUserDetails;
 import com.ims.inventorymgmtsys.controller.SessionController;
-import com.ims.inventorymgmtsys.entity.Employee;
-import com.ims.inventorymgmtsys.entity.Order;
-import com.ims.inventorymgmtsys.entity.OrderDetail;
-import com.ims.inventorymgmtsys.entity.Product;
+import com.ims.inventorymgmtsys.entity.*;
 import com.ims.inventorymgmtsys.exception.StockShortageException;
 import com.ims.inventorymgmtsys.input.CartInput;
 import com.ims.inventorymgmtsys.input.CartItemInput;
 import com.ims.inventorymgmtsys.input.OrderInput;
-import com.ims.inventorymgmtsys.repository.EmployeeRepository;
-import com.ims.inventorymgmtsys.repository.OrderDetailRepository;
-import com.ims.inventorymgmtsys.repository.OrderRepository;
-import com.ims.inventorymgmtsys.repository.ProductRepository;
+import com.ims.inventorymgmtsys.repository.*;
+import com.ims.inventorymgmtsys.security.utils.SecurityUtils;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,12 +31,16 @@ public class OrderServiceImpl implements OrderService {
 
     private final SessionController sessionController;
 
-    public OrderServiceImpl(OrderRepository orderRepository, ProductRepository productRepository, OrderDetailRepository orderDetailRepository, EmployeeRepository employeeRepository, SessionController sessionController) {
+    private final UserRepository userRepository;
+
+
+    public OrderServiceImpl(OrderRepository orderRepository, ProductRepository productRepository, OrderDetailRepository orderDetailRepository, EmployeeRepository employeeRepository, SessionController sessionController, UserRepository userRepository) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.orderDetailRepository = orderDetailRepository;
         this.employeeRepository = employeeRepository;
         this.sessionController = sessionController;
+        this.userRepository = userRepository;
 
     }
 
@@ -46,6 +49,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = new Order();
         order.setOrderId(UUID.randomUUID().toString());
         order.setOrderDateTime(LocalDateTime.now());
+        order.setCustomerId(SecurityUtils.getCurrentId());
         order.setCustomerName(orderInput.getName());
         order.setEmployeeName(employee.getEmployeeName());
         order.setPaymentMethod(sessionController.getOrderInput().getPaymentMethod());
@@ -53,7 +57,7 @@ public class OrderServiceImpl implements OrderService {
         int totalAmount = calculateTotalAmount(cartInput.getCartItemInputs());
         int billingAmount = calculateTax(totalAmount);
 
-        orderRepository.save(order, employee);
+        orderRepository.save(order);
 
         List<OrderDetail> orderDetails = new ArrayList<>();
         for (CartItemInput cartItem : cartInput.getCartItemInputs()) {
@@ -81,22 +85,6 @@ public class OrderServiceImpl implements OrderService {
 
             // OrderDetailリストに追加
             orderDetails.add(orderDetail);
-//            Product product = productRepository.findById(cartItem.getProductId());
-//            int afterstock = product.getStock() - cartItem.getQuantity();
-//
-//            if ( afterstock < 0) {
-//                throw new StockShortageException("在庫が足りません");
-//            }
-//
-//            product.setStock(afterstock);
-//            productRepository.save(product);
-//            OrderDetail orderDetail = new OrderDetail();
-//            orderDetail.setOrderId(order.getOrderId());
-//            orderDetail.setProductId(product.getId());
-//            orderDetail.setQuantity(cartItem.getQuantity());
-//
-//            orderDetailRepository.save(orderDetail);
-//            orderDetails.add(orderDetail);
         }
         order.setOrderDetails(orderDetails);
         return order;
@@ -156,4 +144,10 @@ public class OrderServiceImpl implements OrderService {
     public void clearSessionData(){
         sessionController.clearData();
     }
+
+    @Override
+    public List<OrderProductDTO> getOrderListForCurrentUser() {
+        return orderRepository.findByUserId(SecurityUtils.getCurrentId());
+    }
+
 }

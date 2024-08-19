@@ -3,6 +3,7 @@ package com.ims.inventorymgmtsys.controller;
 import com.ims.inventorymgmtsys.input.CartInput;
 import com.ims.inventorymgmtsys.input.CartItemInput;
 import com.ims.inventorymgmtsys.service.CartService;
+import net.snowflake.client.jdbc.internal.org.checkerframework.checker.units.qual.C;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,7 +37,11 @@ public class CartController {
 
     @GetMapping("/display-cart")
     public String displayCart(Model model) {
-        model.addAttribute("cartInput", cartService.getCartInput());
+        CartInput cartInput = cartService.getCartInput();
+        if (cartInput == null) {
+            cartInput = new CartInput();
+        }
+        model.addAttribute("cartInput", cartInput);
         return "cart/cartItem";
     }
 
