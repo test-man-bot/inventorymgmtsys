@@ -23,4 +23,6 @@ public interface UserRepository {
     boolean updateAuth(User user);
 
     boolean updateIsEnabled(User user);
+
+    boolean updatePassword(User user);
 }

@@ -1,6 +1,5 @@
 package com.ims.inventorymgmtsys.service;
 
-import com.ims.inventorymgmtsys.config.CustomUserDetails;
 import com.ims.inventorymgmtsys.controller.SessionController;
 import com.ims.inventorymgmtsys.entity.*;
 import com.ims.inventorymgmtsys.exception.StockShortageException;
@@ -8,10 +7,7 @@ import com.ims.inventorymgmtsys.input.CartInput;
 import com.ims.inventorymgmtsys.input.CartItemInput;
 import com.ims.inventorymgmtsys.input.OrderInput;
 import com.ims.inventorymgmtsys.repository.*;
-import com.ims.inventorymgmtsys.security.utils.SecurityUtils;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import com.ims.inventorymgmtsys.utils.SecurityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,16 +28,17 @@ public class OrderServiceImpl implements OrderService {
     private final SessionController sessionController;
 
     private final UserRepository userRepository;
+    private final SecurityUtils securityUtils;
 
 
-    public OrderServiceImpl(OrderRepository orderRepository, ProductRepository productRepository, OrderDetailRepository orderDetailRepository, EmployeeRepository employeeRepository, SessionController sessionController, UserRepository userRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, ProductRepository productRepository, OrderDetailRepository orderDetailRepository, EmployeeRepository employeeRepository, SessionController sessionController, UserRepository userRepository, SecurityUtils securityUtils) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.orderDetailRepository = orderDetailRepository;
         this.employeeRepository = employeeRepository;
         this.sessionController = sessionController;
         this.userRepository = userRepository;
-
+        this.securityUtils = securityUtils;
     }
 
     @Override
@@ -49,7 +46,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = new Order();
         order.setOrderId(UUID.randomUUID().toString());
         order.setOrderDateTime(LocalDateTime.now());
-        order.setCustomerId(SecurityUtils.getCurrentId());
+        order.setCustomerId(securityUtils.getCurrentId());
         order.setCustomerName(orderInput.getName());
         order.setEmployeeName(employee.getEmployeeName());
         order.setPaymentMethod(sessionController.getOrderInput().getPaymentMethod());
@@ -147,7 +144,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderProductDTO> getOrderListForCurrentUser() {
-        return orderRepository.findByUserId(SecurityUtils.getCurrentId());
+        return orderRepository.findByUserId(securityUtils.getCurrentId());
     }
 
 }

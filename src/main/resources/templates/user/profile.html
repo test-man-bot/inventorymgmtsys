@@ -20,44 +20,58 @@
                 <tr>
                     <th>ID</th>
                     <td>
-                        <span th:text="${user.id}"></span>
-                        <input type="hidden" th:field="${user.id}" th:value="${user.id}">
+<!--                        <span th:text="${user.id}"></span>-->
+                        <span th:text="*{id}"></span>
+                        <input type="hidden" th:field="*{id}" >
                     </td>
                 </tr>
                 <tr>
                     <th>UserName</th>
                     <td>
-                        <input type="text" th:field="${user.userName}" th:value="${user.userName}" id="username" name="username" required/>
+                        <input type="text" th:field="*{userName}" id="username" name="username" required/>
                     </td>
                 </tr>
                 <tr>
                     <th>Email</th>
                     <td>
-                        <input type="text" th:field="${user.emailAddress}" th:value="${user.emailAddress}" id="emailaddress" name="emailaddress" required/>
+                        <input type="text" th:field="*{emailAddress}" id="emailaddress" name="emailaddress" required/>
                     </td>
                 </tr>
                 <tr>
                     <th>Address</th>
                     <td>
-                        <input type="text" th:field="${user.address}" th:value="${user.address}" id="address" name="address" />
+                        <input type="text" th:field="*{address}" id="address" name="address" />
                     </td>
                 </tr>
                 <tr>
                     <th>Phone</th>
                     <td>
-                        <input type="text" th:field="${user.phone}" th:value="${user.phone}" id="phone" name="phone" />
+                        <input type="text" th:field="*{phone}" id="phone" name="phone" />
                     </td>
                 </tr>
             </table>
         <div class="user-button">
             <input name="user-update" type="submit" value="更新">
         </div>
+        <div th:if="${successUpdateMessage}">
+            <p th:text="${successUpdateMessage}"></p>
+        </div>
+        <div th:if="${errorUpdateMessage}">
+            <p th:text="${errorUpdateMessage}"></p>
+        </div>
     </form>
-    <div th:if="${successMessage}">
-        <p th:text="${successMessage}"></p>
-    </div>
-    <div th:if="${errorMessage}">
-        <p th:text="${errorMessage}"></p>
+    <div th:if="${not (isOAuth2User != null and isOAuth2User)}">
+    <h2>パスワード変更</h2>
+        <form th:action="@{/user/resetPassword}" method="post">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            <input type="submit" value="パスワードリセットリンクを送信" name="password-update">
+            <div th:if="${successMessage}">
+                <p th:text="${successMessage}"></p>
+            </div>
+            <div th:if="${errorMessage}">
+                <p th:text="${errorMessage}"></p>
+            </div>
+        </form>
     </div>
 </div>
 </body>

@@ -97,4 +97,15 @@ public class JdbcUserRepository implements UserRepository{
         int count = jdbcTemplate.update("UPDATE t_user set enabled=TRUE WHERE username=?", user.getUserName());
         return count != 0;
     }
+
+    @Override
+    public boolean updatePassword(User user) {
+        System.out.println("Updating user with ID: " + user.getId());
+        int count = jdbcTemplate.update("UPDATE t_user SET password=? WHERE id=?",
+                user.getPassword(),
+                user.getId()
+        );
+        return count != 0;
+    }
+
 }

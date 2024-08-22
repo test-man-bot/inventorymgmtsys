@@ -1,19 +1,15 @@
 package com.ims.inventorymgmtsys.service;
 
-import com.ims.inventorymgmtsys.config.CustomUserDetails;
 import com.ims.inventorymgmtsys.entity.User;
 import com.ims.inventorymgmtsys.exception.UserAlreadyExistsException;
 import com.ims.inventorymgmtsys.repository.UserRepository;
-import com.ims.inventorymgmtsys.security.utils.SecurityUtils;
+import com.ims.inventorymgmtsys.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -28,11 +24,16 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private final SecurityUtils securityUtils;
 
-    public UserServiceImpl(UserRepository userRepository, JdbcTemplate jdbcTemplate){
+
+    public UserServiceImpl(UserRepository userRepository, JdbcTemplate jdbcTemplate, SecurityUtils securityUtils){
 
         this.userRepository = userRepository;
         this.jdbcTemplate = jdbcTemplate;
+        this.securityUtils = securityUtils;
+
     }
 
     @Override
@@ -57,7 +58,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User selectById(String id) {
+    public User findById(String id) {
         return userRepository.findById(id);
     }
 
@@ -76,7 +77,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User getCurrentUser() {
-        String currentUserId = SecurityUtils.getCurrentId();
+        String currentUserId = securityUtils.getCurrentId();
         if (currentUserId != null) {
             return userRepository.findById(currentUserId);
         }
@@ -96,5 +97,15 @@ public class UserServiceImpl implements UserService{
         }
     }
 
+    @Override
+    public void changePassword(User user, String newPassword) {
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.updatePassword(user);
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 
 }

@@ -43,8 +43,8 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests()
                     .requestMatchers("/fragments/**","/js/**","/css/**","/images/**").permitAll()
-                    .requestMatchers("/login", "/register").permitAll()
-                    .requestMatchers("/catalog/**", "/order/**", "/cart/**").hasAnyRole("ADMIN", "USER")
+                    .requestMatchers("/login", "/register","/forget","/password").permitAll()
+                    .requestMatchers("/catalog/**", "/order/**", "/cart/**","/user/**").hasAnyRole("ADMIN", "USER")
                     .requestMatchers("/admin/**","/sales/**","/system/**").hasAuthority("ROLE_ADMIN")
                     .requestMatchers("/h2-console/**").permitAll()  // H2コンソールへのアクセスを許可
                     .anyRequest().authenticated()

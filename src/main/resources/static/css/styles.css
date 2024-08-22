@@ -179,7 +179,8 @@ input[name="correctproduct"]:hover {
 }
 input[name="admin-update"],
 input[name="placeorderconfirm"],
-input[name="user-update"] {
+input[name="user-update"],
+input[name="password-update"] {
     display: inline-block;
     padding: 10px;
     background-color: #28a745;
@@ -338,7 +339,8 @@ span.error-message {
     background-color: #f1f1f1;
 }
 
-.newaccount {
+.newaccount,
+.forgetpassword {
     color: green;
 }
 
@@ -437,4 +439,47 @@ button:active {
 
 .error-message {
     color: red;
+}
+
+.forgetpassword {
+    text-align: right;
+    display: block;
+    margin: 0px 0px 0px 350px;
+    font-size: 15px;
+}
+
+/* styles.css */
+.forgetPasswordForm {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px; /* 任意の最大幅 */
+    margin: 0 auto; /* 中央に配置 */
+}
+
+.forgetPasswordForm > div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+    width: 100%;
+}
+
+.forgetPasswordForm label {
+    margin-right: 10px; /* ラベルと入力の間隔 */
+    font-weight: bold;
+    width: 40%;
+}
+
+.forgetPasswordForm input {
+    padding: 8px;
+    font-size: 15px;
+    width: 60%; /* 入力フィールドを親の幅に合わせる */
+}
+
+.forgetPasswordForm button {
+    padding: 10px;
+    font-size: 15px;
+    cursor: pointer;
+    text-align: center;
+    display: block;
+    margin: 0 auto;
 }

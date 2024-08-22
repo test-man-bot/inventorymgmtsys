@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS t_order;
 DROP TABLE IF EXISTS t_product;
 DROP TABLE IF EXISTS employee;
 DROP TABLE IF EXISTS authorities;
+DROP TABLE IF EXISTS t_password_reset_token;
 DROP TABLE IF EXISTS t_user;
 DROP TABLE IF EXISTS system_info;
 DROP TABLE IF EXISTS audit_log;
@@ -79,3 +80,12 @@ CREATE TABLE audit_log (
     details TEXT,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE t_password_reset_token (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    token VARCHAR(255) NOT NULL,
+    expireDate TIMESTAMP NOT NULL,
+    userId VARCHAR(100) NOT NULL,
+    FOREIGN KEY (userId) REFERENCES t_user(id)
+);
+
