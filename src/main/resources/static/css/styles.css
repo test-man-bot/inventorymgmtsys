@@ -172,15 +172,14 @@ input[name="correctproduct"]:hover {
 
 .admin-button,
 .button-section,
- .user-button {
+.user-button {
     display: flex;
     justify-content: center;
     gap: 10px;
 }
 input[name="admin-update"],
 input[name="placeorderconfirm"],
-input[name="user-update"],
-input[name="password-update"] {
+input[name="user-update"] {
     display: inline-block;
     padding: 10px;
     background-color: #28a745;
@@ -444,8 +443,8 @@ button:active {
 .forgetpassword {
     text-align: right;
     display: block;
-    margin: 0px 0px 0px 350px;
-    font-size: 15px;
+    margin: 0px 0px 0px 335px;
+    font-size: 14px;
 }
 
 /* styles.css */
@@ -482,4 +481,12 @@ button:active {
     text-align: center;
     display: block;
     margin: 0 auto;
+}
+
+.update-password-button button {
+        font-size: 15px;
+        cursor: pointer;
+        text-align: center;
+        display: block;
+        margin: 0 auto;
 }

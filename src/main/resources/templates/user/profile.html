@@ -63,8 +63,10 @@
     <div th:if="${not (isOAuth2User != null and isOAuth2User)}">
     <h2>パスワード変更</h2>
         <form th:action="@{/user/resetPassword}" method="post">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            <input type="submit" value="パスワードリセットリンクを送信" name="password-update">
+            <div class="update-password-button">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                <button type="submit">パスワードリセットリンクを送信</button>
+            </div>
             <div th:if="${successMessage}">
                 <p th:text="${successMessage}"></p>
             </div>

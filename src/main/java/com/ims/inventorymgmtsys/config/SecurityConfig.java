@@ -43,9 +43,9 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests()
                     .requestMatchers("/fragments/**","/js/**","/css/**","/images/**").permitAll()
-                    .requestMatchers("/login", "/register","/forget","/password").permitAll()
+                    .requestMatchers("/login", "/register","/forget","/password","/changePasswordNoLogin").permitAll()
                     .requestMatchers("/catalog/**", "/order/**", "/cart/**","/user/**").hasAnyRole("ADMIN", "USER")
-                    .requestMatchers("/admin/**","/sales/**","/system/**").hasAuthority("ROLE_ADMIN")
+                    .requestMatchers("/admin/**","/sales/**","/system/**","/api/**").hasAuthority("ROLE_ADMIN")
                     .requestMatchers("/h2-console/**").permitAll()  // H2コンソールへのアクセスを許可
                     .anyRequest().authenticated()
                 .and()
@@ -80,15 +80,5 @@ public class SecurityConfig {
         http.userDetailsService(loginUserDetailService);
         return http.build();
     }
-
-//    @Bean
-//    public AuthenticationSuccessHandler authenticationSuccessHandler() {
-//        return new CustomAuthenticationSuccessHandler();
-//    }
-//
-//    @Bean
-//    public AuthenticationFailureHandler authenticationFailureHandler() {
-//        return new CustomAuthenticationFailureHandler();
-//    }
 
 }

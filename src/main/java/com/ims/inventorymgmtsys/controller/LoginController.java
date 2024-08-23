@@ -1,6 +1,7 @@
 package com.ims.inventorymgmtsys.controller;
 
 import com.ims.inventorymgmtsys.entity.User;
+import com.ims.inventorymgmtsys.input.PasswordResetForm;
 import com.ims.inventorymgmtsys.service.PasswordResetService;
 import com.ims.inventorymgmtsys.service.UserService;
 import net.snowflake.client.jdbc.internal.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.ComparisonFilter;
@@ -59,6 +60,40 @@ public class LoginController {
 
         return "auth/passwordForgetForm";
     }
+
+    @GetMapping("/changePasswordNoLogin")
+    public String showChangePasswordFormNoLogin(@RequestParam("token") String token, Model model) {
+        model.addAttribute("token", token);
+        model.addAttribute("passwordReset", new PasswordResetForm());
+        return "auth/forgetPasswordChange";
+    }
+
+    @PostMapping("/changePasswordNoLogin")
+    public String changePasswordNoLogin (@RequestParam("token")String token, @RequestParam("newPassword") String newPassword, @RequestParam("confirmPassword") String confirmPassword, Model model) {
+//        User user = userService.getCurrentUser();
+        if ( newPassword == null || !newPassword.equals(confirmPassword)) {
+            model.addAttribute("errorMessage", "パスワードが異なります");
+            return "auth/forgetPasswordChange";
+        }
+
+        System.out.println("token of controller is ::::::" + token);
+        User user = passwordResetService.validateResetTokenAndGetUser(token);
+
+        if (user == null) {
+            model.addAttribute("errorMessage", "無効なトークンです");
+            return "auth/forgetPasswordChange";
+        }
+
+        if (passwordResetService.validateResetToken(token)) {
+            userService.changePassword(user, newPassword);
+        }
+        model.addAttribute("userProfile", user);
+        model.addAttribute("successMessage", "パスワードが変更されました");
+        return "auth/forgetPasswordChange";
+
+    }
+
+
 
 
 }

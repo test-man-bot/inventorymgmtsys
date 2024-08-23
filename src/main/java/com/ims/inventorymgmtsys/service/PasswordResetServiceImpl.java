@@ -28,8 +28,9 @@ public class PasswordResetServiceImpl implements PasswordResetService {
     @Override
     public void createToken(String email) {
         String resetToken = UUID.randomUUID().toString();
-        String myappDomain = System.getenv("myappDomain");
-        String resetUrl = "https://" + myappDomain + "/user/changePassword?token=" + resetToken;
+//        String myappDomain = System.getenv("myappDomain");
+        String myappDomain = "localhost:8080";
+        String resetUrl = "http://" + myappDomain + "/user/changePasswordNoLogin?token=" + resetToken;
         Optional<User> users = userService.findByEmail(email);
         if (users.isPresent()){
             User user = users.get();

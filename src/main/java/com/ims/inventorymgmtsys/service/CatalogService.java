@@ -15,4 +15,8 @@ public interface CatalogService {
 
     CartItemInput createCartItemInput(String productId);
 
+    boolean update(Product product);
+
+    void save(Product product);
+
 }

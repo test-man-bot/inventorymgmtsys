@@ -102,6 +102,8 @@ public class UserController {
     }
 
 
+
+
     @PostMapping("/changePassword")
     public String changePassword (@RequestParam("token")String token, @RequestParam("newPassword") String newPassword, @RequestParam("confirmPassword") String confirmPassword, Model model) {
 //        User user = userService.getCurrentUser();
@@ -126,5 +128,6 @@ public class UserController {
         return "user/profile";
 
     }
+
 
 }
