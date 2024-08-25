@@ -67,7 +67,10 @@ public class SecurityConfig {
                     .failureHandler(customAuthenticationFailureHandler)
                 .and()
                 .csrf()
-                    .ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**"))  // H2コンソールのCSRFを無視
+                    .ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**"))// H2コンソールのCSRFを無視
+                    .ignoringRequestMatchers("/api/**")
+                .and()
+                    .httpBasic()
                 .and()
                 .exceptionHandling()
                     .accessDeniedPage("/access-denied")

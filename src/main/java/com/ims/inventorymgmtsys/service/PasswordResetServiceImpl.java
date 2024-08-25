@@ -28,9 +28,9 @@ public class PasswordResetServiceImpl implements PasswordResetService {
     @Override
     public void createToken(String email) {
         String resetToken = UUID.randomUUID().toString();
-//        String myappDomain = System.getenv("myappDomain");
-        String myappDomain = "localhost:8080";
-        String resetUrl = "http://" + myappDomain + "/user/changePasswordNoLogin?token=" + resetToken;
+        String myappDomain = System.getenv("myappDomain");
+//        String myappDomain = "localhost:8080";
+        String resetUrl = "http://" + myappDomain + "/changePasswordNoLogin?token=" + resetToken;
         Optional<User> users = userService.findByEmail(email);
         if (users.isPresent()){
             User user = users.get();
@@ -99,5 +99,11 @@ public class PasswordResetServiceImpl implements PasswordResetService {
         }
         System.out.println("getuser.getId is :::::::::::" + passwordResetToken.getUserId());
         return userService.findById(passwordResetToken.getUserId());
+    }
+
+    @Override
+    public boolean isOAuth2User(String email) {
+        User user = userService.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("ユーザが存在しません"));
+        return user.getPassword() == null || user.getPassword().isEmpty();
     }
 }

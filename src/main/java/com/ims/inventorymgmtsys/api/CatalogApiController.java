@@ -44,7 +44,7 @@ public class CatalogApiController {
         }
     }
 
-    @PostMapping("/products/")
+    @PostMapping("/products")
     public ResponseEntity<String> registerProduct(@RequestBody Product newProduct) {
         try {
             catalogService.save(newProduct);

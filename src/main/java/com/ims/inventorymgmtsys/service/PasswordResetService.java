@@ -12,5 +12,6 @@ public interface PasswordResetService {
     User validateResetTokenAndGetUser(String token);
     boolean updatePassword(String token, String newPassword);
     void createToken(String email);
+    boolean isOAuth2User(String email);
 
 }

@@ -49,6 +49,11 @@ public class LoginController {
             return "auth/passwordForgetForm";
         }
 
+        if (passwordResetService.isOAuth2User(emailAddress)) {
+            model.addAttribute("errorMessage", "このユーザーはOAuth2ユーザのためパスワード変更できません");
+            return "auth/passwordForgetForm";
+        }
+
         Optional<User> user = userService.findByEmail(emailAddress);
 
         if ( user.isPresent() ) {

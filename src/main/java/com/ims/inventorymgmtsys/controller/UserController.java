@@ -53,14 +53,14 @@ public class UserController {
     public String updateProfile(@ModelAttribute("userProfile") User userProfile, Model model) {
         try {
             userService.updateUserProfile(userProfile);
+            model.addAttribute("successUpdateMessage", "更新しました");
         } catch (Exception e) {
-            model.addAttribute("errorUpdateMessage", "更新に失敗しました。制約違反の可能性もございますので、氏名は変更できません。再度お試しください。");
+            model.addAttribute("errorUpdateMessage", "更新に失敗しました。制約違反の可能性も氏名は変更できません。再度お試しください。");
         }
         User user = userService.getCurrentUser();
         if (user != null) {
             model.addAttribute("user", user);
         }
-        model.addAttribute("successUpdateMessage", "更新しました");
         return "user/profile";
     }
 
