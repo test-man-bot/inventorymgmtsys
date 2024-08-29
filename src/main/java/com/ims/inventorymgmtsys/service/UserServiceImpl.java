@@ -6,6 +6,8 @@ import com.ims.inventorymgmtsys.repository.UserRepository;
 import com.ims.inventorymgmtsys.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,18 +23,18 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     private final SecurityUtils securityUtils;
 
 
-    public UserServiceImpl(UserRepository userRepository, JdbcTemplate jdbcTemplate, SecurityUtils securityUtils){
+    public UserServiceImpl(UserRepository userRepository, JdbcTemplate jdbcTemplate, SecurityUtils securityUtils, PasswordEncoder passwordEncoder){
 
         this.userRepository = userRepository;
         this.jdbcTemplate = jdbcTemplate;
         this.securityUtils = securityUtils;
+        this.passwordEncoder = passwordEncoder;
 
     }
 
@@ -84,6 +86,15 @@ public class UserServiceImpl implements UserService{
         return null;
     }
 
+//    @Override
+//    public User getCurrentUserByDb() {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (authentication != null || authentication.getPrincipal() instanceof User) {
+//            return (User) authentication.getPrincipal();
+//        }
+//        return null;
+//    }
+
     @Override
     public void updateUserProfile(User userProfile) {
         User user = getCurrentUser();
@@ -107,5 +118,26 @@ public class UserServiceImpl implements UserService{
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
+
+    @Override
+    public User findByUserName(String userName) {
+        return userRepository.findByUserName(userName);
+    }
+
+    @Override
+    public int saveMfa(User user) {
+        return userRepository.saveMfa(user);
+    }
+
+    @Override
+    public User updateMfa(User user) {
+        return userRepository.updateMfa(user);
+    }
+
+    @Override
+    public boolean updateSecret(User user) {
+        return userRepository.updateSecret(user);
+    }
+
 
 }

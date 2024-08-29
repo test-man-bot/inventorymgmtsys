@@ -74,6 +74,14 @@
                 <p th:text="${errorMessage}"></p>
             </div>
         </form>
+        <h2>二要素認証設定</h2>
+        <form th:action="@{/mfa-enable-disable}" method="get" th:object="${userProfile}">
+            <input type="hidden" th:field="*{id}" />
+            <div class="update-password-button">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                <button type="submit">2要素認証設定</button>
+            </div>
+        </form>
     </div>
 </div>
 </body>

@@ -6,6 +6,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -16,6 +17,18 @@ public class CustomUserDetails implements UserDetails, Serializable {
     public CustomUserDetails(User user, Collection<? extends GrantedAuthority> authorities) {
         this.user = user;
         this.authorities = authorities;
+    }
+    public CustomUserDetails(User user) {
+        this.user = user;
+        this.authorities = new ArrayList<>(); //権限が不要なら空のリストで初期化
+    }
+
+    public User getPrincipal() {
+        return user;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     @Override
@@ -56,4 +69,6 @@ public class CustomUserDetails implements UserDetails, Serializable {
     public boolean isEnabled() {
         return user.getEnabled();
     }
+
+
 }

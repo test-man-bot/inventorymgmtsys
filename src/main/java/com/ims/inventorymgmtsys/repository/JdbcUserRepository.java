@@ -1,5 +1,6 @@
 package com.ims.inventorymgmtsys.repository;
 
+import com.ims.inventorymgmtsys.config.CustomUserDetails;
 import com.ims.inventorymgmtsys.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -9,18 +10,21 @@ import org.springframework.jdbc.core.DataClassRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
 public class JdbcUserRepository implements UserRepository{
 
     private final JdbcTemplate jdbcTemplate;
+    private final Map<String, User> emailToCustomUser;
+
 
     @Autowired
-    public JdbcUserRepository(JdbcTemplate jdbcTemplate) { this.jdbcTemplate = jdbcTemplate; }
+    public JdbcUserRepository(JdbcTemplate jdbcTemplate, Map<String, User> emailToCustomUser) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.emailToCustomUser = emailToCustomUser;
+    }
+
 
     @Override
     public User findById(String id) {
@@ -47,14 +51,16 @@ public class JdbcUserRepository implements UserRepository{
         try {
         String id = UUID.randomUUID().toString();
         user.setId(id);
-        jdbcTemplate.update("INSERT into t_user VALUES (?, ?, ?, ?, ?, ?, ?)",
+        jdbcTemplate.update("INSERT into t_user VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 user.getId(),
                 user.getUserName(),
                 user.getEmailAddress(),
                 user.getAddress(),
                 user.getPhone(),
                 user.getPassword(),
-                user.getEnabled()
+                user.getEnabled(),
+                user.getSecret(),
+                user.getMfaEnabled()
                 );
         } catch (DuplicateKeyException e) {
             throw new DataIntegrityViolationException("ユーザがすでに存在します : " + user.getUserName(), e);
@@ -105,6 +111,35 @@ public class JdbcUserRepository implements UserRepository{
                 user.getPassword(),
                 user.getId()
         );
+        return count != 0;
+    }
+
+//    @Override
+//    public User findCustomUserByEmail(String email) {
+//        return this.emailToCustomUser.get(email);
+//    }
+
+    @Override
+    public int saveMfa(User user){
+        return jdbcTemplate.update("INSERT INTO t_user (userName, password, secret, mfaEnabled) VALUES (?, ?, ?, ?)",
+                user.getUserName(),
+                user.getPassword(),
+                user.getSecret(),
+                user.getMfaEnabled());
+
+    }
+
+    @Override
+    public User updateMfa(User user) {
+        jdbcTemplate.update("UPDATE t_user SET mfaEnabled = true WHERE userName = ?", user.getUserName());
+//        user.setMfaEnabled(true);
+        return user;
+    }
+
+    @Override
+    public boolean updateSecret(User user) {
+        int count = jdbcTemplate.update("UPDATE t_user SET secret = ? WHERE userName = ?", user.getSecret(), user.getUserName());
+
         return count != 0;
     }
 

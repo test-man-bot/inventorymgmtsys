@@ -1,19 +1,20 @@
 package com.ims.inventorymgmtsys.entity;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 public class User implements Serializable {
     private String id; //PK
     private String userName;
     private String emailAddress;
     private String address;
-
     private String phone;
-
     private String password;
-
     private boolean enabled;
+
+    // New fields for two-factor authentication
+    private String secret;
+    private boolean mfaEnabled;
+
 
     public String getId() {
         return id;
@@ -51,18 +52,46 @@ public class User implements Serializable {
         this.address = address;
     }
 
-    public String getPhone() { return phone; }
+    public String getPhone() {
+        return phone;
+    }
 
-    public void setPhone(String phone) { this.phone = phone; }
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
-    public String getPassword() { return password; }
+    public String getPassword() {
+        return password;
+    }
 
-    public void setPassword(String password) { this.password = password; }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-    public boolean getEnabled() {return enabled;}
+    public boolean getEnabled() {
+        return enabled;
+    }
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
+
+    public String getSecret() {
+        return secret;
+    }
+
+    public void setSecret(String secret) {
+        this.secret = secret;
+    }
+
+    public boolean getMfaEnabled() {
+        return mfaEnabled;
+    }
+
+    public void setMfaEnabled(boolean mfaEnabled) {
+        this.mfaEnabled = mfaEnabled;
+    }
+
+
 
 }

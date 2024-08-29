@@ -25,4 +25,10 @@ public interface UserRepository {
     boolean updateIsEnabled(User user);
 
     boolean updatePassword(User user);
+
+    // New fields for two-factor authentication
+
+    int saveMfa(User user);
+    User updateMfa(User user);
+    boolean updateSecret(User user);
 }

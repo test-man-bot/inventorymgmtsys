@@ -22,4 +22,9 @@ public interface UserService {
 
     Optional<User> findByEmail(String email);
 
+    User findByUserName(String userName);
+    int saveMfa(User user);
+    User updateMfa(User user);
+    boolean updateSecret(User user);
+//    User getCurrentUserByDb();
 }

@@ -54,7 +54,9 @@ create table if not exists t_user (
     address varchar(100),
     phone varchar(100),
     password varchar(100),
-    enabled BOOLEAN
+    enabled BOOLEAN,
+    secret varchar(100),
+    mfaEnabled BOOLEAN
 );
 
 create table if not exists authorities (
