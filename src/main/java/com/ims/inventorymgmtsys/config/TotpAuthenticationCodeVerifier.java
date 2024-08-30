@@ -6,7 +6,7 @@ import org.springframework.util.StringUtils;
 
 import java.security.GeneralSecurityException;
 
-public class TotpAuthenticationCodeVerifier implements MfaAuthenticationCodeVerifier {
+public class TotpAuthenticationCodeVerifier implements TwoFactorAuthenticationCodeVerifier {
     @Override
     public boolean verify(User user, String code) {
 

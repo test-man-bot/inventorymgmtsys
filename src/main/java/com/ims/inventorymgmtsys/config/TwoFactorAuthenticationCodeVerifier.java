@@ -2,6 +2,6 @@ package com.ims.inventorymgmtsys.config;
 
 import com.ims.inventorymgmtsys.entity.User;
 
-public interface MfaAuthenticationCodeVerifier {
+public interface TwoFactorAuthenticationCodeVerifier {
     boolean verify(User user, String code);
 }

@@ -4,15 +4,14 @@ import com.ims.inventorymgmtsys.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -28,6 +27,8 @@ public class SecurityConfig {
     private final PasswordEncoder passwordEncoder;
 
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+
+
 
     @Autowired
     private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
@@ -52,7 +53,7 @@ public class SecurityConfig {
                     .requestMatchers("/login", "/register","/forget","/password","/changePasswordNoLogin").permitAll()
                     .requestMatchers("/catalog/**", "/order/**", "/cart/**","/user/**","/challenge/**","/enable-2fa/**").hasAnyRole("ADMIN", "USER")
                     .requestMatchers("/admin/**","/sales/**","/system/**","/api/**").hasAuthority("ROLE_ADMIN")
-                    .requestMatchers("/challenge/totp").access(new MfaAuthorizationManager())
+                    .requestMatchers("/challenge/totp").access(new TwoFactorAuthorizationManager())
                     .requestMatchers("/h2-console/**").permitAll()  // H2コンソールへのアクセスを許可
                     .anyRequest().authenticated()
                 .and()
@@ -90,7 +91,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public MfaAuthenticationCodeVerifier mfaFactorAuthenticationCodeVerifier() {
+    public TwoFactorAuthenticationCodeVerifier mfaFactorAuthenticationCodeVerifier() {
         return new TotpAuthenticationCodeVerifier();
     }
+
 }
