@@ -69,7 +69,7 @@ public void onAuthenticationSuccess(HttpServletRequest request, HttpServletRespo
     }
 }
 
-private void handleSuccessRedirect(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
+public void handleSuccessRedirect(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
     boolean isAdmin = authentication.getAuthorities().stream()
             .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
 

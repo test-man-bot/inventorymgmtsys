@@ -22,6 +22,11 @@ public class JdbcProductRepository implements ProductRepository{
     }
 
     @Override
+    public Product findByName(String name) {
+        return jdbcTemplate.queryForObject("SELECT * FROM t_product WHERE name = ?", new DataClassRowMapper<>(Product.class), name);
+    }
+
+    @Override
     public List<Product> findAll() {
         return jdbcTemplate.query("SELECT * FROM t_product", new DataClassRowMapper<>(Product.class));
     }

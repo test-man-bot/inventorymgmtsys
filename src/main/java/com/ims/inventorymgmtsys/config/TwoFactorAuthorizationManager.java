@@ -22,19 +22,5 @@ public class TwoFactorAuthorizationManager implements AuthorizationManager<Reque
         }
         return new AuthorizationDecision(false);
 
-//        return new AuthorizationDecision(authentication.get() instanceof TwoFactorAuthentication);
-//        Authentication auth = authentication.get();
-//        System.out.println("Authentication: " + auth);
-//        // MFA が完了しているかどうかを確認するためのカスタムロジック
-//        if (auth instanceof TwoFactorAuthentication) {
-//            TwoFactorAuthentication mfaAuth = (TwoFactorAuthentication) auth;
-//            System.out.println("TwoFactorAuthentication: " + mfaAuth);
-//            // ここで MFA 完了の確認を行います
-//            // 例: MFA 認証が完了している場合に特定の権限を付与する
-//            if (mfaAuth.isMfaCompleted()) {
-//                return new AuthorizationDecision(true);
-//            }
-//        }
-//        return new AuthorizationDecision(false);
     }
 }

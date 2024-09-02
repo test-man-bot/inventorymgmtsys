@@ -1,9 +1,6 @@
 package com.ims.inventorymgmtsys.controller;
 
-import com.ims.inventorymgmtsys.config.CustomUserDetails;
-import com.ims.inventorymgmtsys.config.TwoFactorAuthentication;
-import com.ims.inventorymgmtsys.config.TwoFactorAuthenticationCodeVerifier;
-import com.ims.inventorymgmtsys.config.QrCode;
+import com.ims.inventorymgmtsys.config.*;
 import com.ims.inventorymgmtsys.entity.User;
 import com.ims.inventorymgmtsys.service.TwoFactorService;
 import com.ims.inventorymgmtsys.service.UserService;
@@ -40,13 +37,18 @@ public class TwoFactorAuthController {
 
     private final AuthenticationFailureHandler failureHandler;
 
-    public TwoFactorAuthController(UserService userService, TwoFactorAuthenticationCodeVerifier codeVerifier, QrCode qrCode, TwoFactorService twoFactorService,AuthenticationSuccessHandler successHandler, AuthenticationFailureHandler failureHandler) {
+    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+
+    public TwoFactorAuthController(UserService userService, TwoFactorAuthenticationCodeVerifier codeVerifier,
+                                   QrCode qrCode, TwoFactorService twoFactorService,AuthenticationSuccessHandler successHandler,
+                                   AuthenticationFailureHandler failureHandler, CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler) {
         this.userService = userService;
         this.codeVerifier = codeVerifier;
         this.qrCode = qrCode;
         this.twoFactorService = twoFactorService;
         this.successHandler = successHandler;
         this.failureHandler = failureHandler;
+        this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
     }
     @GetMapping("/mfa-enable-disable")
     public String enableDisableMfa(Model model){
@@ -112,7 +114,9 @@ public String processTotp(@RequestParam String code, HttpServletRequest request,
         SecurityContextHolder.getContext().setAuthentication(authentication);
         System.out.println("Authenticated user: " + authentication.getName());
         request.getSession().removeAttribute("twoFactorAuthentication");
-        return "redirect:/catalog/list";
+        customAuthenticationSuccessHandler.handleSuccessRedirect(request, response, authentication);
+        return null;
+//        return "redirect:/catalog/list";
     } else {
         // 認証失敗時の処理
         return "redirect:/challenge/totp?error=true";
