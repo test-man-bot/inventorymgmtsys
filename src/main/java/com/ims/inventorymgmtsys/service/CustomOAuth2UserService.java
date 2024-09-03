@@ -48,7 +48,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService{
 
             Authorities authority = new Authorities();
             authority.setUsername(name);
-            authority.setAuthority("ROLE_USER");
+            authority.setAuthority("ROLE_OAUTH2");
             authorityRepository.saveAuthority(authority);
 
         }

@@ -11,6 +11,8 @@ body {
 h1 {
     margin-top: 40px; /* 上部にスペースを追加 */
     margin-bottom: 20px;
+    text-align: center; /* テキストの中央揃え */
+    width: 100%; /* 幅を全体に広げる */
 }
 
 h2 {
@@ -215,6 +217,7 @@ input[type="number"].quantity-input {
     display: flex;
     flex-direction: column;
     align-align: center;
+    align-items: flex-start;
     width: 100%;
     max-width: 500px;
     padding: 20px;
@@ -222,7 +225,7 @@ input[type="number"].quantity-input {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     background-color: #f9f9f9;
-    margin-top: 100px;
+    margin-top: 100px auto 0;
 }
 
 .login-form,
@@ -322,10 +325,18 @@ span.error-message {
 }
 
 .oauth2 {
-    display: inline-flex;
+    /* display: inline-flex; */
+    display: flex;
+    justify-content: flex-start;
     align-items: center;
-    text-align: center;
-    margin-right: 300px;
+    /* text-align: center; */
+    text-align: left;
+    /*margin-right: 300px; */
+    /* margin-right: 0; */
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 .oauth2 img {
@@ -336,6 +347,25 @@ span.error-message {
 
 .oauth2:hover {
     background-color: #f1f1f1;
+}
+/* スマホ用のレスポンシブデザイン */
+@media (max-width: 768px) {
+    .oauth2 {
+        margin: 10px auto; /* 左右マージンを自動で調整 */
+    }
+
+    .oauth2 img {
+        margin: 0 auto; /* 画像を中央に配置 */
+    }
+}
+
+.forget {
+    text-align: right;
+    margin-top: 10px;
+    margin-right: 10px;
+    width: 100%; /* これを追加して、要素全体を右寄せします */
+    display: flex;
+    justify-content: flex-end; /* テキストを右寄せします */
 }
 
 .newaccount,
@@ -441,12 +471,25 @@ button:active {
 }
 
 .forgetpassword {
-    text-align: right;
-    display: block;
-    margin: 0px 0px 0px 335px;
+    /* text-align: right; */
+    white-space: nowrap;
+    display: inline-block;
+    /*margin: 0px 0px 0px 335px;*/
+    /* margin: 0; */
     font-size: 14px;
+    padding: 5px;
 }
 
+.forgetpassword:hover {
+    text-decoration: underline; /* ホバー時に下線を追加 */
+}
+/* スマホ用のレスポンシブデザイン */
+@media (max-width: 768px) {
+    .forgetpassword {
+        font-size: 12px; /* スマホではフォントサイズを小さくする */
+        padding: 5px 0; /* パディングの調整 */
+    }
+}
 /* styles.css */
 .forgetPasswordForm {
     display: flex;

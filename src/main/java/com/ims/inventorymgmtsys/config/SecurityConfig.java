@@ -1,6 +1,7 @@
 package com.ims.inventorymgmtsys.config;
 
 import com.ims.inventorymgmtsys.service.*;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -51,16 +52,18 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                     .requestMatchers("/fragments/**","/js/**","/css/**","/images/**","/favicon.ico").permitAll()
                     .requestMatchers("/login", "/register","/forget","/password","/changePasswordNoLogin").permitAll()
-                    .requestMatchers("/catalog/**", "/order/**", "/cart/**","/user/**","/challenge/**","/enable-2fa/**").hasAnyRole("ADMIN", "USER")
+                    .requestMatchers("/catalog/**", "/order/**", "/cart/**","/user/**","/challenge/**","/enable-2fa/**").hasAnyRole("ADMIN", "USER","OAUTH2")
                     .requestMatchers("/admin/**","/sales/**","/system/**","/api/**").hasAuthority("ROLE_ADMIN")
                     .requestMatchers("/challenge/totp").access(new TwoFactorAuthorizationManager())
                     .requestMatchers("/h2-console/**").permitAll()  // H2コンソールへのアクセスを許可
+                    .requestMatchers("/error").authenticated()  // /error へのアクセスを認証済みユーザーに制限
                     .anyRequest().authenticated()
                 .and()
                 .securityContext(securityContext -> securityContext.requireExplicitSave(false))
                 .formLogin()
                     .loginPage("/login")
                     .permitAll()
+//                    .userDetailsService(loginUserDetailService)
                     .successHandler(customAuthenticationSuccessHandler)
                     .failureHandler(customAuthenticationFailureHandler)
                 .and()
@@ -88,6 +91,10 @@ public class SecurityConfig {
 
         http.userDetailsService(loginUserDetailService);
         return http.build();
+    }
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean

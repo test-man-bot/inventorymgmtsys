@@ -48,6 +48,15 @@ public void onAuthenticationSuccess(HttpServletRequest request, HttpServletRespo
     try {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         logger.info("Authenticated user roles: " + authentication.getAuthorities());
+
+        //OAuth2
+        boolean isOAuth2 = authentication.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals("ROLE_OAUTH2"));
+
+        if (isOAuth2) {
+            handleSuccessRedirect(request, response, authentication);
+            return;
+        }
+
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
         User user = customUserDetails.getUser();
         if (user.getMfaEnabled()) {
@@ -57,7 +66,9 @@ public void onAuthenticationSuccess(HttpServletRequest request, HttpServletRespo
             newAuth.setAuthenticated(true);
             System.out.println("Authentication status: " + newAuth.isAuthenticated());
             SecurityContextHolder.getContext().setAuthentication(newAuth);
-            response.sendRedirect("/challenge/totp");
+            if (!response.isCommitted()) {
+                response.sendRedirect("/challenge/totp");
+            }
             auditlogService.save(createAuditlog(authentication.getName(), "LOGIN_SUCCESS", "User logged in Successfully"));
             return;
 

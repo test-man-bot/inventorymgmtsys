@@ -51,15 +51,24 @@ public class UserController {
 
     @PostMapping("/updateProfile")
     public String updateProfile(@ModelAttribute("userProfile") User userProfile, Model model) {
+        //OAuth2ユーザか判定
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        boolean isOAuth2User = false;
+        if (authentication.getPrincipal() instanceof OAuth2User) {
+            isOAuth2User = true;
+        }
         try {
             userService.updateUserProfile(userProfile);
             model.addAttribute("successUpdateMessage", "更新しました");
         } catch (Exception e) {
             model.addAttribute("errorUpdateMessage", "更新に失敗しました。制約違反の可能性も氏名は変更できません。再度お試しください。");
         }
+        // 現在のユーザー情報を取得
         User user = userService.getCurrentUser();
         if (user != null) {
             model.addAttribute("user", user);
+            model.addAttribute("isOAuth2User", isOAuth2User);
+
         }
         return "user/profile";
     }
