@@ -19,4 +19,6 @@ public interface ProductService {
 
     boolean updateProducts(List<Product> products);
 
+    Product findByName(String name);
+
 }

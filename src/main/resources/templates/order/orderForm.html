@@ -35,9 +35,9 @@
                         <tr>
                             <th>支払い方法</th>
                             <td>
-                                <input type="radio" id="bankRadio" value="BANK" th:field="*{paymentMethod}" name="choice" required>
+                                <input type="radio" id="bankRadio" value="BANK" th:field="*{paymentMethod}" name="paymentMethod" required>
                                 <label for="bankRadio">銀行振込</label>
-                                <input type="radio" id="creditCardRadio" value="CREDIT_CARD" th:field="*{paymentMethod}" name="choice">
+                                <input type="radio" id="creditCardRadio" value="CREDIT_CARD" th:field="*{paymentMethod}" name="paymentMethod">
                                 <label for="creditCardRadio">クレジットカード</label>
                             </td>
                         </tr>

@@ -26,24 +26,37 @@ public class SessionController implements Serializable {
     public CartInput getCartInput() {
         return cartInput;
     }
+
     public void setCartInput(CartInput cartInput) {
         this.cartInput = cartInput;
     }
 
     public OrderInput getOrderInput() {
-        return  orderInput;
+        if (this.orderInput == null) {
+            this.orderInput = new OrderInput();
+        }
+        return orderInput;
     }
 
     public void setOrderInput(OrderInput orderInput) {
         this.orderInput = orderInput;
     }
 
-    public Employee getEmployee() { return employee; }
+    public Employee getEmployee() {
+        return employee;
+    }
 
-    public void setEmployee(Employee employee) { this.employee = employee; }
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
 
-    public ConnectionDetails getConnectionDetails() {return connectionDetails;}
-    public void setConnectionDetails(ConnectionDetails connectionDetails) { this.connectionDetails = connectionDetails; }
+    public ConnectionDetails getConnectionDetails() {
+        return connectionDetails;
+    }
+
+    public void setConnectionDetails(ConnectionDetails connectionDetails) {
+        this.connectionDetails = connectionDetails;
+    }
 
     public void clearData() {
         cartInput = null;

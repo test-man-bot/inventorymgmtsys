@@ -1,14 +1,21 @@
 package com.ims.inventorymgmtsys.input;
 
 import com.ims.inventorymgmtsys.enumeration.PaymentMethod;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 
 public class OrderInput implements Serializable {
+    @NotBlank(message = "Name cannot be blank")
     private String name;
+    @NotBlank(message = "Address cannot be blank")
     private String address;
+    @NotBlank(message = "Phone cannot be blank")
     private String phone;
+    @NotBlank(message = "emailAddress cannot be blank")
     private String emailAddress;
+    @NotNull(message = "paymentMethod cannot be null")
     private PaymentMethod paymentMethod;
     private String employeeId;
     private String employeeName;
@@ -53,11 +60,19 @@ public class OrderInput implements Serializable {
         this.emailAddress = emailAddress;
     }
 
-    public String getEmployeeId() { return employeeId; }
+    public String getEmployeeId() {
+        return employeeId;
+    }
 
-    public void setEmployeeId(String employeeId) { this.employeeId = employeeId;}
+    public void setEmployeeId(String employeeId) {
+        this.employeeId = employeeId;
+    }
 
-    public String getEmployeeName() { return employeeName; }
+    public String getEmployeeName() {
+        return employeeName;
+    }
 
-    public void setEmployeeName(String employeeName) { this.employeeName = employeeName; }
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
+    }
 }

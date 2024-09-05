@@ -14,10 +14,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jakarta.servlet.http.HttpSession;
 
 
-
 @Controller
 @RequestMapping("/order")
-public class  OrderController {
+public class OrderController {
     private final OrderService orderService;
 
 
@@ -33,7 +32,7 @@ public class  OrderController {
     }
 
     @PostMapping("/orderconfirm")
-    public String orderConfirm(@Validated  @ModelAttribute("orderInput") OrderInput orderInput, BindingResult bindingResult, Model model) {
+    public String orderConfirm(@Validated @ModelAttribute("orderInput") OrderInput orderInput, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "order/orderForm";
         }
@@ -55,7 +54,7 @@ public class  OrderController {
         return "order/orderConfirmation";
     }
 
-    @PostMapping(value="placeorder", params = "correct")
+    @PostMapping(value = "placeorder", params = "correct")
     public String correctOrder(@Validated @ModelAttribute("orderInput") OrderInput orderInput, Model model) {
         model.addAttribute("employees", orderService.findAllEmployees());
         model.addAttribute("orderInput", orderService.getOrderInput());
@@ -68,20 +67,20 @@ public class  OrderController {
         return "cart/cartItem";
     }
 
-    @PostMapping(value="placeorder", params = "placeorderconfirm")
+    @PostMapping(value = "placeorder", params = "placeorderconfirm")
     public String placeOrder(RedirectAttributes redirectAttributes) {
         try {
             Employee employee = orderService.findEmployeeById(orderService.getOrderInput().getEmployeeId());
             if (employee == null) {
-            throw new IllegalArgumentException("Employee not found");
+                throw new IllegalArgumentException("Employee not found");
             }
 
-        Order order = orderService.placeOrder(orderService.getOrderInput(), orderService.getCartInput(), employee);
-        redirectAttributes.addFlashAttribute("order", order);
+            Order order = orderService.placeOrder(orderService.getOrderInput(), orderService.getCartInput(), employee);
+            redirectAttributes.addFlashAttribute("order", order);
 
-        orderService.clearSessionData();
+            orderService.clearSessionData();
 
-        return "redirect:/order/orderCompletion";
+            return "redirect:/order/orderCompletion";
         } catch (Exception e) {
             e.printStackTrace();
             return "/order/orderForm";
@@ -94,7 +93,7 @@ public class  OrderController {
     }
 
     @GetMapping("orderlist")
-    public String getOrderListForCurrentUser (Model model) {
+    public String getOrderListForCurrentUser(Model model) {
         model.addAttribute("orderlist", orderService.getOrderListForCurrentUser());
         return "/order/orderList";
     }
