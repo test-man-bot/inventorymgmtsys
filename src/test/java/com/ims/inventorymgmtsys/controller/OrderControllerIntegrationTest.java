@@ -7,11 +7,16 @@ import com.ims.inventorymgmtsys.enumeration.PaymentMethod;
 import com.ims.inventorymgmtsys.input.CartInput;
 import com.ims.inventorymgmtsys.input.CartItemInput;
 import com.ims.inventorymgmtsys.input.OrderInput;
+import com.ims.inventorymgmtsys.service.OrderService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.DataClassRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapperResultSetExtractor;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.jdbc.Sql;
@@ -23,8 +28,11 @@ import org.springframework.web.context.annotation.SessionScope;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -42,25 +50,40 @@ public class OrderControllerIntegrationTest {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
+    @BeforeEach
+    public void setUp() {
+        List<Employee> employees = jdbcTemplate.query(
+                "SELECT * FROM employee WHERE employeename = ?",
+                new DataClassRowMapper<>(Employee.class), "佐藤"
+        );
+
+        assertThat(employees.size()).isGreaterThan(0); // データが存在するか確認
+    }
+
+
+    @Test
+    @WithMockUser(username = "user", roles = "USER")
+    void testOrderForm() throws Exception {
+        mockMvc.perform(get("/order/orderform"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("order/orderForm"))
+                .andExpect(model().attributeExists("employees"))
+                .andExpect(model().attributeExists("orderInput"));
+    }
+
+
+    //以下はIDが指定できないため、失敗する。他にやり方ないか要確認
     @Test
     @WithMockUser(username = "user", roles = "USER")
     public void test_order() throws Exception {
-        Employee employee = new Employee();
-        employee.setEmployeeName("testEmp");
-        employee.setEmailAddress("gmail@gmail.com");
-        employee.setPhone("08098765432");
-        jdbcTemplate.update("INSERT INTO employee (employeename, phone, emailaddress) VALUES (?, ?, ?)", employee.getEmployeeName(), employee.getPhone(), employee.getEmailAddress());
-
         OrderInput orderInput = new OrderInput();
-        orderInput.setEmployeeId("t01");
-        orderInput.setEmployeeName("aaaaa");
+//        orderInput.setEmployeeId(UUID.randomUUID().toString());
+        orderInput.setEmployeeName("佐藤");
         orderInput.setName("テスト太郎");
         orderInput.setEmailAddress("test@gmail.com");
         orderInput.setAddress("南青山");
         orderInput.setPhone("09012345678");
         orderInput.setPaymentMethod(PaymentMethod.BANK);
-        orderInput.setEmployeeId("e01");
-        orderInput.setEmployeeName("taro");
 
         List<CartItemInput> cartItemInputs = new ArrayList<>();
 
@@ -85,21 +108,31 @@ public class OrderControllerIntegrationTest {
         CartInput cartInput = new CartInput();
         cartInput.setCartItemInputs(cartItemInputs);
 
+        Employee employee = new Employee();
+        String empName = "佐藤";
+        employee = jdbcTemplate.queryForObject("SELECT * FROM employee WHERE employeename = ?" , new DataClassRowMapper<>(Employee.class), empName);
+//        String validEmployeeId = jdbcTemplate.queryForObject("SELECT employeeid FROM employee WHERE employeename = ?", new DataClassRowMapper<>(String.class), empName);
+//        employee.setEmployeeId(validEmployeeId);
+//        employee.setEmployeeName(empName);
+//        employee.setEmailAddress("gmail@gmail.com");
+//        employee.setPhone("08098765432");
+
         SessionController sessionController = new SessionController();
+        sessionController.setEmployee(employee);
         sessionController.setOrderInput(orderInput);
         sessionController.setCartInput(cartInput);
 
         MvcResult mvcResult = mockMvc.perform(
                 post("/order/placeorder")
-                        .param("placeorderconfirm","")
+                        .param("placeorderconfirm", "")
                         .with(csrf())
-                        .sessionAttr("sessionController", sessionController)
-                        .sessionAttr("SPRING_SECURITY_CONTEXT", testSecurityContext())
-        ).andExpect(status().isOk())
-                .andExpect(redirectedUrl("/order/orderCompletion"))
+                        .sessionAttr("scopedTarget.sessionController", sessionController)
+        )
+                .andExpect(status().isOk())
+                .andExpect(view().name("order/orderCompletion"))
                 .andReturn();
 
-        Order order =(Order) mvcResult.getFlashMap().get("order");
+        Order order = (Order) mvcResult.getFlashMap().get("order");
 
         Map<String, Object> orderMap = jdbcTemplate.queryForMap("SELECT * FROM t_order WHERE orderid = ?", order.getOrderId());
         assertThat(orderMap.get("customer_name")).isEqualTo("テスト太郎");
@@ -111,7 +144,7 @@ public class OrderControllerIntegrationTest {
         assertThat(userMap.get("address")).isEqualTo("南青山");
         assertThat(userMap.get("phone")).isEqualTo("09012345678");
 
-        int orderItemCount = jdbcTemplate.queryForObject("SEELCT COUNT(*) FROM t_order_detail WHERE orderid = ?", Integer.class, order.getOrderId());
+        int orderItemCount = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM t_order_detail WHERE orderid = ?", Integer.class, order.getOrderId());
         assertThat(orderItemCount).isEqualTo(3);
 
 //        int stockA = jdbcTemplate.queryForObject("SELECT stock FROM t_product WHERE name = ?", String.class ,  )

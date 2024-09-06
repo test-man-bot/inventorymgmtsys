@@ -1,8 +1,6 @@
 package com.ims.inventorymgmtsys.service;
 
-import com.ims.inventorymgmtsys.entity.Order;
 import com.ims.inventorymgmtsys.entity.Product;
-import com.ims.inventorymgmtsys.repository.JdbcProductRepositoryTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,7 +27,7 @@ public class ProductServiceTest {
     private ClientRegistrationRepository clientRegistrationRepository;
 
     @Test
-    @Sql(scripts = "/com/ims/inventorymgmtsys/JdbcProductRepositoryTest.sql")
+    @Sql(scripts = "/JdbcProductRepositoryTest.sql")
     @Transactional
     void test_findById() {
         Product product = productService.findByName("消しゴム");

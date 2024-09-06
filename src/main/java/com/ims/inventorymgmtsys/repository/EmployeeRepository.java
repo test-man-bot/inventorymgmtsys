@@ -12,4 +12,6 @@ public interface EmployeeRepository {
 
     boolean update(Employee employee);
     void save(Employee employee);
+
+//    Employee findByName(String name);
 }

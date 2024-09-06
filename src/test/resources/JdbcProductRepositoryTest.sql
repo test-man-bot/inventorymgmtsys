@@ -1,6 +1,6 @@
 -- t_product テーブルへのデータ挿入
 INSERT INTO t_product (name, price, stock) VALUES
-('消しゴム', 100, 10),
+('NIKE　エアジョーダン1', 280000, 20),
 ('ノート', 200, 20),
 ('pname03', 300, 30),
 ('pname04', 400, 40),
