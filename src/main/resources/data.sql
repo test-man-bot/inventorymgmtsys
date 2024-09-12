@@ -1,20 +1,3 @@
-DROP TABLE IF EXISTS t_product;
-DROP TABLE IF EXISTS employee;
-CREATE ALIAS gen_random_uuid AS '
-import java.util.UUID;
-@CODE
-java.util.UUID genRandomUuid() throws Exception {
-	return UUID.randomUUID();
-}
-';
-
-create table if not exists t_product  (
-    id uuid DEFAULT gen_random_uuid() primary key,
-    name varchar(100),
-    price integer,
-    stock integer
-);
-
 INSERT INTO t_product
 (name, price, stock) VALUES
 ('ASICS マジックスピード4', 18700, 10)

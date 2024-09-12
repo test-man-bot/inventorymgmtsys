@@ -41,7 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-@Sql("../JdbcProductRepositoryTest.sql")
+@Sql("/JdbcProductRepositoryTest.sql")
 public class OrderControllerIntegrationTest {
 
     @Autowired

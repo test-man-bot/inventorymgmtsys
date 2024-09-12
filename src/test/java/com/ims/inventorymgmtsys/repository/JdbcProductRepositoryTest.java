@@ -14,7 +14,7 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @JdbcTest
-@Sql("JdbcProductRepositoryTest.sql")
+@Sql("/JdbcProductRepositoryTest.sql")
 public class JdbcProductRepositoryTest {
     @Autowired
     JdbcTemplate jdbcTemplate;

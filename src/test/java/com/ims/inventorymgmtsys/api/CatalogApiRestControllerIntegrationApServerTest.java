@@ -9,16 +9,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Sql("/JdbcProductRepositoryTest.sql")
-@Sql(value = "com/ims/inventorymgmtsys/ui/clear.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-public class CatalogApiRestControllerIntegrationApServer {
+@Sql(value = "/clear.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+public class CatalogApiRestControllerIntegrationApServerTest {
     @Autowired
     TestRestTemplate testRestTemplate;
 
     @Test
+    @WithMockUser(username = "user", roles = "ADMIN")
     void test_getProducts() {
         ResponseEntity<Product[]> responseEntity = testRestTemplate.getForEntity("/api/catalog/productList", Product[].class);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);

@@ -34,7 +34,9 @@ public class OrderUiTest {
     void setup() {
         Configuration.baseUrl = "http://localhost:" + randomPort;
         Configuration.browser = "chrome";
-        System.setProperty("webdriver.chrome.driver", "C:\\chromedriver\\20240909\\chromedriver-win64\\chromedriver.exe");
+//        System.setProperty("webdriver.chrome.driver", "C:\\chromedriver\\20240909\\chromedriver-win64\\chromedriver.exe");
+        System.setProperty("webdriver.gecko.driver", "/home/mks/fireFoxDriver/geckodriver*");
+
 
     }
 

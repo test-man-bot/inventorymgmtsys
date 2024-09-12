@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-@Sql("../CatalogControllerIntegrationTest.sql")
+@Sql("/CatalogControllerIntegrationTest.sql")
 public class CatalogControllerIntegrationTest {
     @Autowired
     MockMvc mockMvc;
