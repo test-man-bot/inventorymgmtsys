@@ -1,0 +1,15 @@
+services:
+  imsApp:
+    image: myapp-on-win:v0.2.0
+    environment:
+      - "SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}"
+      - "SPRING_DATASOURCE_USERNAME-${SPRING_DATASOURCE_USERNAME}"
+      - "SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}"
+      - SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS=true
+    ports:
+      - "${AP_HOSTS_PORT}:8080"
+    networks:
+      - my-network
+
+networks:
+  my-network:

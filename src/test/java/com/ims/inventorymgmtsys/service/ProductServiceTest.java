@@ -16,6 +16,8 @@ import java.util.Map;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@Sql("/JdbcProductRepositoryTest.sql")
+@Transactional
 public class ProductServiceTest {
     @Autowired
     ProductService productService;
@@ -27,11 +29,9 @@ public class ProductServiceTest {
     private ClientRegistrationRepository clientRegistrationRepository;
 
     @Test
-    @Sql(scripts = "/JdbcProductRepositoryTest.sql")
-    @Transactional
     void test_findById() {
-        Product product = productService.findByName("消しゴム");
-        assertThat(product.getStock()).isEqualTo(10);
+        Product product = productService.findByName("コンバース　ジャックパーセル");
+        assertThat(product.getStock()).isEqualTo(70);
     }
 
     @Test

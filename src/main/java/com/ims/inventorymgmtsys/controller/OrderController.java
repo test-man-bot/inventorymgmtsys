@@ -83,7 +83,7 @@ public class OrderController {
             return "redirect:/order/orderCompletion";
         } catch (Exception e) {
             e.printStackTrace();
-            return "/order/orderForm";
+            return "order/orderForm";
         }
     }
 
@@ -95,7 +95,7 @@ public class OrderController {
     @GetMapping("orderlist")
     public String getOrderListForCurrentUser(Model model) {
         model.addAttribute("orderlist", orderService.getOrderListForCurrentUser());
-        return "/order/orderList";
+        return "order/orderList";
     }
 
 }

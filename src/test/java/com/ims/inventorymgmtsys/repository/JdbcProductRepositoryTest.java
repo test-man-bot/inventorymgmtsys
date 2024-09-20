@@ -28,21 +28,21 @@ public class JdbcProductRepositoryTest {
 
     @Test
     void test_selectById() {
-        Product product = productRepository.findByName("消しゴム");
-        assertThat(product.getName()).isEqualTo("消しゴム");
-        assertThat(product.getPrice()).isEqualTo(100);
-        assertThat(product.getStock()).isEqualTo(10);
+        Product product = productRepository.findByName("モンベル　ライトダウン");
+        assertThat(product.getName()).isEqualTo("モンベル　ライトダウン");
+        assertThat(product.getPrice()).isEqualTo(12000);
+        assertThat(product.getStock()).isEqualTo(50);
     }
 
     Product findByName() {
-        Product product = productRepository.findByName("pname03");
+        Product product = productRepository.findByName("モンベル　ライトダウン");
         return product;
     }
 
     @Test
     void test_selectAll() {
         List<Product> products = productRepository.findAll();
-        assertThat(products.size()).isEqualTo(12);
+        assertThat(products.size()).isEqualTo(7);
     }
 
     @Test

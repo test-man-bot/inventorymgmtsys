@@ -32,10 +32,12 @@ public class OrderUiTest {
 
     @BeforeEach
     void setup() {
+//        WebDriverManager.chromedriver().setup();
+//        WebDriver driver = new ChromeDriver();
         Configuration.baseUrl = "http://localhost:" + randomPort;
         Configuration.browser = "chrome";
-//        System.setProperty("webdriver.chrome.driver", "C:\\chromedriver\\20240909\\chromedriver-win64\\chromedriver.exe");
-        System.setProperty("webdriver.gecko.driver", "/home/mks/fireFoxDriver/geckodriver*");
+        System.setProperty("webdriver.chrome.driver", "C:\\chromedriver\\20240909\\chromedriver-win64\\chromedriver.exe");
+//        System.setProperty("webdriver.gecko.driver", "/home/mks/fireFoxDriver/geckodriver*");
 
 
     }

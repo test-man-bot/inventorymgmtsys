@@ -24,7 +24,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-@Sql("/CatalogControllerIntegrationTest.sql")
+//@Sql("/CatalogControllerIntegrationTest.sql")
+@Sql("/JdbcProductRepositoryTest.sql")
 public class CatalogControllerIntegrationTest {
     @Autowired
     MockMvc mockMvc;
@@ -37,7 +38,7 @@ public class CatalogControllerIntegrationTest {
     void test_displayList() throws Exception {
         mockMvc.perform(get("/catalog/list"))
                 .andExpect(content().string(containsString("ASICS マジックスピード4")))
-                .andExpect(content().string(containsString("消しゴム")))
+                .andExpect(content().string(containsString("モンベル　ライトダウン")))
                 ;
     }
 

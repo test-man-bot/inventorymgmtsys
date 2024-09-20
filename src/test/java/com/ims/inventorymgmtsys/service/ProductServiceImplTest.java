@@ -2,7 +2,6 @@ package com.ims.inventorymgmtsys.service;
 
 
 import com.ims.inventorymgmtsys.entity.Product;
-import com.ims.inventorymgmtsys.input.CartItemInput;
 import com.ims.inventorymgmtsys.repository.ProductRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
