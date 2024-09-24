@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 public class OrderInput implements Serializable {
     @NotBlank(message = "Name cannot be blank")
@@ -17,7 +18,7 @@ public class OrderInput implements Serializable {
     private String emailAddress;
     @NotNull(message = "paymentMethod cannot be null")
     private PaymentMethod paymentMethod;
-    private String employeeId;
+    private UUID employeeId;
     private String employeeName;
 
     public PaymentMethod getPaymentMethod() {
@@ -60,11 +61,11 @@ public class OrderInput implements Serializable {
         this.emailAddress = emailAddress;
     }
 
-    public String getEmployeeId() {
+    public UUID getEmployeeId() {
         return employeeId;
     }
 
-    public void setEmployeeId(String employeeId) {
+    public void setEmployeeId(UUID employeeId) {
         this.employeeId = employeeId;
     }
 

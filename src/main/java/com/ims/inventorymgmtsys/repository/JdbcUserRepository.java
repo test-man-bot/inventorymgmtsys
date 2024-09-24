@@ -27,13 +27,12 @@ public class JdbcUserRepository implements UserRepository{
 
 
     @Override
-    public User findById(String id) {
+    public User findById(UUID id) {
         try {
-            UUID uuid = UUID.fromString(id);
             List<User> users = jdbcTemplate.query(
                     "SELECT * FROM t_user WHERE id = ?",
                     new BeanPropertyRowMapper<>(User.class),
-                    uuid
+                    id
             );
             return users.isEmpty() ? null : users.get(0);
         } catch (Exception e) {
@@ -49,7 +48,7 @@ public class JdbcUserRepository implements UserRepository{
     @Override
     public void save(User user){
         try {
-        String id = UUID.randomUUID().toString();
+        UUID id = UUID.randomUUID();
         user.setId(id);
         jdbcTemplate.update("INSERT into t_user VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 user.getId(),
@@ -75,7 +74,7 @@ public class JdbcUserRepository implements UserRepository{
                 user.getEmailAddress(),
                 user.getAddress(),
                 user.getPhone(),
-                UUID.fromString(user.getId())
+                user.getId()
                 );
         return count != 0;
     }

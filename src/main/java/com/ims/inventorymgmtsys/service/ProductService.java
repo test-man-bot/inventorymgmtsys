@@ -4,12 +4,13 @@ import com.ims.inventorymgmtsys.entity.Product;
 import com.ims.inventorymgmtsys.entity.ProductWrapper;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface ProductService {
 
     List<Product> findAll();
 
-    Product findById(String id);
+    Product findById(UUID id);
 
     boolean update(Product product);
 

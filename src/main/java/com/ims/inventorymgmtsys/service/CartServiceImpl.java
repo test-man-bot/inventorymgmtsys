@@ -100,7 +100,7 @@ public class CartServiceImpl implements CartService{
     }
 
     @Override
-    public Product getProduct(String productId) {
+    public Product getProduct(UUID productId) {
         return catalogService.findById(productId);
     }
 

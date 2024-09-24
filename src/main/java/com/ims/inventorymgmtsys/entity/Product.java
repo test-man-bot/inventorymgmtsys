@@ -3,18 +3,19 @@ package com.ims.inventorymgmtsys.entity;
 import java.io.Serializable;
 import java.security.PrivateKey;
 import java.util.PrimitiveIterator;
+import java.util.UUID;
 
 public class Product implements Serializable {
-    private String id; //PK
+    private UUID id; //PK
     private String name;
     private Integer price;
     private Integer stock;
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

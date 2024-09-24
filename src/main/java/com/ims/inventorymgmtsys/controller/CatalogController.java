@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/catalog")
@@ -29,7 +30,7 @@ public class CatalogController {
     }
 
     @GetMapping("/product-details")
-    public String displayDetails(@RequestParam String productId, Model model) {
+    public String displayDetails(@RequestParam UUID productId, Model model) {
         model.addAttribute("product", catalogService.findById(productId));
         model.addAttribute("cartItemInput", catalogService.createCartItemInput(productId));
         return "catalog/productDetails";

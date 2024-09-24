@@ -1,12 +1,13 @@
 package com.ims.inventorymgmtsys.entity;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class PasswordResetToken {
     private String id;
     private String token;
     private LocalDateTime expireDate;
-    private String userId;
+    private UUID userId;
 
 
     public String getId() {
@@ -33,11 +34,11 @@ public class PasswordResetToken {
         this.expireDate = expireDate;
     }
 
-    public String getUserId() {
+    public UUID getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(UUID userId) {
         this.userId = userId;
     }
 }

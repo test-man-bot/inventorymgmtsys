@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 public class SecurityUtils {
     private final UserRepository userRepository;
@@ -19,7 +21,7 @@ public class SecurityUtils {
     public SecurityUtils(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-    public String getCurrentId () {
+    public UUID getCurrentId () {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if ( authentication != null ) {
@@ -30,7 +32,7 @@ public class SecurityUtils {
             } else if (principal instanceof OAuth2User) {
                 OAuth2User oAuth2User = (OAuth2User) principal;
                 String email = (String) oAuth2User.getAttribute("email");
-                String id = userRepository.findByEmail(email).map(User::getId).orElse(null);
+                UUID id = userRepository.findByEmail(email).map(User::getId).orElse(null);
                 System.out.println("OAuth2User Attributes:::::::::::::::::::::::: " + oAuth2User.getAttributes());
                 return id;
             }

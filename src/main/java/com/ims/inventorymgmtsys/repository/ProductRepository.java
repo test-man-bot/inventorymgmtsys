@@ -3,10 +3,11 @@ package com.ims.inventorymgmtsys.repository;
 import com.ims.inventorymgmtsys.entity.Product;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface ProductRepository {
 
-    Product findById(String id);
+    Product findById(UUID id);
 
     Product findByName(String name);
 

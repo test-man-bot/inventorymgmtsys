@@ -4,13 +4,14 @@ import com.ims.inventorymgmtsys.entity.User;
 import com.ims.inventorymgmtsys.exception.UserAlreadyExistsException;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public interface UserService {
     void createUser(User user);
 
     boolean updateUser(User user);
 
-    User findById(String id);
+    User findById(UUID id);
 
     void registerUser(User user) throws UserAlreadyExistsException;
 

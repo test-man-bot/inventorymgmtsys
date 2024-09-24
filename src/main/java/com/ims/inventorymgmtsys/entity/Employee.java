@@ -1,18 +1,19 @@
 package com.ims.inventorymgmtsys.entity;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 public class Employee implements Serializable {
-    private String employeeId; //PK
+    private UUID employeeId; //PK
     private String employeeName;
     private String phone;
     private String emailAddress;
 
-    public String getEmployeeId() {
+    public UUID getEmployeeId() {
         return employeeId;
     }
 
-    public void setEmployeeId(String employeeId) {
+    public void setEmployeeId(UUID employeeId) {
         this.employeeId = employeeId;
     }
 

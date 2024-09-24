@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.UUID;
 
 public class CustomUserDetails implements UserDetails, Serializable {
     private final User user;
@@ -46,7 +47,7 @@ public class CustomUserDetails implements UserDetails, Serializable {
         return user.getUserName();
     }
 
-    public String getUserId() { return user.getId(); }
+    public UUID getUserId() { return user.getId(); }
 
     public String getEmailAddress() { return user.getEmailAddress(); }
 

@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -22,7 +23,7 @@ public class ProductServiceImpl implements ProductService{
     public List<Product> findAll(){return productRepository.findAll();}
 
     @Override   
-    public Product findById(String id) {return productRepository.findById(id);}
+    public Product findById(UUID id) {return productRepository.findById(id);}
 
     @Override
     public boolean update(Product product) {

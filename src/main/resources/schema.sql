@@ -1,3 +1,7 @@
+---- PostgreSQL 用拡張機能の有効化（UUID生成用）
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+-- テーブルの削除（存在する場合）
 DROP TABLE IF EXISTS t_order_detail;
 DROP TABLE IF EXISTS t_order;
 DROP TABLE IF EXISTS t_product;
@@ -7,87 +11,81 @@ DROP TABLE IF EXISTS t_password_reset_token;
 DROP TABLE IF EXISTS t_user;
 DROP TABLE IF EXISTS system_info;
 DROP TABLE IF EXISTS audit_log;
-DROP ALIAS IF EXISTS gen_random_uuid;
-CREATE ALIAS gen_random_uuid AS '
-import java.util.UUID;
-@CODE
-java.util.UUID genRandomUuid() throws Exception {
-	return UUID.randomUUID();
-}
-';
 
-create table if not exists t_product  (
-    id uuid DEFAULT gen_random_uuid() primary key,
-    name varchar(100),
-    price integer,
-    stock integer
-);
-create table if not exists t_order (
-    orderid varchar(100) primary key,
-    order_date_time timestamp,
-    customerid varchar(100),
-    customer_name varchar(100),
-    employee_name varchar(100),
-    payment_method varchar(100)
-);
-create table if not exists t_order_detail (
-    order_id varchar(100),
-    product_id varchar(100),
-    quantity integer,
-    foreign key (order_id) references t_order(orderid),
-    foreign key (product_id) references t_product(id),
-    primary key (order_id, product_id)
+-- UUID生成関数はPostgreSQL標準の gen_random_uuid() を使用
+-- テーブル作成
+CREATE TABLE IF NOT EXISTS t_product (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    name VARCHAR(100),
+    price INTEGER,
+    stock INTEGER
 );
 
-create table if not exists employee (
-    employeeid uuid DEFAULT gen_random_uuid() primary key,
-    employeename varchar(100),
-    phone varchar(25),
-    emailaddress varchar(100)
+CREATE TABLE IF NOT EXISTS t_order (
+    orderid VARCHAR(100) PRIMARY KEY,
+    order_date_time TIMESTAMP,
+    customerid VARCHAR(100),
+    customer_name VARCHAR(100),
+    employee_name VARCHAR(100),
+    payment_method VARCHAR(100)
 );
 
+CREATE TABLE IF NOT EXISTS t_order_detail (
+    order_id VARCHAR(100),
+    product_id UUID,
+    quantity INTEGER,
+    FOREIGN KEY (order_id) REFERENCES t_order(orderid),
+    FOREIGN KEY (product_id) REFERENCES t_product(id),
+    PRIMARY KEY (order_id, product_id)
+);
 
-create table if not exists t_user (
-    id uuid DEFAULT gen_random_uuid() primary key,
-    userName varchar(100) UNIQUE,
-    emailAddress varchar(100) UNIQUE,
-    address varchar(100),
-    phone varchar(100),
-    password varchar(100),
+CREATE TABLE IF NOT EXISTS employee (
+    employeeid UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    employeename VARCHAR(100),
+    phone VARCHAR(25),
+    emailaddress VARCHAR(100)
+);
+
+CREATE TABLE IF NOT EXISTS t_user (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    username VARCHAR(100) UNIQUE,
+    emailaddress VARCHAR(100) UNIQUE,
+    address VARCHAR(100),
+    phone VARCHAR(100),
+    password VARCHAR(100),
     enabled BOOLEAN,
-    secret varchar(100),
-    mfaEnabled BOOLEAN
+    secret VARCHAR(100),
+    mfaenabled BOOLEAN
 );
 
-create table if not exists authorities (
-    id INT AUTO_INCREMENT primary key,
-    username varchar(100) NOT NULL,
-    authority varchar(100) NOT NULL,
+CREATE TABLE IF NOT EXISTS authorities (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(100) NOT NULL,
+    authority VARCHAR(100) NOT NULL,
     FOREIGN KEY (username) REFERENCES t_user(username)
 );
 
-CREATE TABLE system_info (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    availableProcessors INT,
-    systemLoadAverage DOUBLE,
-    usedHeapMemory BIGINT,
-    maxHeapMemory BIGINT,
-    recordedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS system_info (
+    id SERIAL PRIMARY KEY,
+    availableprocessors INT,
+    systemloadaverage DOUBLE PRECISION,
+    usedheapmemory BIGINT,
+    maxheapmemory BIGINT,
+    recordedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE audit_log (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS audit_log (
+    id SERIAL PRIMARY KEY,
     username VARCHAR(255),
-    eventType VARCHAR(255),
+    eventtype VARCHAR(255),
     details TEXT,
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    createdat TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE t_password_reset_token (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS t_password_reset_token (
+    id SERIAL PRIMARY KEY,
     token VARCHAR(255) NOT NULL,
-    expireDate TIMESTAMP NOT NULL,
-    userId VARCHAR(100) NOT NULL,
-    FOREIGN KEY (userId) REFERENCES t_user(id)
+    expiredate TIMESTAMP NOT NULL,
+    userid UUID NOT NULL,
+    FOREIGN KEY (userid) REFERENCES t_user(id)
 );
-

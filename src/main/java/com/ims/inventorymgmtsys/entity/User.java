@@ -1,9 +1,10 @@
 package com.ims.inventorymgmtsys.entity;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 public class User implements Serializable {
-    private String id; //PK
+    private UUID id; //PK
     private String userName;
     private String emailAddress;
     private String address;
@@ -16,12 +17,12 @@ public class User implements Serializable {
     private boolean mfaEnabled;
 
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

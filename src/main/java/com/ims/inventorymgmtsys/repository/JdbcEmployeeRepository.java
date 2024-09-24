@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 public class JdbcEmployeeRepository implements EmployeeRepository{
@@ -19,7 +20,7 @@ public class JdbcEmployeeRepository implements EmployeeRepository{
     }
 
     @Override
-    public Employee findById(String employeeid) {
+    public Employee findById(UUID employeeid) {
         return jdbcTemplate.queryForObject("SELECT * FROM employee WHERE employeeid = ?", new DataClassRowMapper<>(Employee.class), employeeid);
     }
 

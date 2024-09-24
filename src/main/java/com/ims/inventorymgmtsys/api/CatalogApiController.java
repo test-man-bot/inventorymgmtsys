@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/catalog")
@@ -29,12 +30,12 @@ public class CatalogApiController {
     }
 
     @GetMapping("/products/{id}")
-    public Product getProductById(@PathVariable String id) {
+    public Product getProductById(@PathVariable UUID id) {
         return catalogService.findById(id);
     }
 
     @PutMapping("/products/{id}")
-    public ResponseEntity<String> updateProduct(@PathVariable String id, @RequestBody Product updateProduct) {
+    public ResponseEntity<String> updateProduct(@PathVariable UUID id, @RequestBody Product updateProduct) {
         updateProduct.setId(id);
         boolean success = catalogService.update(updateProduct);
         if (success) {

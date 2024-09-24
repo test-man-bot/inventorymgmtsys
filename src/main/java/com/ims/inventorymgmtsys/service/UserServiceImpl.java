@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService{
     public void createUser(User user) {
         System.out.println("received data :" + user);
         User createuser = new User();
-        createuser.setId(UUID.randomUUID().toString());
+        createuser.setId(UUID.randomUUID());
         createuser.setUserName(user.getUserName());
         createuser.setEmailAddress(user.getEmailAddress());
         createuser.setAddress(null);
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User findById(String id) {
+    public User findById(UUID id) {
         return userRepository.findById(id);
     }
 
@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User getCurrentUser() {
-        String currentUserId = securityUtils.getCurrentId();
+        UUID currentUserId = securityUtils.getCurrentId();
         if (currentUserId != null) {
             return userRepository.findById(currentUserId);
         }

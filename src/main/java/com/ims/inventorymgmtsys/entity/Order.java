@@ -5,6 +5,7 @@ import com.ims.inventorymgmtsys.enumeration.PaymentMethod;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 public class Order implements Serializable {
 
@@ -12,7 +13,7 @@ public class Order implements Serializable {
     private List<OrderDetail> orderDetails;
     private LocalDateTime orderDateTime;
 
-    private String customerId; //FK
+    private UUID customerId; //FK
 
     private String customerName; //FK
     private String employeeName; //FK
@@ -39,9 +40,9 @@ public class Order implements Serializable {
         this.orderDateTime = orderDateTime;
     }
 
-    public String getCustomerId() { return customerId; }
+    public UUID getCustomerId() { return customerId; }
 
-    public void setCustomerId(String customerId) { this.customerId = customerId; }
+    public void setCustomerId(UUID customerId) { this.customerId = customerId; }
 
     public String getCustomerName() {
         return customerName;

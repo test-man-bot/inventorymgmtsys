@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -26,12 +27,12 @@ public class CatalogServiceImpl implements CatalogService {
     }
 
     @Override
-    public Product findById(String id) {
+    public Product findById(UUID id) {
         return productRepository.findById(id);
     }
 
     @Override
-    public CartItemInput createCartItemInput(String productId) {
+    public CartItemInput createCartItemInput(UUID productId) {
         CartItemInput cartItemInput = new CartItemInput();
         cartItemInput.setQuantity(1);
         cartItemInput.setProductId(productId);

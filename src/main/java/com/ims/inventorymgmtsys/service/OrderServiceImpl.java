@@ -114,7 +114,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Employee findEmployeeById(String employeeId) {
+    public Employee findEmployeeById(UUID employeeId) {
         return employeeRepository.findById(employeeId);
     }
 
@@ -144,7 +144,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderProductDTO> getOrderListForCurrentUser() {
-        return orderRepository.findByUserId(securityUtils.getCurrentId());
+        return orderRepository.findByUserId(securityUtils.getCurrentId().toString());
     }
 
 }

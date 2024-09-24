@@ -8,6 +8,7 @@ import com.ims.inventorymgmtsys.input.CartItemInput;
 import com.ims.inventorymgmtsys.input.OrderInput;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface OrderService {
     int calculateTotalAmount(List<CartItemInput> cartItemInputs);
@@ -20,7 +21,7 @@ public interface OrderService {
 
     List<Employee> findAllEmployees();
 
-    Employee findEmployeeById(String employeeId);
+    Employee findEmployeeById(UUID employeeId);
 
     CartInput getCartInput();
     void setCartInput(CartInput cartInput);

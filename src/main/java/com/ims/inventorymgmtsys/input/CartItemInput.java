@@ -1,11 +1,12 @@
 package com.ims.inventorymgmtsys.input;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 @SuppressWarnings("Serial")
 public class CartItemInput implements Serializable {
     private String id;
-    private String productId;
+    private UUID productId;
     private String productName;
     private Integer productPrice;
     private Integer quantity;
@@ -26,11 +27,11 @@ public class CartItemInput implements Serializable {
         this.productPrice = productPrice;
     }
 
-    public String getProductId() {
+    public UUID getProductId() {
         return productId;
     }
 
-    public void setProductId(String productId) {
+    public void setProductId(UUID productId) {
         this.productId = productId;
     }
 
