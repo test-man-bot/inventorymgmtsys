@@ -5,6 +5,7 @@ import com.ims.inventorymgmtsys.entity.Order;
 import com.ims.inventorymgmtsys.entity.OrderProductDTO;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface OrderRepository {
     void save(Order order);
@@ -13,5 +14,5 @@ public interface OrderRepository {
 
     Order findById(String orderId);
 
-    List<OrderProductDTO> findByUserId(String customerId);
+    List<OrderProductDTO> findByUserId(UUID customerId);
 }

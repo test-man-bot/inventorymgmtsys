@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 public class JdbcOrderRepository implements OrderRepository{
@@ -41,7 +42,7 @@ public class JdbcOrderRepository implements OrderRepository{
     }
 
     @Override
-    public List<OrderProductDTO> findByUserId(String customerId) {
+    public List<OrderProductDTO> findByUserId(UUID customerId) {
         List<OrderProductDTO> orders = jdbcTemplate.query("SELECT subqa.orderid,subqa.order_date_time,subqb.name as productName,subqb.quantity, subqb.price FROM " +
                 "( SELECT orderid,order_date_time,customerid FROM T_ORDER WHERE customerid = ? ) as subqa " +
                 "JOIN (SELECT tod.order_id,tod.product_id, tp.name,tp.price, tod.quantity FROM t_order_detail tod " +

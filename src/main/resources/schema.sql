@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS t_product (
 CREATE TABLE IF NOT EXISTS t_order (
     orderid VARCHAR(100) PRIMARY KEY,
     order_date_time TIMESTAMP,
-    customerid VARCHAR(100),
+    customerid UUID,
     customer_name VARCHAR(100),
     employee_name VARCHAR(100),
     payment_method VARCHAR(100)

@@ -23,7 +23,7 @@
         var salesChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: parseData.map(item => item.ORDER_ID),
+                labels: parseData.map(item => item.order_id),
                 datasets: [{
                     label: 'Sales',
                     data: parseData.map(item => item.total_yen),
@@ -52,10 +52,10 @@
         var dailySalesChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: parseData.map(item => item.DATE),
+                labels: parseData.map(item => item.date),
                 datasets: [{
                     label: 'DailySales',
-                    data: parseData.map(item => item.TOTAL_DATE_YEN),
+                    data: parseData.map(item => item.total_date_yen),
                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
                     borderColor: 'rgba(75, 192, 192, 1)',
                     borderWidth: 1

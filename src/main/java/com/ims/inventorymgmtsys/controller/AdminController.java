@@ -155,6 +155,8 @@ public class AdminController {
 
     @GetMapping("/salesnew")
     public String getSalesDataNew(Model model) {
+        System.out.println("sales data json:::::::::::::" + salesService.getSalesDataAsJson() );
+        System.out.println("Daily sales data json:::::::::::::" + salesService.getDailySalesDataAsJson() );
         model.addAttribute("salesData", salesService.getSalesDataAsJson());
         model.addAttribute("dailySalesData", salesService.getDailySalesDataAsJson());
         return "admin/adminSalesNew";

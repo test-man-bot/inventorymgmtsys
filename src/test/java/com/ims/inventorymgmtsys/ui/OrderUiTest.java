@@ -35,8 +35,10 @@ public class OrderUiTest {
 //        WebDriverManager.chromedriver().setup();
 //        WebDriver driver = new ChromeDriver();
         Configuration.baseUrl = "http://localhost:" + randomPort;
-        Configuration.browser = "chrome";
-        System.setProperty("webdriver.chrome.driver", "C:\\chromedriver\\20240909\\chromedriver-win64\\chromedriver.exe");
+//        Configuration.browser = "chrome";
+//        System.setProperty("webdriver.chrome.driver", "C:\\chromedriver\\20240909\\chromedriver-win64\\chromedriver.exe");
+//        System.setProperty("webdriver.chrome.driver", "/home/mks/IdeaProjects/inventoryms/chromedriver-linux64/chromedriver");
+
 //        System.setProperty("webdriver.gecko.driver", "/home/mks/fireFoxDriver/geckodriver*");
 
 
@@ -79,7 +81,7 @@ public class OrderUiTest {
         backLink.shouldBe(visible).click();
 
         executeJavaScript("openNav();");
-        $("#mySidebar").shouldBe(visible);
+        $("#mySidebar").shouldBe(Condition.visible);
         $("a[href='/order/orderlist']").click();
         $("h1").shouldHave(Condition.text("注文履歴"));
 

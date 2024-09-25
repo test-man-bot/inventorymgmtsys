@@ -18,6 +18,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.nio.charset.Charset;
+import java.util.UUID;
 
 import static net.snowflake.client.jdbc.internal.apache.arrow.flatbuf.Type.List;
 import static org.mockito.ArgumentMatchers.any;
@@ -63,7 +64,7 @@ public class CatalogApiRestController {
         product.setName("testaaaaaaaaaa");
         product.setPrice(87699);
         product.setStock(999);
-        String productId = "1";
+        UUID productId = UUID.randomUUID();
         when(catalogService.findById(productId)).thenReturn(product);
 
         String responseBody = mockMvc.perform(get("/api/catalog/products/{id}", productId)

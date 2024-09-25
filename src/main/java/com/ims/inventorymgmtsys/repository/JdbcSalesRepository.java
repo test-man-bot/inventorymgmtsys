@@ -28,7 +28,7 @@ public class JdbcSalesRepository implements SalesRepository{
 
     @Override
     public List<Map<String, Object>> getDailySalesData() {
-        String sql = "SELECT formatdatetime(o.order_date_time, 'yyyy-MM-dd') AS date, SUM(jt.total_yen) AS total_date_yen " +
+        String sql = "SELECT to_char(o.order_date_time, 'yyyy-MM-dd') AS date, SUM(jt.total_yen) AS total_date_yen " +
                 "FROM t_order o " +
                 "JOIN ( " +
                 "    SELECT tod.order_id, SUM(tod.quantity * tp.price) AS total_yen " +
@@ -36,7 +36,7 @@ public class JdbcSalesRepository implements SalesRepository{
                 "    JOIN t_product tp ON tod.product_id = tp.id " +
                 "    GROUP BY tod.order_id " +
                 ") jt ON o.orderid = jt.order_id " +
-                "GROUP BY formatdatetime(o.order_date_time, 'yyyy-MM-dd');";
+                "GROUP BY to_char(o.order_date_time, 'yyyy-MM-dd');";
 
         return jdbcTemplate.queryForList(sql);
     }

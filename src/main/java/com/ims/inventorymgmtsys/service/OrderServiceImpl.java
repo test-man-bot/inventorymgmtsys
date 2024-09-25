@@ -144,7 +144,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderProductDTO> getOrderListForCurrentUser() {
-        return orderRepository.findByUserId(securityUtils.getCurrentId().toString());
+        return orderRepository.findByUserId(securityUtils.getCurrentId());
     }
 
 }
