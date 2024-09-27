@@ -53,6 +53,7 @@ public class CartServiceImpl implements CartService{
             cartItemInput.setId(UUID.randomUUID().toString());
             cartItemInput.setProductName(product.getName());
             cartItemInput.setProductPrice(product.getPrice());
+            cartItemInput.setImgUrl(product.getImgUrl());
             cartInput.getCartItemInputs().add(cartItemInput);
         }
 

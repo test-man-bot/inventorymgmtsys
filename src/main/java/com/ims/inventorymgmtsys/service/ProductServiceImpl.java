@@ -60,6 +60,11 @@ public class ProductServiceImpl implements ProductService{
                         existingProduct.setStock(product.getStock());
                         updated = true;
                     }
+                    if (!existingProduct.getImgUrl().equals(product.getImgUrl())){
+                        existingProduct.setImgUrl(product.getImgUrl());
+                        updated = true;
+                    }
+
                     if(updated) {
                         update(existingProduct);
                         isUpdate = true;

@@ -29,15 +29,16 @@ public class JdbcProductRepository implements ProductRepository{
 
     @Override
     public List<Product> findAll() {
-        return jdbcTemplate.query("SELECT * FROM t_product", new DataClassRowMapper<>(Product.class));
+        return jdbcTemplate.query("SELECT * FROM t_product ORDER BY createdAt DESC", new DataClassRowMapper<>(Product.class));
     }
 
     @Override
     public boolean update(Product product) {
-        int count = jdbcTemplate.update("UPDATE t_product SET name=?, price=?, stock=? WHERE id=?",
+        int count = jdbcTemplate.update("UPDATE t_product SET name=?, price=?, stock=?, imgUrl=? WHERE id=?",
                 product.getName(),
                 product.getPrice(),
                 product.getStock(),
+                product.getImgUrl(),
                 product.getId());
 
         if (count == 0) {
@@ -49,10 +50,11 @@ public class JdbcProductRepository implements ProductRepository{
     @Override
     public void save(Product product) {
         //idはテーブル定義でUUIDを定義してるため、idは省略
-        jdbcTemplate.update("INSERT INTO t_product (name, price, stock) VALUES(?,?,?)",
+        jdbcTemplate.update("INSERT INTO t_product (name, price, stock, imgUrl) VALUES(?,?,?,?)",
                 product.getName(),
                 product.getPrice(),
-                product.getStock());
+                product.getStock(),
+                product.getImgUrl());
     }
 
 

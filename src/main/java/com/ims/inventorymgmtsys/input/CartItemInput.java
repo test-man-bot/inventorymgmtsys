@@ -11,6 +11,8 @@ public class CartItemInput implements Serializable {
     private Integer productPrice;
     private Integer quantity;
 
+    private String imgUrl;
+
     public String getProductName() {
         return productName;
     }
@@ -50,4 +52,8 @@ public class CartItemInput implements Serializable {
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
+
+    public String getImgUrl() {return imgUrl;}
+
+    public void setImgUrl(String imgUrl) {this.imgUrl = imgUrl;}
 }

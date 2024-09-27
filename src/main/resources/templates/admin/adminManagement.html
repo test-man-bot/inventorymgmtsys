@@ -21,6 +21,7 @@
             <th>商品名</th>
             <th>価格(円)</th>
             <th>在庫数(右端は現在の在庫数)</th>
+            <th>URL</th>
         </tr>
         <tr th:each="prod, iterStat :${productWrapper.products}">
             <td>
@@ -33,6 +34,10 @@
             <td>
                 <input type="number" th:field="*{products[__${iterStat.index}__].stock}" th:value="${prod.stock}" min="1" required class="quantity-input">
                 <span th:text="${prod.stock}"></span>
+            </td>
+            <td>
+                <input type="text" th:field="*{products[__${iterStat.index}__].imgUrl}" th:value="${prod.imgUrl}" required class="imgUrl-input"><br>
+                <span th:text="${prod.imgUrl}"></span>
             </td>
         </tr>
     </table>
@@ -54,6 +59,7 @@
                 <th>商品名</th>
                 <th>価格</th>
                 <th>在庫数</th>
+                <th>URL</th>
             </tr>
             <tr>
                 <td>
@@ -66,6 +72,10 @@
                 <td>
                     <input type="number" id="stock" th:field="*{stock}" required>
                 </td>
+                <td>
+                    <input type="text" id="imgUrl" th:field="*{imgUrl}" required>
+                </td>
+
             </tr>
         </table>
         <div class="admin-button">

@@ -51,11 +51,13 @@
                 <th>商品名</th>
                 <th>価格</th>
                 <th>数量</th>
+                <th>商品画像</th>
             </tr>
             <tr th:each="item:${cartInput.cartItemInputs}">
                 <td th:text="${item.productName}"></td>
                 <td><span th:text="${item.productPrice}"></span>円</td>
                 <td th:text="${item.quantity}"></td>
+                <td><img th:src="${item.imgUrl}" alt="商品画像" style="width:100px;height:auto;"></img></td>
             </tr>
         </table>
         <div class="summary-text">

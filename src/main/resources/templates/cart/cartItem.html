@@ -16,13 +16,14 @@
             <tr>
                 <th>商品名</th>
                 <th>価格</th>
+                <th>商品画像</th>
                 <th>数量</th>
                 <th>操作</th>
             </tr>
             <tr th:each="item:${cartInput.cartItemInputs}">
                 <td><span th:text="${item.productName}"></span></td>
                 <td><span th:text="${item.productPrice}"></span>円</td>
-<!--                <td><span th:text="${item.quantity}"></span></td>-->
+                <td><img th:src="${item.imgUrl}" alt="商品画像" style="width:100px;height:auto;"></img></td>
                 <td>
                     <form th:action="@{/cart/update-quantity}" method="post">
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>

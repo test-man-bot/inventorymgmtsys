@@ -1,12 +1,12 @@
 INSERT INTO t_product
-(name, price, stock) VALUES
-('ASICS マジックスピード4', 18700, 10)
-,('NIKE　エアジョーダン1', 280000, 20)
-,('Arcteryx　Alpha SV Jacket', 150000, 30)
-,('Patagonia フリース', 20000, 40)
-,('モンベル　ライトダウン', 12000, 50)
-,('アディダス　スーパースター', 15800, 60)
-,('コンバース　ジャックパーセル', 16800, 70)
+(name, price, stock, imgUrl) VALUES
+('ASICS マジックスピード4', 18700, 10,'/images/magicSpeed4.jpg')
+,('NIKE　エアジョーダン1', 280000, 20,'/images/airJordan1.jpg')
+,('Arcteryx　Alpha SV Jacket', 150000, 30,'/images/alphaSvJacket.jpg')
+,('Patagonia フリース', 20000, 40,'/images/patagonia.jpg')
+,('モンベル　ライトダウン', 12000, 50,'/images/montbellLightDown.jpg')
+,('アディダス　スーパースター', 15800, 60,'/images/adidasSuperstar.jpg')
+,('コンバース　ジャックパーセル', 16800, 70,'/images/converseJackpursell.jpg')
 ;
 
 INSERT INTO employee

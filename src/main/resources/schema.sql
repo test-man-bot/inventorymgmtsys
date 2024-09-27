@@ -18,7 +18,9 @@ CREATE TABLE IF NOT EXISTS t_product (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     name VARCHAR(100),
     price INTEGER,
-    stock INTEGER
+    stock INTEGER,
+    imgUrl VARCHAR(100),
+    createdAt TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS t_order (
