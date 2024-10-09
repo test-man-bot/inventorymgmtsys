@@ -28,13 +28,13 @@ jobs:
       postgres:
         image: postgres:latest
         env:
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ env.POSTGRES_DB }}
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
         ports:
           - 5432:5432
         options: >-
-          --health-cmd "pg_isready -U ${{ secrets.POSTGRES_USER }}"
+          --health-cmd "pg_isready -U ${{ env.POSTGRES_USER }}"
           --health-interval 10s 
           --health-timeout 5s 
           --health-retries 5
@@ -50,9 +50,9 @@ jobs:
         cache: maven
     - name: Set environment variables
       env:
-       SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/${{ secrets.POSTGRES_DB }}
-       SPRING_DATASOURCE_USERNAME: ${{ secrets.POSTGRES_USER }}
-       SPRING_DATASOURCE_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+       SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/${{ env.POSTGRES_DB }}
+       SPRING_DATASOURCE_USERNAME: ${{ env.POSTGRES_USER }}
+       SPRING_DATASOURCE_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
       run: echo "Environment variables set"
 
     - name: Build with Maven
