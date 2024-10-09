@@ -14,11 +14,6 @@ on:
   pull_request:
     branches: [ "staging2" ]
 
-env:
-  POSTGRES_DB: ims
-  POSTGRES_USER: postgres
-  POSTGRES_PASSWORD: 2wsx!QAZ
-
 jobs:
   build:
 
@@ -28,13 +23,13 @@ jobs:
       postgres:
         image: postgres:latest
         env:
-          POSTGRES_DB: ${{ env.POSTGRES_DB }}
-          POSTGRES_USER: ${{ env.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ POSTGRESQL.POSTGRES_DB }}
+          POSTGRES_USER: ${{ POSTGRESQL.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ POSTGRESQL.POSTGRES_PASSWORD }}
         ports:
           - 5432:5432
         options: >-
-          --health-cmd "pg_isready -U ${{ env.POSTGRES_USER }}"
+          --health-cmd "pg_isready -U ${{ POSTGRESQL.POSTGRES_USER }}"
           --health-interval 10s 
           --health-timeout 5s 
           --health-retries 5
@@ -50,9 +45,9 @@ jobs:
         cache: maven
     - name: Set environment variables
       env:
-       SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/${{ env.POSTGRES_DB }}
-       SPRING_DATASOURCE_USERNAME: ${{ env.POSTGRES_USER }}
-       SPRING_DATASOURCE_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+       SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/${{ POSTGRESQL.POSTGRES_DB }}
+       SPRING_DATASOURCE_USERNAME: ${{ POSTGRESQL.POSTGRES_USER }}
+       SPRING_DATASOURCE_PASSWORD: ${{ POSTGRESQL.POSTGRES_PASSWORD }}
       run: echo "Environment variables set"
 
     - name: Build with Maven
